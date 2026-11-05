@@ -77,7 +77,7 @@
       color: #dcebe7;
       text-align: left;
       padding: 11px 10px;
-      border-radius: 99px;
+      border-radius: 9px;
       margin: 2px 0;
     }
 
@@ -587,8 +587,45 @@
 
     .login-btn {
       width: 100%;
-      margin-top: 10px;
+      margin-top: 5px;
     }
+
+    .google-btn {
+      width: 100%;
+      margin-top: 10px;
+      background: #fff;
+      color: #333;
+      border: 1px solid #d5dfe0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: bold;
+    }
+
+    .google-btn:hover {
+      background: #f8f9fa;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 15px 0;
+      font-size: 11px;
+      color: #888;
+      position: relative;
+    }
+
+    .divider::before, .divider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 1px;
+      background: #e4e8ee;
+    }
+
+    .divider::before { left: 0; }
+    .divider::after { right: 0; }
 
     .login-error {
       display: none;
@@ -677,13 +714,20 @@
       <div class="login-error" id="loginError">Username atau password salah.</div>
       <div class="login-field">
         <label>Username</label>
-        <input id="loginUsername" autocomplete="username" placeholder="Masukkan username (default: petugas)">
+        <input id="loginUsername" autocomplete="username" placeholder="Masukkan username">
       </div>
       <div class="login-field">
         <label>Password</label>
-        <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Masukkan password (default: perpus123)">
+        <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Masukkan password">
       </div>
       <button class="btn login-btn" id="loginBtn">Masuk ke Sistem</button>
+      
+      <div class="divider">ATAU</div>
+      
+      <button class="btn google-btn" id="googleLoginBtn">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.63-.06-1.25-.16-1.84H9v3.49h4.84c-.21 1.12-.86 2.07-1.83 2.71v2.26h2.97c1.74-1.6 2.66-3.95 2.66-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.97-2.26c-.81.54-1.85.86-2.99.86-2.31 0-4.27-1.56-4.97-3.66H1.01v2.33C2.53 15.96 5.51 18 9 18z"/><path fill="#FBBC05" d="M4.03 10.76c-.18-.54-.28-1.13-.28-1.76s.1-1.22.28-1.76V4.91H1.01C.37 6.19 0 7.64 0 9.2s.37 3.01 1.01 4.29l3.02-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.59C13.46.89 11.43 0 9 0 5.51 0 2.53 2.04 1.01 4.91l3.02 2.33c.7-2.1 2.66-3.66 4.97-3.66z"/></svg>
+        Masuk dengan Akun Google
+      </button>
     </div>
   </div>
 
@@ -819,7 +863,7 @@
           <div class="heading">
             <div>
               <h1>Peminjaman & Pengembalian ↔</h1>
-              <p>Kelola seluruh transaksi buku.</p>
+              <p>Kelola seluruh transaksi buku (Tampil otomatis berdasarkan tanggal hari ini).</p>
             </div>
             <button class="btn" id="newLoanBtn">＋ Peminjaman Baru</button>
           </div>
@@ -937,27 +981,49 @@
           <div class="heading">
             <div>
               <h1>Pengaturan Sistem ⚙</h1>
-              <p>Ubah identitas perpustakaan dan akun admin.</p>
+              <p>Ubah identitas perpustakaan dan akun admin yang sedang digunakan.</p>
             </div>
           </div>
           <div class="two-col">
             <div class="panel">
               <h3>Identitas Perpustakaan</h3>
               <div class="field-grid" style="margin-top:15px">
-                <div class="field full"><label>Nama perpustakaan</label><input id="setLibraryName"></div>
-                <div class="field"><label>Nama sekolah</label><input id="setSchoolName"></div>
-                <div class="field"><label>Lokasi</label><input id="setLocation"></div>
+                <div class="field full">
+                  <label>Nama perpustakaan</label>
+                  <input id="setLibraryName">
+                </div>
+                <div class="field">
+                  <label>Nama sekolah</label>
+                  <input id="setSchoolName">
+                </div>
+                <div class="field">
+                  <label>Lokasi</label>
+                  <input id="setLocation">
+                </div>
               </div>
-              <div class="modal-actions"><button class="btn" id="saveLibrarySettings">Simpan Pengaturan</button></div>
+              <div class="modal-actions">
+                <button class="btn" id="saveLibrarySettings">Simpan Pengaturan</button>
+              </div>
             </div>
             <div class="panel">
               <h3>Akun Saya</h3>
               <div class="field-grid" style="margin-top:15px">
-                <div class="field full"><label>Nama admin</label><input id="setAdminName"></div>
-                <div class="field"><label>Username</label><input id="setAdminUsername"></div>
-                <div class="field"><label>Password baru</label><input id="setAdminPassword" type="password" placeholder="Kosongkan jika tidak diubah"></div>
+                <div class="field full">
+                  <label>Nama admin</label>
+                  <input id="setAdminName">
+                </div>
+                <div class="field">
+                  <label>Username</label>
+                  <input id="setAdminUsername">
+                </div>
+                <div class="field">
+                  <label>Password baru</label>
+                  <input id="setAdminPassword" type="password" placeholder="Kosongkan jika tidak diubah">
+                </div>
               </div>
-              <div class="modal-actions"><button class="btn" id="saveAccountSettings">Simpan Akun</button></div>
+              <div class="modal-actions">
+                <button class="btn" id="saveAccountSettings">Simpan Akun</button>
+              </div>
             </div>
           </div>
           <div class="panel">
@@ -970,13 +1036,22 @@
     </main>
   </div>
 
-  <div class="modal-bg" id="modalBg"><div class="modal"><div id="modalBody"></div></div></div>
+  <!-- Modal Pop-up -->
+  <div class="modal-bg" id="modalBg">
+    <div class="modal">
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
   <div class="toast" id="toast"></div>
 
-  <!-- Firebase Database SDK (Tanpa Auth Google) -->
+  <!-- Firebase SDK versi CDN Compat -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
+  <!-- JavaScript Logika Aplikasi & Konfigurasi Firebase Baru -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAIGCsZvluuqBXfSEk7RJWg-g9-T5Zh6Ig",
@@ -989,13 +1064,19 @@
       measurementId: "G-DXHW4VS2KC"
     };
 
+    // Inisialisasi Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+    const auth = firebase.auth();
+
     const $ = id => document.getElementById(id);
 
     function getWorldToday() {
       const now = new Date();
-      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     }
 
     const seed = {
@@ -1003,7 +1084,44 @@
         { id: 1, title: "Buku Penghubung", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 640, cover: "📖" },
         { id: 2, title: "Buku Huruf Sambung Tegak", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 256, cover: "📖" },
         { id: 3, title: "Buku Media Penghubung", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 198, cover: "📖" },
-        { id: 4, title: "Buku Agama Islam", author: "Kemendikbud / Sekolah", category: "Agama", stock: 197, cover: "📖" }
+        { id: 4, title: "Buku Agama Islam", author: "Kemendikbud / Sekolah", category: "Agama", stock: 197, cover: "📖" },
+        { id: 5, title: "Buku Tematik D", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 189, cover: "📖" },
+        { id: 6, title: "Buku Tematik C", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 189, cover: "📖" },
+        { id: 7, title: "Buku Saku", author: "Kemendikbud / Sekolah", category: "Koleksi Umum", stock: 158, cover: "📙" },
+        { id: 8, title: "Tematik B", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 152, cover: "📖" },
+        { id: 9, title: "T2 Bermain Dilingkunganku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
+        { id: 10, title: "T4 Hidup Bersih Dan Sehat", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
+        { id: 11, title: "T1 Hidup Rukun", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
+        { id: 12, title: "T3 Tugasku Sehari - Hari", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
+        { id: 13, title: "T2 Kegemaranku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
+        { id: 14, title: "T1 Indahnya Kebersamaanku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
+        { id: 15, title: "T4 Keluargaku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
+        { id: 16, title: "T5 Pahlawanku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
+        { id: 17, title: "T3 Peduli Terhadap Makhluk Hidup", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
+        { id: 18, title: "T2 Selalu Berhemat Energi", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
+        { id: 19, title: "T3 Kegiatanku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
+        { id: 20, title: "T1 Diriku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 134, cover: "📖" },
+        { id: 21, title: "T4 Berbagai Pekerjaan", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 134, cover: "📖" },
+        { id: 22, title: "Tematik A", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 133, cover: "📖" },
+        { id: 23, title: "Btq Kelas 4", author: "Kemendikbud / Sekolah", category: "Agama", stock: 128, cover: "📖" },
+        { id: 24, title: "Btq Kelas 3", author: "Kemendikbud / Sekolah", category: "Agama", stock: 128, cover: "📖" },
+        { id: 25, title: "Buku Bahasa Inggris Kelas Iii", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 128, cover: "📖" },
+        { id: 26, title: "Buku Tematik B", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 128, cover: "📖" },
+        { id: 27, title: "Buku Bahasa Inggris Kelas Ii", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 128, cover: "📖" },
+        { id: 28, title: "Buku Tematik A", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 128, cover: "📖" },
+        { id: 29, title: "Tegak Bersambung Kelas 1", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 128, cover: "📖" },
+        { id: 30, title: "Tegak Bersambung Kelas 2", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 128, cover: "📖" },
+        { id: 31, title: "Tegak Bersambung Kelas 3", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 128, cover: "📖" },
+        { id: 32, title: "Btq Kelas 6", author: "Kemendikbud / Sekolah", category: "Agama", stock: 120, cover: "📖" },
+        { id: 33, title: "Buku Bahasa Inggris", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 116, cover: "📖" },
+        { id: 34, title: "Pendidikan Pancasila Kelas Iii", author: "Kemendikbud / Sekolah", category: "Pancasila / Kewarganegaraan", stock: 110, cover: "📖" },
+        { id: 35, title: "Phintar Pendidikan Pancasila Sd/Mi Kls.5/Km Revisi Pm", author: "Kemendikbud / Sekolah", category: "Pancasila / Kewarganegaraan", stock: 108, cover: "📖" },
+        { id: 36, title: "Phintar Matematika Sd/Mi Kls. 5/Km", author: "Kemendikbud / Sekolah", category: "Matematika", stock: 108, cover: "📖" },
+        { id: 37, title: "Phintar Ipas Sd/Mi Kls.5A/Km", author: "Kemendikbud / Sekolah", category: "Sains / IPA", stock: 108, cover: "📖" },
+        { id: 38, title: "Phintar Ipas Sd/Mi Kls.5B/Km", author: "Kemendikbud / Sekolah", category: "Sains / IPA", stock: 108, cover: "📖" },
+        { id: 39, title: "Phintar Bahasa Indonesia Sd/Mi Kls. 5/Km", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 108, cover: "📖" },
+        { id: 40, title: "Buku Smart", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 107, cover: "📖" },
+        { id: 41, title: "Buku Matematika", author: "Kemendikbud / Sekolah", category: "Matematika", stock: 106, cover: "📖" }
       ],
       loans: [],
       admins: [{ id: 1, name: "Petugas Perpustakaan", username: "petugas", password: "perpus123", role: "Admin", status: "Aktif" }],
@@ -1012,7 +1130,9 @@
 
     let data = null, currentAdmin = null;
 
-    function clone(x) { return JSON.parse(JSON.stringify(x)); }
+    function clone(x) {
+      return JSON.parse(JSON.stringify(x));
+    }
 
     function checkPersistentLogin() {
       const savedAdmin = localStorage.getItem("perpus_logged_in");
@@ -1022,7 +1142,9 @@
           $("loginScreen").style.display = "none";
           $("app").classList.add("show");
           updateUserUI();
-        } catch(e) { localStorage.removeItem("perpus_logged_in"); }
+        } catch(e) {
+          localStorage.removeItem("perpus_logged_in");
+        }
       }
     }
 
@@ -1030,6 +1152,9 @@
       if (!currentAdmin) return;
       $("topAdminName").textContent = currentAdmin.name;
       $("topAdminRole").textContent = (currentAdmin.role || "Admin") + " · " + (data?.settings?.school || "SDN Pisangan Timur 01 PG");
+      if (currentAdmin.photo) {
+        $("topAvatar").innerHTML = `<img src="${currentAdmin.photo}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+      }
     }
 
     function loadData() {
@@ -1043,12 +1168,18 @@
           data = val;
           if (!data.settings) data.settings = clone(seed.settings);
           if (!data.loans) data.loans = [];
+          if (!data.admins.some(a => a.username === "petugas")) data.admins.push(clone(seed.admins[0]));
         }
-        if ($("app").classList.contains("show")) renderAll();
+        const appEl = $("app");
+        if (appEl && appEl.classList.contains("show")) {
+          renderAll();
+        }
       });
     }
 
-    function saveData() { db.ref("perpus_data").set(data); }
+    function saveData() {
+      db.ref("perpus_data").set(data);
+    }
 
     function toast(msg) {
       $("toast").textContent = msg;
@@ -1056,41 +1187,208 @@
       setTimeout(() => $("toast").classList.remove("show"), 2200);
     }
 
+    function bookById(id) {
+      return data ? data.books.find(b => b.id === Number(id)) : null;
+    }
+
     function navigate(page) {
       document.querySelectorAll(".page").forEach(x => x.classList.remove("active"));
       $("page-" + page).classList.add("active");
       document.querySelectorAll("[data-page]").forEach(x => x.classList.toggle("active", x.dataset.page === page));
-      $("crumb").textContent = page.charAt(0).toUpperCase() + page.slice(1);
-      if (page === "reports") $("reportDateFilter").value = getWorldToday();
+      
+      const names = {
+        home: "Beranda",
+        catalog: "Katalog Buku",
+        loans: "Peminjaman & Pengembalian",
+        reports: "Laporan",
+        members: "Data Peminjam",
+        admins: "Admin & Pengguna",
+        settings: "Pengaturan"
+      };
+      
+      $("crumb").textContent = names[page] || page;
+      if (page === "reports") {
+        $("reportDateFilter").value = getWorldToday();
+      }
       renderAll();
       $("sidebar").classList.remove("open");
     }
 
-    function stat(label, value) { return `<div class="stat"><small>${label}</small><strong>${value}</strong></div>`; }
+    function stat(label, value) {
+      return `<div class="stat"><small>${label}</small><strong>${value}</strong></div>`;
+    }
 
     function renderHome() {
       if (!data) return;
-      $("homeStats").innerHTML = stat("Total Judul", data.books.length) + stat("Total Stok", data.books.reduce((s, b) => s + b.stock, 0)) + stat("Dipinjam", data.loans.filter(l => l.status !== "Dikembalikan").length) + stat("Aktif", data.loans.filter(l => l.status !== "Dikembalikan").length);
+      $("homeStats").innerHTML = 
+        stat("Total Judul Buku", data.books.length) +
+        stat("Total Stok", data.books.reduce((s, b) => s + b.stock, 0)) +
+        stat("Sedang Dipinjam", data.loans.filter(l => l.status !== "Dikembalikan").length) +
+        stat("Total Peminjam Aktif", data.loans.filter(l => l.status !== "Dikembalikan").length);
       $("featuredBooks").innerHTML = data.books.slice(0, 4).map(bookCard).join("");
     }
 
     function bookCard(b) {
+      const status = b.stock > 0 ? "Tersedia" : "Habis";
+      const isImg = b.cover && (b.cover.startsWith("http://") || b.cover.startsWith("https://") || b.cover.startsWith("data:image/"));
+      const coverContent = isImg ? `<img src="${b.cover}" alt="${b.title}">` : (b.cover || "📚");
+
       return `<div class="book">
-        <div class="cover">${b.cover || "📚"}</div>
+        <div class="cover">${coverContent}</div>
         <div class="book-body">
-          <h4>${b.title}</h4><p>${b.author}</p><p>${b.category}</p>
-          <div class="book-foot"><span class="tag">${b.stock > 0 ? "Tersedia" : "Habis"}</span><span>Stok: ${b.stock}</span></div>
+          <h4>${b.title}</h4>
+          <p>${b.author}</p>
+          <p>${b.category}</p>
+          <div class="book-foot">
+            <span class="tag">${status}</span>
+            <span>Stok: ${b.stock}</span>
+          </div>
+          <div class="actions">
+            <button onclick="editBook(${b.id})">✎ Ubah</button>
+            <button class="danger" onclick="deleteBook(${b.id})">🗑 Hapus</button>
+          </div>
         </div>
       </div>`;
     }
 
-    function renderAll() { renderHome(); }
+    function renderCatalog() {
+      if (!data) return;
+      const q = $("catalogSearch").value.toLowerCase();
+      const cat = $("categoryFilter").value;
+      const av = $("availabilityFilter").value;
+      
+      const arr = data.books.filter(b => 
+        (!q || b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q)) &&
+        (!cat || b.category === cat) &&
+        (!av || (av === "available" ? b.stock > 0 : b.stock === 0))
+      );
+      
+      $("catalogBooks").innerHTML = arr.map(bookCard).join("");
+      $("catalogEmpty").style.display = arr.length ? "none" : "block";
+    }
+
+    function renderLoans() {
+      if (!data) return;
+      const q = $("loanSearch").value.toLowerCase();
+      const st = $("loanStatusFilter").value;
+      const worldToday = getWorldToday();
+      
+      const arr = data.loans.filter(l => {
+        const matchesQuery = (!q || l.student.toLowerCase().includes(q) || (bookById(l.bookId)?.title || "").toLowerCase().includes(q) || (l.kelas || "").toLowerCase().includes(q));
+        const matchesStatus = (!st || l.status === st);
+        const isTodayOrActive = (l.borrow === worldToday || l.status !== "Dikembalikan");
+        return matchesQuery && matchesStatus && isTodayOrActive;
+      });
+      
+      $("loanRows").innerHTML = arr.map(l => `<tr>
+        <td>${l.student}</td>
+        <td>${l.kelas || "-"}</td>
+        <td>${bookById(l.bookId)?.title || "-"}</td>
+        <td>${l.borrow}</td>
+        <td>${l.due}</td>
+        <td><span class="tag">${l.status}</span></td>
+        <td class="member-actions">
+          ${l.status !== "Dikembalikan" ? `<button class="table-btn" onclick="returnLoan(${l.id})">Kembalikan</button>` : ""}
+          <button class="table-btn" onclick="editLoan(${l.id})">Ubah</button>
+          <button class="table-btn" onclick="deleteLoan(${l.id})">Hapus</button>
+        </td>
+      </tr>`).join("");
+      
+      $("loanCount").textContent = arr.length + " transaksi";
+      $("loanStats").innerHTML = 
+        stat("Dipinjam Hari Ini / Aktif", data.loans.filter(l => l.status !== "Dikembalikan").length) +
+        stat("Terlambat", data.loans.filter(l => l.status === "Terlambat").length) +
+        stat("Dikembalikan", data.loans.filter(l => l.status === "Dikembalikan").length) +
+        stat("Total Tercatat", data.loans.length);
+    }
+
+    function renderMembers() {
+      if (!data) return;
+      const q = $("memberSearch").value.toLowerCase();
+      const activeLoans = data.loans.filter(l => l.status !== "Dikembalikan");
+      const filtered = activeLoans.filter(l => 
+        l.student.toLowerCase().includes(q) || 
+        (l.kelas || "").toLowerCase().includes(q) || 
+        (bookById(l.bookId)?.title || "").toLowerCase().includes(q)
+      );
+      
+      $("memberRows").innerHTML = filtered.map(l => `<tr>
+          <td><b>${l.student}</b></td>
+          <td>${l.kelas || "-"}</td>
+          <td>${bookById(l.bookId)?.title || "-"}</td>
+          <td>${l.borrow}</td>
+          <td><span class="tag">${l.status}</span></td>
+          <td class="member-actions">
+            <button class="table-btn" onclick="editLoan(${l.id})">Ubah</button>
+            <button class="table-btn" onclick="deleteLoan(${l.id})">Hapus</button>
+          </td>
+        </tr>`).join("");
+      
+      $("memberEmpty").style.display = filtered.length ? "none" : "block";
+    }
+
+    function renderReports() {
+      if (!data) return;
+      if (!$("reportDateFilter").value) {
+        $("reportDateFilter").value = getWorldToday();
+      }
+      const selectedDate = $("reportDateFilter").value;
+      
+      const filteredLoans = data.loans.filter(l => l.borrow === selectedDate);
+      const activeStillBorrowed = data.loans.filter(l => l.status !== "Dikembalikan");
+      
+      $("reportStats").innerHTML = 
+        stat(`Jumlah Peminjaman (${selectedDate})`, filteredLoans.length) +
+        stat(`Buku Masih Dipinjam (Belum Kembali)`, activeStillBorrowed.length);
+    }
+
+    function renderAdmins() {
+      if (!data) return;
+      $("adminRows").innerHTML = data.admins.map(a => `<tr>
+        <td>${a.name}</td>
+        <td>${a.username}</td>
+        <td>${a.role}</td>
+        <td>${a.status}</td>
+        <td>
+          <button class="table-btn" onclick="editAdmin(${a.id})">Ubah</button>
+          <button class="table-btn" onclick="deleteAdmin(${a.id})">Hapus</button>
+        </td>
+      </tr>`).join("");
+    }
+
+    function renderSettings() {
+      if (!data) return;
+      $("setLibraryName").value = data.settings.library;
+      $("setSchoolName").value = data.settings.school;
+      $("setLocation").value = data.settings.location;
+      
+      if (currentAdmin) {
+        $("setAdminName").value = currentAdmin.name;
+        $("setAdminUsername").value = currentAdmin.username;
+        updateUserUI();
+      }
+    }
+
+    function renderAll() {
+      renderHome();
+      renderCatalog();
+      renderLoans();
+      renderMembers();
+      renderReports();
+      renderAdmins();
+      renderSettings();
+    }
 
     function doLogin() {
       const u = $("loginUsername").value.trim();
       const p = $("loginPassword").value;
       const a = data ? data.admins.find(x => x.username === u && x.password === p && x.status === "Aktif") : null;
-      if (!a) { $("loginError").classList.add("show"); return; }
+      
+      if (!a) {
+        $("loginError").classList.add("show");
+        return;
+      }
+      
       currentAdmin = a;
       localStorage.setItem("perpus_logged_in", JSON.stringify(a));
       $("loginError").classList.remove("show");
@@ -1100,7 +1398,36 @@
       toast("Login berhasil.");
     }
 
+    // Fungsi Login Google
+    function doGoogleLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          const user = result.user;
+          currentAdmin = {
+            name: user.displayName || "Admin Google",
+            username: user.email,
+            role: "Admin",
+            photo: user.photoURL
+          };
+          localStorage.setItem("perpus_logged_in", JSON.stringify(currentAdmin));
+          $("loginScreen").style.display = "none";
+          $("app").classList.add("show");
+          renderAll();
+          toast("Berhasil masuk dengan Google!");
+        })
+        .catch((error) => {
+          console.error("Detail Error Auth:", error);
+          if (error.code === 'auth/unauthorized-domain') {
+            toast("Domain GitHub ini belum diizinkan di Firebase Console!");
+          } else {
+            toast("Gagal login: " + error.message);
+          }
+        });
+    }
+
     function logout() {
+      auth.signOut().catch(() => {});
       currentAdmin = null;
       localStorage.removeItem("perpus_logged_in");
       $("app").classList.remove("show");
@@ -1109,14 +1436,28 @@
       $("loginPassword").value = "";
     }
 
+    // Listener & Event Handlers
     loadData();
 
     document.querySelectorAll("[data-page]").forEach(b => b.addEventListener("click", () => navigate(b.dataset.page)));
+    document.querySelectorAll("[data-goto]").forEach(b => b.addEventListener("click", () => navigate(b.dataset.goto)));
+
     $("loginBtn").addEventListener("click", doLogin);
+    $("googleLoginBtn").addEventListener("click", doGoogleLogin);
     $("loginPassword").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
     $("loginUsername").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+
     $("logoutBtn").addEventListener("click", logout);
     $("mobileMenu").addEventListener("click", () => $("sidebar").classList.toggle("open"));
+
+    $("catalogSearch").addEventListener("input", renderCatalog);
+    $("categoryFilter").addEventListener("change", renderCatalog);
+    $("availabilityFilter").addEventListener("change", renderCatalog);
+
+    $("loanSearch").addEventListener("input", renderLoans);
+    $("loanStatusFilter").addEventListener("change", renderLoans);
+    $("memberSearch").addEventListener("input", renderMembers);
+    $("reportDateFilter").addEventListener("change", renderReports);
   </script>
 </body>
 </html>
