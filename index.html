@@ -77,7 +77,7 @@
       color: #dcebe7;
       text-align: left;
       padding: 11px 10px;
-      border-radius: 9px;
+      border-radius: 99px;
       margin: 2px 0;
     }
 
@@ -587,45 +587,8 @@
 
     .login-btn {
       width: 100%;
-      margin-top: 5px;
-    }
-
-    .google-btn {
-      width: 100%;
       margin-top: 10px;
-      background: #fff;
-      color: #333;
-      border: 1px solid #d5dfe0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-weight: bold;
     }
-
-    .google-btn:hover {
-      background: #f8f9fa;
-    }
-
-    .divider {
-      text-align: center;
-      margin: 15px 0;
-      font-size: 11px;
-      color: #888;
-      position: relative;
-    }
-
-    .divider::before, .divider::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      width: 40%;
-      height: 1px;
-      background: #e4e8ee;
-    }
-
-    .divider::before { left: 0; }
-    .divider::after { right: 0; }
 
     .login-error {
       display: none;
@@ -714,20 +677,13 @@
       <div class="login-error" id="loginError">Username atau password salah.</div>
       <div class="login-field">
         <label>Username</label>
-        <input id="loginUsername" autocomplete="username" placeholder="Masukkan username">
+        <input id="loginUsername" autocomplete="username" placeholder="Masukkan username (default: petugas)">
       </div>
       <div class="login-field">
         <label>Password</label>
-        <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Masukkan password">
+        <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Masukkan password (default: perpus123)">
       </div>
       <button class="btn login-btn" id="loginBtn">Masuk ke Sistem</button>
-      
-      <div class="divider">ATAU</div>
-      
-      <button class="btn google-btn" id="googleLoginBtn">
-        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.63-.06-1.25-.16-1.84H9v3.49h4.84c-.21 1.12-.86 2.07-1.83 2.71v2.26h2.97c1.74-1.6 2.66-3.95 2.66-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.97-2.26c-.81.54-1.85.86-2.99.86-2.31 0-4.27-1.56-4.97-3.66H1.01v2.33C2.53 15.96 5.51 18 9 18z"/><path fill="#FBBC05" d="M4.03 10.76c-.18-.54-.28-1.13-.28-1.76s.1-1.22.28-1.76V4.91H1.01C.37 6.19 0 7.64 0 9.2s.37 3.01 1.01 4.29l3.02-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.59C13.46.89 11.43 0 9 0 5.51 0 2.53 2.04 1.01 4.91l3.02 2.33c.7-2.1 2.66-3.66 4.97-3.66z"/></svg>
-        Masuk dengan Akun Google
-      </button>
     </div>
   </div>
 
@@ -863,7 +819,7 @@
           <div class="heading">
             <div>
               <h1>Peminjaman & Pengembalian ↔</h1>
-              <p>Kelola seluruh transaksi buku (Tampil otomatis berdasarkan tanggal hari ini / jam dunia).</p>
+              <p>Kelola seluruh transaksi buku.</p>
             </div>
             <button class="btn" id="newLoanBtn">＋ Peminjaman Baru</button>
           </div>
@@ -906,24 +862,24 @@
           <div class="heading">
             <div>
               <h1>Laporan Perpustakaan 📊</h1>
-              <p>Rekapitulasi jumlah peminjaman harian (otomatis menyesuaikan jam dunia per hari).</p>
+              <p>Rekapitulasi jumlah peminjaman harian.</p>
             </div>
           </div>
           <div class="panel" style="margin-bottom:15px">
             <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-              <label style="font-size:12px;font-weight:bold;">📅 Tanggal Laporan (Jam Dunia):</label>
+              <label style="font-size:12px;font-weight:bold;">📅 Tanggal Laporan:</label>
               <input type="date" id="reportDateFilter" style="padding:9px;border:1px solid #cbd8d4;border-radius:7px;background:#fff;max-width:220px;">
             </div>
           </div>
           <div class="stats" id="reportStats" style="grid-template-columns: 1fr 1fr;"></div>
         </section>
 
-        <!-- Halaman Data Peminjam (Sinkron dari Peminjaman Aktif) -->
+        <!-- Halaman Data Peminjam -->
         <section class="page" id="page-members">
           <div class="heading">
             <div>
               <h1>Data Peminjam 👥</h1>
-              <p>Daftar siswa yang sedang aktif meminjam buku (otomatis terhapus jika sudah dikembalikan).</p>
+              <p>Daftar siswa yang sedang aktif meminjam buku.</p>
             </div>
           </div>
           <div class="panel">
@@ -981,49 +937,27 @@
           <div class="heading">
             <div>
               <h1>Pengaturan Sistem ⚙</h1>
-              <p>Ubah identitas perpustakaan dan akun admin yang sedang digunakan.</p>
+              <p>Ubah identitas perpustakaan dan akun admin.</p>
             </div>
           </div>
           <div class="two-col">
             <div class="panel">
               <h3>Identitas Perpustakaan</h3>
               <div class="field-grid" style="margin-top:15px">
-                <div class="field full">
-                  <label>Nama perpustakaan</label>
-                  <input id="setLibraryName">
-                </div>
-                <div class="field">
-                  <label>Nama sekolah</label>
-                  <input id="setSchoolName">
-                </div>
-                <div class="field">
-                  <label>Lokasi</label>
-                  <input id="setLocation">
-                </div>
+                <div class="field full"><label>Nama perpustakaan</label><input id="setLibraryName"></div>
+                <div class="field"><label>Nama sekolah</label><input id="setSchoolName"></div>
+                <div class="field"><label>Lokasi</label><input id="setLocation"></div>
               </div>
-              <div class="modal-actions">
-                <button class="btn" id="saveLibrarySettings">Simpan Pengaturan</button>
-              </div>
+              <div class="modal-actions"><button class="btn" id="saveLibrarySettings">Simpan Pengaturan</button></div>
             </div>
             <div class="panel">
               <h3>Akun Saya</h3>
               <div class="field-grid" style="margin-top:15px">
-                <div class="field full">
-                  <label>Nama admin</label>
-                  <input id="setAdminName">
-                </div>
-                <div class="field">
-                  <label>Username</label>
-                  <input id="setAdminUsername">
-                </div>
-                <div class="field">
-                  <label>Password baru</label>
-                  <input id="setAdminPassword" type="password" placeholder="Kosongkan jika tidak diubah">
-                </div>
+                <div class="field full"><label>Nama admin</label><input id="setAdminName"></div>
+                <div class="field"><label>Username</label><input id="setAdminUsername"></div>
+                <div class="field"><label>Password baru</label><input id="setAdminPassword" type="password" placeholder="Kosongkan jika tidak diubah"></div>
               </div>
-              <div class="modal-actions">
-                <button class="btn" id="saveAccountSettings">Simpan Akun</button>
-              </div>
+              <div class="modal-actions"><button class="btn" id="saveAccountSettings">Simpan Akun</button></div>
             </div>
           </div>
           <div class="panel">
@@ -1036,45 +970,32 @@
     </main>
   </div>
 
-  <!-- Modal Pop-up -->
-  <div class="modal-bg" id="modalBg">
-    <div class="modal">
-      <div id="modalBody"></div>
-    </div>
-  </div>
-
-  <!-- Toast Notification -->
+  <div class="modal-bg" id="modalBg"><div class="modal"><div id="modalBody"></div></div></div>
   <div class="toast" id="toast"></div>
 
-  <!-- Firebase SDK versi CDN -->
+  <!-- Firebase Database SDK (Tanpa Auth Google) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
-  <!-- JavaScript Logika Aplikasi & Firebase -->
   <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyB8U1JUGqXSqi4YZ_aSxKtjaWkt3kkaIcU",
-      authDomain: "perpussdpistim01.firebaseapp.com",
-      databaseURL: "https://perpussdpistim01-default-rtdb.firebaseio.com",
-      projectId: "perpussdpistim01",
-      storageBucket: "perpussdpistim01.firebasestorage.app",
-      messagingSenderId: "53972535051",
-      appId: "1:53972535051:web:b29a2b700de1621a0ec40e"
+      apiKey: "AIzaSyAIGCsZvluuqBXfSEk7RJWg-g9-T5Zh6Ig",
+      authDomain: "perpustakaan-pistim-01.firebaseapp.com",
+      databaseURL: "https://perpustakaan-pistim-01-default-rtdb.firebaseio.com",
+      projectId: "perpustakaan-pistim-01",
+      storageBucket: "perpustakaan-pistim-01.firebasestorage.app",
+      messagingSenderId: "610408499609",
+      appId: "1:610408499609:web:ace89131af9378f94aab08",
+      measurementId: "G-DXHW4VS2KC"
     };
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    const auth = firebase.auth();
-
     const $ = id => document.getElementById(id);
 
     function getWorldToday() {
       const now = new Date();
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
+      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
     }
 
     const seed = {
@@ -1082,283 +1003,7 @@
         { id: 1, title: "Buku Penghubung", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 640, cover: "📖" },
         { id: 2, title: "Buku Huruf Sambung Tegak", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 256, cover: "📖" },
         { id: 3, title: "Buku Media Penghubung", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 198, cover: "📖" },
-        { id: 4, title: "Buku Agama Islam", author: "Kemendikbud / Sekolah", category: "Agama", stock: 197, cover: "📖" },
-        { id: 5, title: "Buku Tematik D", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 189, cover: "📖" },
-        { id: 6, title: "Buku Tematik C", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 189, cover: "📖" },
-        { id: 7, title: "Buku Saku", author: "Kemendikbud / Sekolah", category: "Koleksi Umum", stock: 158, cover: "📙" },
-        { id: 8, title: "Tematik B", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 152, cover: "📖" },
-        { id: 9, title: "T2 Bermain Dilingkunganku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
-        { id: 10, title: "T4 Hidup Bersih Dan Sehat", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
-        { id: 11, title: "T1 Hidup Rukun", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
-        { id: 12, title: "T3 Tugasku Sehari - Hari", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
-        { id: 13, title: "T2 Kegemaranku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
-        { id: 14, title: "T1 Indahnya Kebersamaanku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
-        { id: 15, title: "T4 Keluargaku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
-        { id: 16, title: "T5 Pahlawanku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
-        { id: 17, title: "T3 Peduli Terhadap Makhluk Hidup", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
-        { id: 18, title: "T2 Selalu Berhemat Energi", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
-        { id: 19, title: "T3 Kegiatanku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
-        { id: 20, title: "T1 Diriku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 134, cover: "📖" },
-        { id: 21, title: "T4 Berbagai Pekerjaan", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 134, cover: "📖" },
-        { id: 22, title: "Tematik A", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 133, cover: "📖" },
-        { id: 23, title: "Btq Kelas 4", author: "Kemendikbud / Sekolah", category: "Agama", stock: 128, cover: "📖" },
-        { id: 24, title: "Btq Kelas 3", author: "Kemendikbud / Sekolah", category: "Agama", stock: 128, cover: "📖" },
-        { id: 25, title: "Buku Bahasa Inggris Kelas Iii", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 128, cover: "📖" },
-        { id: 26, title: "Buku Tematik B", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 128, cover: "📖" },
-        { id: 27, title: "Buku Bahasa Inggris Kelas Ii", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 128, cover: "📖" },
-        { id: 28, title: "Buku Tematik A", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 128, cover: "📖" },
-        { id: 29, title: "Tegak Bersambung Kelas 1", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 128, cover: "📖" },
-        { id: 30, title: "Tegak Bersambung Kelas 2", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 128, cover: "📖" },
-        { id: 31, title: "Tegak Bersambung Kelas 3", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 128, cover: "📖" },
-        { id: 32, title: "Btq Kelas 6", author: "Kemendikbud / Sekolah", category: "Agama", stock: 120, cover: "📖" },
-        { id: 33, title: "Buku Bahasa Inggris", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 116, cover: "📖" },
-        { id: 34, title: "Pendidikan Pancasila Kelas Iii", author: "Kemendikbud / Sekolah", category: "Pancasila / Kewarganegaraan", stock: 110, cover: "📖" },
-        { id: 35, title: "Phintar Pendidikan Pancasila Sd/Mi Kls.5/Km Revisi Pm", author: "Kemendikbud / Sekolah", category: "Pancasila / Kewarganegaraan", stock: 108, cover: "📖" },
-        { id: 36, title: "Phintar Matematika Sd/Mi Kls. 5/Km", author: "Kemendikbud / Sekolah", category: "Matematika", stock: 108, cover: "📖" },
-        { id: 37, title: "Phintar Ipas Sd/Mi Kls.5A/Km", author: "Kemendikbud / Sekolah", category: "Sains / IPA", stock: 108, cover: "📖" },
-        { id: 38, title: "Phintar Ipas Sd/Mi Kls.5B/Km", author: "Kemendikbud / Sekolah", category: "Sains / IPA", stock: 108, cover: "📖" },
-        { id: 39, title: "Phintar Bahasa Indonesia Sd/Mi Kls. 5/Km", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 108, cover: "📖" },
-        { id: 40, title: "Buku Smart", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 107, cover: "📖" },
-        { id: 41, title: "Buku Matematika", author: "Kemendikbud / Sekolah", category: "Matematika", stock: 106, cover: "📖" },
-        { id: 42, title: "Buku Ipa Kelas Iv", author: "Kemendikbud / Sekolah", category: "Sains / IPA", stock: 105, cover: "📖" },
-        { id: 43, title: "Buku Ipa Kelas V", author: "Kemendikbud / Sekolah", category: "Sains / IPA", stock: 105, cover: "📖" },
-        { id: 44, title: "Buku Ipa Kelas Vi", author: "Kemendikbud / Sekolah", category: "Sains / IPA", stock: 105, cover: "📖" },
-        { id: 45, title: "Buku Ips Kelas Iv", author: "Kemendikbud / Sekolah", category: "Sosial / IPS", stock: 105, cover: "📖" },
-        { id: 46, title: "Buku Ips Kelas V", author: "Kemendikbud / Sekolah", category: "Sosial / IPS", stock: 105, cover: "📖" },
-        { id: 47, title: "Buku Ips Kelas Vi", author: "Kemendikbud / Sekolah", category: "Sosial / IPS", stock: 105, cover: "📖" },
-        { id: 48, title: "Buku Matematika Kelas Iv", author: "Kemendikbud / Sekolah", category: "Matematika", stock: 105, cover: "📖" },
-        { id: 49, title: "Buku Matematika Kelas V", author: "Kemendikbud / Sekolah", category: "Matematika", stock: 105, cover: "📖" },
-        { id: 50, title: "Buku Matematika Kelas Vi", author: "Kemendikbud / Sekolah", category: "Matematika", stock: 105, cover: "📖" },
-        { id: 51, title: "Buku Pkn Kelas Iv", author: "Kemendikbud / Sekolah", category: "Pancasila / Kewarganegaraan", stock: 105, cover: "📖" },
-        { id: 52, title: "Buku Pkn Kelas V", author: "Kemendikbud / Sekolah", category: "Pancasila / Kewarganegaraan", stock: 105, cover: "📖" },
-        { id: 53, title: "Buku Pkn Kelas Vi", author: "Kemendikbud / Sekolah", category: "Pancasila / Kewarganegaraan", stock: 105, cover: "📖" },
-        { id: 54, title: "Buku Bahasa Indonesia Kelas Iv", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 105, cover: "📖" },
-        { id: 55, title: "Buku Bahasa Indonesia Kelas V", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 105, cover: "📖" },
-        { id: 56, title: "Buku Bahasa Indonesia Kelas Vi", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 105, cover: "📖" },
-        { id: 57, title: "Buku Pjok", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 102, cover: "📖" },
-        { id: 58, title: "Buku Pend. Agama Islam", author: "Kemendikbud / Sekolah", category: "Agama", stock: 100, cover: "📖" },
-        { id: 59, title: "Buku Bahasa Arab", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 96, cover: "📖" },
-        { id: 60, title: "Btq Kelas 2", author: "Kemendikbud / Sekolah", category: "Agama", stock: 96, cover: "📖" },
-        { id: 61, title: "Buku Pjok Kelas 4", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 90, cover: "📖" },
-        { id: 62, title: "Buku Pjok Kelas 5", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 90, cover: "📖" },
-        { id: 63, title: "Buku Pjok Kelas 6", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 90, cover: "📖" },
-        { id: 64, title: "Buku Pjok Kelas 3", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 84, cover: "📖" },
-        { id: 65, title: "Buku Pjok Kelas 2", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 84, cover: "📖" },
-        { id: 66, title: "Buku Pjok Kelas 1", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 84, cover: "📖" },
-        { id: 67, title: "Buku Matematika Kelas 1", author: "Kemendikbud / Sekolah", category: "Matematika", stock: 75, cover: "📖" },
-        { id: 68, title: "Buku Matematika Kelas 2", author: "Kemendikbud / Sekolah", category: "Matematika", stock: 75, cover: "📖" },
-        { id: 69, title: "Buku Matematika Kelas 3", author: "Kemendikbud / Sekolah", category: "Matematika", stock: 75, cover: "📖" },
-        { id: 70, title: "Buku Bahasa Indonesia Kelas 1", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 75, cover: "📖" },
-        { id: 71, title: "Buku Bahasa Indonesia Kelas 2", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 75, cover: "📖" },
-        { id: 72, title: "Buku Bahasa Indonesia Kelas 3", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 75, cover: "📖" },
-        { id: 73, title: "Buku Pkn Kelas 1", author: "Kemendikbud / Sekolah", category: "Pancasila / Kewarganegaraan", stock: 75, cover: "📖" },
-        { id: 74, title: "Buku Pkn Kelas 2", author: "Kemendikbud / Sekolah", category: "Pancasila / Kewarganegaraan", stock: 75, cover: "📖" },
-        { id: 75, title: "Buku Pkn Kelas 3", author: "Kemendikbud / Sekolah", category: "Pancasila / Kewarganegaraan", stock: 75, cover: "📖" },
-        { id: 76, title: "Buku Agama Islam Kelas 1", author: "Kemendikbud / Sekolah", category: "Agama", stock: 75, cover: "📖" },
-        { id: 77, title: "Buku Agama Islam Kelas 2", author: "Kemendikbud / Sekolah", category: "Agama", stock: 75, cover: "📖" },
-        { id: 78, title: "Buku Agama Islam Kelas 3", author: "Kemendikbud / Sekolah", category: "Agama", stock: 75, cover: "📖" },
-        { id: 79, title: "Buku Agama Islam Kelas 4", author: "Kemendikbud / Sekolah", category: "Agama", stock: 75, cover: "📖" },
-        { id: 80, title: "Buku Agama Islam Kelas 5", author: "Kemendikbud / Sekolah", category: "Agama", stock: 75, cover: "📖" },
-        { id: 81, title: "Buku Agama Islam Kelas 6", author: "Kemendikbud / Sekolah", category: "Agama", stock: 75, cover: "📖" },
-        { id: 82, title: "Buku Seni Budaya Kelas 1", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 75, cover: "📖" },
-        { id: 83, title: "Buku Seni Budaya Kelas 2", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 75, cover: "📖" },
-        { id: 84, title: "Buku Seni Budaya Kelas 3", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 75, cover: "📖" },
-        { id: 85, title: "Buku Seni Budaya Kelas 4", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 75, cover: "📖" },
-        { id: 86, title: "Buku Seni Budaya Kelas 5", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 75, cover: "📖" },
-        { id: 87, title: "Buku Seni Budaya Kelas 6", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 75, cover: "📖" },
-        { id: 88, title: "Buku Mulok Bahasa Sunda Kelas 1", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 60, cover: "📖" },
-        { id: 89, title: "Buku Mulok Bahasa Sunda Kelas 2", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 60, cover: "📖" },
-        { id: 90, title: "Buku Mulok Bahasa Sunda Kelas 3", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 60, cover: "📖" },
-        { id: 91, title: "Buku Mulok Bahasa Sunda Kelas 4", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 60, cover: "📖" },
-        { id: 92, title: "Buku Mulok Bahasa Sunda Kelas 5", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 60, cover: "📖" },
-        { id: 93, title: "Buku Mulok Bahasa Sunda Kelas 6", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 60, cover: "📖" },
-        { id: 94, title: "Buku Cerita Anak Pilihan", author: "Kemendikbud / Sekolah", category: "Koleksi Umum", stock: 55, cover: "📚" },
-        { id: 95, title: "Buku Ensiklopedia Mini", author: "Kemendikbud / Sekolah", category: "Koleksi Umum", stock: 50, cover: "📙" },
-        { id: 96, title: "Kamus Bahasa Indonesia", author: "Kemendikbud / Sekolah", category: "Koleksi Umum", stock: 45, cover: "📘" },
-        { id: 97, title: "Kamus Bahasa Inggris", author: "Kemendikbud / Sekolah", category: "Koleksi Umum", stock: 45, cover: "📘" },
-        { id: 98, title: "Buku Panduan Guru PAI", author: "Kemendikbud / Sekolah", category: "Agama", stock: 40, cover: "📖" },
-        { id: 99, title: "Buku Panduan Guru Matematika", author: "Kemendikbud / Sekolah", category: "Matematika", stock: 40, cover: "📖" },
-        { id: 100, title: "Buku Panduan Guru Bahasa Indonesia", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 40, cover: "📖" },
-        { id: 101, title: "Buku Panduan Guru IPA", author: "Kemendikbud / Sekolah", category: "Sains / IPA", stock: 40, cover: "📖" },
-        { id: 102, title: "Buku Panduan Guru IPS", author: "Kemendikbud / Sekolah", category: "Sosial / IPS", stock: 40, cover: "📖" },
-        { id: 103, title: "Buku Panduan Guru PPKn", author: "Kemendikbud / Sekolah", category: "Pancasila / Kewarganegaraan", stock: 40, cover: "📖" },
-        { id: 104, title: "Buku Cerita Rakyat Nusantara", author: "Kemendikbud / Sekolah", category: "Koleksi Umum", stock: 38, cover: "📚" },
-        { id: 105, title: "Buku Dongeng Binatang", author: "Kemendikbud / Sekolah", category: "Koleksi Umum", stock: 35, cover: "📚" },
-        { id: 106, title: "Buku Kumpulan Puisi Anak", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 30, cover: "📖" },
-        { id: 107, title: "Buku Pintar Pengetahuan Umum", author: "Kemendikbud / Sekolah", category: "Koleksi Umum", stock: 28, cover: "📙" },
-        { id: 108, title: "Atlas Indonesia Dan Dunia", author: "Kemendikbud / Sekolah", category: "Koleksi Umum", stock: 25, cover: "🌍" },
-        { id: 109, title: "Buku Latihan Soal Ujian Nasional", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 25, cover: "📖" },
-        { id: 110, title: "Buku Aktivitas Siswa Kreatif", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 24, cover: "📖" },
-        { id: 111, title: "Buku Catatan Inventaris", author: "Sekolah", category: "Koleksi Umum", stock: 20, cover: "📓" },
-        { id: 112, title: "Buku Absensi Kelas", author: "Sekolah", category: "Koleksi Umum", stock: 20, cover: "📓" },
-        { id: 113, title: "Buku Administrasi Guru", author: "Sekolah", category: "Koleksi Umum", stock: 20, cover: "📓" },
-        { id: 114, title: "Buku Notulen Rapat", author: "Sekolah", category: "Koleksi Umum", stock: 15, cover: "📓" },
-        { id: 115, title: "Buku Ekspedisi Surat", author: "Sekolah", category: "Koleksi Umum", stock: 15, cover: "📓" },
-        { id: 116, title: "Buku Klaper Perpustakaan", author: "Sekolah", category: "Koleksi Umum", stock: 12, cover: "📓" },
-        { id: 117, title: "Buku Induk Siswa", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 118, title: "Buku Kas Keuangan", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 119, title: "Buku Agenda Surat Masuk Dan Keluar", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 120, title: "Buku Pengumuman Sekolah", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 121, title: "Buku Tamu Dinas", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 122, title: "Buku Peminjaman Buku", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 123, title: "Buku Pengunjung Perpustakaan", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 124, title: "Buku Inventaris Barang", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 125, title: "Buku Peraturan Sekolah", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 126, title: "Buku Pelanggaran Siswa", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 127, title: "Buku Bimbingan Konseling", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 128, title: "Buku Kegiatan Ekstrakurikuler", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 129, title: "Buku Laporan Bulanan", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 130, title: "Buku Rencana Kerja Sekolah", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 131, title: "Buku Profil Sekolah", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 132, title: "Buku Komite Sekolah", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📓" },
-        { id: 133, title: "Buku Pramuka Siaga", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📖" },
-        { id: 134, title: "Buku Pramuka Penggalang", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📖" },
-        { id: 135, title: "Buku PMR (Palang Merah Remaja)", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📖" },
-        { id: 136, title: "Buku Usaha Kesehatan Sekolah (UKS)", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📖" },
-        { id: 137, title: "Buku Koperasi Siswa", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📖" },
-        { id: 138, title: "Buku Perpustakaan Umum", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📖" },
-        { id: 139, title: "Buku Laboratorium Komputer", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📖" },
-        { id: 140, title: "Buku Laboratorium IPA", author: "Sekolah", category: "Koleksi Umum", stock: 10, cover: "📖" },
-        { id: 141, title: "Buku Seni Musik Tradisional", author: "Sekolah", category: "Kesenian & Olahraga", stock: 8, cover: "📖" },
-        { id: 142, title: "Buku Seni Tari Nusantara", author: "Sekolah", category: "Kesenian & Olahraga", stock: 8, cover: "📖" },
-        { id: 143, title: "Buku Teater Anak", author: "Sekolah", category: "Kesenian & Olahraga", stock: 8, cover: "📖" },
-        { id: 144, title: "Buku Kerajinan Tangan", author: "Sekolah", category: "Kesenian & Olahraga", stock: 8, cover: "📖" },
-        { id: 145, title: "Buku Olahraga Bola Voli", author: "Sekolah", category: "Kesenian & Olahraga", stock: 8, cover: "📖" },
-        { id: 146, title: "Buku Olahraga Sepak Bola", author: "Sekolah", category: "Kesenian & Olahraga", stock: 8, cover: "📖" },
-        { id: 147, title: "Buku Olahraga Bulu Tangkis", author: "Sekolah", category: "Kesenian & Olahraga", stock: 8, cover: "📖" },
-        { id: 148, title: "Buku Olahraga Atletik", author: "Sekolah", category: "Kesenian & Olahraga", stock: 8, cover: "📖" },
-        { id: 149, title: "Buku Senam Lantai", author: "Sekolah", category: "Kesenian & Olahraga", stock: 8, cover: "📖" },
-        { id: 150, title: "Buku Kesehatan Pribadi", author: "Sekolah", category: "Sains / IPA", stock: 8, cover: "📖" },
-        { id: 151, title: "Buku Gizi Seimbang Anak", author: "Sekolah", category: "Sains / IPA", stock: 8, cover: "📖" },
-        { id: 152, title: "Buku Kebersihan Lingkungan", author: "Sekolah", category: "Sains / IPA", stock: 8, cover: "📖" },
-        { id: 153, title: "Buku Mitigasi Bencana Alam", author: "Sekolah", category: "Sains / IPA", stock: 8, cover: "📖" },
-        { id: 154, title: "Buku Pengenalan Komputer", author: "Sekolah", category: "Pelajaran", stock: 8, cover: "📖" },
-        { id: 155, title: "Buku Belajar Mengetik 10 Jari", author: "Sekolah", category: "Pelajaran", stock: 8, cover: "📖" },
-        { id: 156, title: "Buku Internet Sehat Untuk Anak", author: "Sekolah", category: "Pelajaran", stock: 8, cover: "📖" },
-        { id: 157, title: "Buku Bahasa Jepang Dasar", author: "Sekolah", category: "Bahasa & Sastra", stock: 6, cover: "📖" },
-        { id: 158, title: "Buku Bahasa Mandarin Dasar", author: "Sekolah", category: "Bahasa & Sastra", stock: 6, cover: "📖" },
-        { id: 159, title: "Buku Percakapan Bahasa Inggris", author: "Sekolah", category: "Bahasa & Sastra", stock: 6, cover: "📖" },
-        { id: 160, title: "Buku Pidato Dan Berbicara Di Depan Umum", author: "Sekolah", category: "Bahasa & Sastra", stock: 6, cover: "📖" },
-        { id: 161, title: "Buku Menulis Kreatif Cilik", author: "Sekolah", category: "Bahasa & Sastra", stock: 6, cover: "📖" },
-        { id: 162, title: "Buku Jurnalis Cilik", author: "Sekolah", category: "Bahasa & Sastra", stock: 6, cover: "📖" },
-        { id: 163, title: "Buku Mading Sekolah", author: "Sekolah", category: "Bahasa & Sastra", stock: 6, cover: "📖" },
-        { id: 164, title: "Buku Biografi Pahlawan Nasional", author: "Sekolah", category: "Sosial / IPS", stock: 6, cover: "📖" },
-        { id: 165, title: "Buku Sejarah Kemerdekaan RI", author: "Sekolah", category: "Sosial / IPS", stock: 6, cover: "📖" },
-        { id: 166, title: "Buku Mengenal Suku Bangsa Di Indonesia", author: "Sekolah", category: "Sosial / IPS", stock: 6, cover: "📖" },
-        { id: 167, title: "Buku Peta Tematik Nusantara", author: "Sekolah", category: "Sosial / IPS", stock: 6, cover: "🌍" },
-        { id: 168, title: "Buku Ekonomi Kreatif Sederhana", author: "Sekolah", category: "Sosial / IPS", stock: 6, cover: "📖" },
-        { id: 169, title: "Buku Kewirausahaan Anak", author: "Sekolah", category: "Sosial / IPS", stock: 6, cover: "📖" },
-        { id: 170, title: "Buku Koperasi Sekolah Dan Manfaatnya", author: "Sekolah", category: "Sosial / IPS", stock: 6, cover: "📖" },
-        { id: 171, title: "Buku Eksperimen Sains Sederhana", author: "Sekolah", category: "Sains / IPA", stock: 6, cover: "🔬" },
-        { id: 172, title: "Buku Penemuan-Penemuan Penting Dunia", author: "Sekolah", category: "Sains / IPA", stock: 6, cover: "🔬" },
-        { id: 173, title: "Buku Tata Surya Dan Luar Angkasa", author: "Sekolah", category: "Sains / IPA", stock: 6, cover: "🔬" },
-        { id: 174, title: "Buku Ekosistem Laut Dan Darat", author: "Sekolah", category: "Sains / IPA", stock: 6, cover: "🔬" },
-        { id: 175, title: "Buku Daur Ulang Sampah Plastik", author: "Sekolah", category: "Sains / IPA", stock: 6, cover: "🔬" },
-        { id: 176, title: "Buku Energi Terbarukan", author: "Sekolah", category: "Sains / IPA", stock: 6, cover: "🔬" },
-        { id: 177, title: "Buku Botani Untuk Anak", author: "Sekolah", category: "Sains / IPA", stock: 6, cover: "🔬" },
-        { id: 178, title: "Buku Zoologi Nusantara", author: "Sekolah", category: "Sains / IPA", stock: 6, cover: "🔬" },
-        { id: 179, title: "Buku Matematika Rekreasi", author: "Sekolah", category: "Matematika", stock: 6, cover: "📙" },
-        { id: 180, title: "Buku Logika Dan Berpikir Kritis", author: "Sekolah", category: "Matematika", stock: 6, cover: "📙" },
-        { id: 181, title: "Buku Pecahan Dan Desimal Mudah", author: "Sekolah", category: "Matematika", stock: 6, cover: "📙" },
-        { id: 182, title: "Buku Geometri Bangun Ruang", author: "Sekolah", category: "Matematika", stock: 6, cover: "📙" },
-        { id: 183, title: "Buku Statistika Dasar Anak", author: "Sekolah", category: "Matematika", stock: 6, cover: "📙" },
-        { id: 184, title: "Buku Aljabar Permainan", author: "Sekolah", category: "Matematika", stock: 6, cover: "📙" },
-        { id: 185, title: "Buku Peng pengukuran Panjang Dan Berat", author: "Sekolah", category: "Matematika", stock: 6, cover: "📙" },
-        { id: 186, title: "Buku Waktu Dan Kalender", author: "Sekolah", category: "Matematika", stock: 6, cover: "📙" },
-        { id: 187, title: "Buku Akhlak Mulia Sehari-Hari", author: "Sekolah", category: "Agama", stock: 5, cover: "📖" },
-        { id: 188, title: "Buku Kisah 25 Nabi Dan Rasul", author: "Sekolah", category: "Agama", stock: 5, cover: "📖" },
-        { id: 189, title: "Buku Fiqih Ibadah Anak", author: "Sekolah", category: "Agama", stock: 5, cover: "📖" },
-        { id: 190, title: "Buku Sejarah Kebudayaan Islam", author: "Sekolah", category: "Agama", stock: 5, cover: "📖" },
-        { id: 191, title: "Buku Doa Pilihan Anak Sholeh", author: "Sekolah", category: "Agama", stock: 5, cover: "📖" },
-        { id: 192, title: "Buku Belajar Huruf Hijaiyah", author: "Sekolah", category: "Agama", stock: 5, cover: "📖" },
-        { id: 193, title: "Buku Tajwid Dasar Pemula", author: "Sekolah", category: "Agama", stock: 5, cover: "📖" },
-        { id: 194, title: "Buku Hadits Pilihan Anak", author: "Sekolah", category: "Agama", stock: 5, cover: "📖" },
-        { id: 195, title: "Buku Moral Pancasila", author: "Sekolah", category: "Pancasila / Kewarganegaraan", stock: 5, cover: "📖" },
-        { id: 196, title: "Buku Hak Dan Kewajiban Warga Sekolah", author: "Sekolah", category: "Pancasila / Kewarganegaraan", stock: 5, cover: "📖" },
-        { id: 197, title: "Buku Undang-Undang Dasar 1945 Untuk Pelajar", author: "Sekolah", category: "Pancasila / Kewarganegaraan", stock: 5, cover: "📖" },
-        { id: 198, title: "Buku Demokrasi Pancasila Di Kelas", author: "Sekolah", category: "Pancasila / Kewarganegaraan", stock: 5, cover: "📖" },
-        { id: 199, title: "Buku Gotong Royong Tradisi Kita", author: "Sekolah", category: "Pancasila / Kewarganegaraan", stock: 5, cover: "📖" },
-        { id: 200, title: "Buku Toleransi Beragama Di Sekolah", author: "Sekolah", category: "Pancasila / Kewarganegaraan", stock: 5, cover: "📖" },
-        { id: 201, title: "Buku Cinta Tanah Air Indonesia", author: "Sekolah", category: "Pancasila / Kewarganegaraan", stock: 5, cover: "📖" },
-        { id: 202, title: "Buku Kepemimpinan Muda", author: "Sekolah", category: "Pancasila / Kewarganegaraan", stock: 5, cover: "📖" },
-        { id: 203, title: "Buku Kumpulan Cerpen Nusantara", author: "Sekolah", category: "Bahasa & Sastra", stock: 4, cover: "📚" },
-        { id: 204, title: "Buku Pantun Dan Syair Anak", author: "Sekolah", category: "Bahasa & Sastra", stock: 4, cover: "📚" },
-        { id: 205, title: "Buku Dongeng Klasik Dunia", author: "Sekolah", category: "Koleksi Umum", stock: 4, cover: "📚" },
-        { id: 206, title: "Buku Fabel Pilihan", author: "Sekolah", category: "Koleksi Umum", stock: 4, cover: "📚" },
-        { id: 207, title: "Buku Legenda Daerah Indonesia", author: "Sekolah", category: "Koleksi Umum", stock: 4, cover: "📚" },
-        { id: 208, title: "Buku Misteri Alam Semesta", author: "Sekolah", category: "Sains / IPA", stock: 4, cover: "🔬" },
-        { id: 209, title: "Buku Penjelajahan Kutub", author: "Sekolah", category: "Sosial / IPS", stock: 4, cover: "🌍" },
-        { id: 210, title: "Buku Keajaiban Dunia Kuno Dan Modern", author: "Sekolah", category: "Sosial / IPS", stock: 4, cover: "🌍" },
-        { id: 211, title: "Buku Alat Musik Tradisional Nusantara", author: "Sekolah", category: "Kesenian & Olahraga", stock: 3, cover: "🎨" },
-        { id: 212, title: "Buku Tari Tradisional Daerah", author: "Sekolah", category: "Kesenian & Olahraga", stock: 3, cover: "🎨" },
-        { id: 213, title: "Buku Seni Lukis Anak", author: "Sekolah", category: "Kesenian & Olahraga", stock: 3, cover: "🎨" },
-        { id: 214, title: "Buku Origami Dan Seni Lipat Kertas", author: "Sekolah", category: "Kesenian & Olahraga", stock: 3, cover: "🎨" },
-        { id: 215, title: "Buku Ukiran Dan Pahat Sederhana", author: "Sekolah", category: "Kesenian & Olahraga", stock: 3, cover: "🎨" },
-        { id: 216, title: "Buku Fotografi Pemula", author: "Sekolah", category: "Kesenian & Olahraga", stock: 3, cover: "🎨" },
-        { id: 217, title: "Buku Film Animasi Pendek", author: "Sekolah", category: "Kesenian & Olahraga", stock: 3, cover: "🎨" },
-        { id: 218, title: "Buku Drama Musikal Sekolah", author: "Sekolah", category: "Kesenian & Olahraga", stock: 3, cover: "🎨" },
-        { id: 219, title: "Buku Permainan Tradisional Anak", author: "Sekolah", category: "Kesenian & Olahraga", stock: 3, cover: "⚽" },
-        { id: 220, title: "Buku Kesehatan Mental Remaja", author: "Sekolah", category: "Sains / IPA", stock: 3, cover: "📖" },
-        { id: 221, title: "Buku Pertolongan Pertama Pada Kecelakaan", author: "Sekolah", category: "Sains / IPA", stock: 3, cover: "📖" },
-        { id: 222, title: "Buku Nutrisi Makanan Sehat", author: "Sekolah", category: "Sains / IPA", stock: 3, cover: "📖" },
-        { id: 223, title: "Buku Olahraga Senam Ritmik", author: "Sekolah", category: "Kesenian & Olahraga", stock: 3, cover: "⚽" },
-        { id: 224, title: "Buku Beladiri Pencak Silat", author: "Sekolah", category: "Kesenian & Olahraga", stock: 3, cover: "⚽" },
-        { id: 225, title: "Buku Renang Gaya Bebas Dan Dada", author: "Sekolah", category: "Kesenian & Olahraga", stock: 3, cover: "⚽" },
-        { id: 226, title: "Buku Catur Untuk Pemula", author: "Sekolah", category: "Kesenian & Olahraga", stock: 3, cover: "⚽" },
-        { id: 227, title: "Buku Pengenalan Robotika", author: "Sekolah", category: "Pelajaran", stock: 2, cover: "📖" },
-        { id: 228, title: "Buku Pemrograman Scratch Untuk Anak", author: "Sekolah", category: "Pelajaran", stock: 2, cover: "📖" },
-        { id: 229, title: "Buku Desain Grafis Canva", author: "Sekolah", category: "Pelajaran", stock: 2, cover: "📖" },
-        { id: 230, title: "Buku Editing Video Sederhana", author: "Sekolah", category: "Pelajaran", stock: 2, cover: "📖" },
-        { id: 231, title: "Buku Pemanfaatan AI Untuk Belajar", author: "Sekolah", category: "Pelajaran", stock: 2, cover: "📖" },
-        { id: 232, title: "Buku Literasi Finansial Anak", author: "Sekolah", category: "Sosial / IPS", stock: 2, cover: "📖" },
-        { id: 233, title: "Buku Menabung Sejak Dini", author: "Sekolah", category: "Sosial / IPS", stock: 2, cover: "📖" },
-        { id: 234, title: "Buku Pengenalan Pajak Sejak Dini", author: "Sekolah", category: "Sosial / IPS", stock: 2, cover: "📖" },
-        { id: 235, title: "Buku Tokoh Dunia Inspiratif", author: "Sekolah", category: "Sosial / IPS", stock: 2, cover: "📖" },
-        { id: 236, title: "Buku Perjalanan Penjelajah Samudra", author: "Sekolah", category: "Sosial / IPS", stock: 2, cover: "🌍" },
-        { id: 237, title: "Buku Arsitektur Bangunan Kuno", author: "Sekolah", category: "Sosial / IPS", stock: 2, cover: "🌍" },
-        { id: 238, title: "Buku Mitologi Dan Folklore", author: "Sekolah", category: "Koleksi Umum", stock: 2, cover: "📚" },
-        { id: 239, title: "T1 Diriku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 134, cover: "📖" },
-        { id: 240, title: "T1 Hidup Rukun", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
-        { id: 241, title: "T1 Indahnya Kebersamaanku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
-        { id: 242, title: "T2 Bermain Dilingkunganku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
-        { id: 243, title: "T2 Kegemaranku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
-        { id: 244, title: "T2 Selalu Berhemat Energi", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
-        { id: 245, title: "T3 Kegiatanku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
-        { id: 246, title: "T3 Peduli Terhadap Makhluk Hidup", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
-        { id: 247, title: "T3 Tugasku Sehari - Hari", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
-        { id: 248, title: "T4 Berbagai Pekerjaan", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 134, cover: "📖" },
-        { id: 249, title: "T4 Hidup Bersih Dan Sehat", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 136, cover: "📖" },
-        { id: 250, title: "T4 Keluargaku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
-        { id: 251, title: "T5 Pahlawanku", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 135, cover: "📖" },
-        { id: 252, title: "Tematik A", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 133, cover: "📖" },
-        { id: 253, title: "Tematik B", author: "Kemendikbud / Sekolah", category: "Pelajaran", stock: 152, cover: "📖" },
-        { id: 254, title: "Tegak Bersambung Kelas 1", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 128, cover: "📖" },
-        { id: 255, title: "Tegak Bersambung Kelas 2", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 128, cover: "📖" },
-        { id: 256, title: "Tegak Bersambung Kelas 3", author: "Kemendikbud / Sekolah", category: "Bahasa & Sastra", stock: 128, cover: "📖" },
-        { id: 257, title: "Buku Panduan Guru Seni Rupa Untuk Sd/Mi Kelas Vi", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" },
-        { id: 258, title: "Buku Tamu", author: "Kemendikbud / Sekolah", category: "Koleksi Umum", stock: 1, cover: "📖" },
-        { id: 259, title: "Buku9 Ips Kelas 6", author: "Kemendikbud / Sekolah", category: "Sosial / IPS", stock: 1, cover: "📖" },
-        { id: 260, title: "Ensyclopedia Matematika", author: "Kemendikbud / Sekolah", category: "Matematika", stock: 1, cover: "📙" },
-        { id: 261, title: "Bi, Ips, Pkn Kls Iii & Vi", author: "Kemendikbud / Sekolah", category: "Pancasila / Kewarganegaraan", stock: 1, cover: "📖" },
-        { id: 262, title: "Kesadaran Berlalulintas Untuk Remaja", author: "Kemendikbud / Sekolah", category: "Pancasila / Kewarganegaraan", stock: 1, cover: "📖" },
-        { id: 263, title: "Buku Mulok Pendidikan Lingkungan Dan Budaya Jakarta Kelas Iv", author: "Kemendikbud / Sekolah", category: "Sosial / IPS", stock: 1, cover: "📖" },
-        { id: 264, title: "Buku Mulok Pendidikan Lingkungan Dan Budaya Jakarta Kelas Iii", author: "Kemendikbud / Sekolah", category: "Sosial / IPS", stock: 1, cover: "📖" },
-        { id: 265, title: "Buku Mulok Pendidikan Lingkungan Dan Budaya Jakarta Kelas Ii", author: "Kemendikbud / Sekolah", category: "Sosial / IPS", stock: 1, cover: "📖" },
-        { id: 266, title: "Buku Mulok Pendidikan Lingkungan Dan Budaya Jakarta Kelas I", author: "Kemendikbud / Sekolah", category: "Sosial / IPS", stock: 1, cover: "📖" },
-        { id: 267, title: "Buku Panduan Guru Seni Rupa Untuk Sd/Mi Kelas V", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" },
-        { id: 268, title: "Buku Panduan Guru Seni Rupa Untuk Sd/Mi Kelas Iv", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" },
-        { id: 269, title: "Buku Panduan Guru Seni Rupa Untuk Sd/Mi Kelas Iii", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" },
-        { id: 270, title: "Buku Panduan Guru Seni Rupa Untuk Sd/Mi Kelas Ii", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" },
-        { id: 271, title: "Buku Panduan Guru Seni Rupa Untuk Sd/Mi Kelas I", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" },
-        { id: 272, title: "Buku Panduan Guru Pjok Untuk Sd/Mi Kelas Vi", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" },
-        { id: 273, title: "Buku Panduan Guru Pjok Untuk Sd/Mi Kelas V", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" },
-        { id: 274, title: "Buku Panduan Guru Pjok Untuk Sd/Mi Kelas Iv", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" },
-        { id: 275, title: "Buku Panduan Guru Pjok Untuk Sd/Mi Kelas Iii", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" },
-        { id: 276, title: "Buku Panduan Guru Pjok Untuk Sd/Mi Kelas Ii", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" },
-        { id: 277, title: "Buku Panduan Guru Pjok Untuk Sd/Mi Kelas I", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" },
-        { id: 278, title: "Buku Panduan Guru Seni Musik Untuk Sd/Mi Kelas Vi", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" },
-        { id: 279, title: "Buku Panduan Guru Seni Musik Untuk Sd/Mi Kelas V", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" },
-        { id: 280, title: "Buku Panduan Guru Seni Musik Untuk Sd/Mi Kelas Iv", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" }
+        { id: 4, title: "Buku Agama Islam", author: "Kemendikbud / Sekolah", category: "Agama", stock: 197, cover: "📖" }
       ],
       loans: [],
       admins: [{ id: 1, name: "Petugas Perpustakaan", username: "petugas", password: "perpus123", role: "Admin", status: "Aktif" }],
@@ -1367,9 +1012,7 @@
 
     let data = null, currentAdmin = null;
 
-    function clone(x) {
-      return JSON.parse(JSON.stringify(x));
-    }
+    function clone(x) { return JSON.parse(JSON.stringify(x)); }
 
     function checkPersistentLogin() {
       const savedAdmin = localStorage.getItem("perpus_logged_in");
@@ -1379,9 +1022,7 @@
           $("loginScreen").style.display = "none";
           $("app").classList.add("show");
           updateUserUI();
-        } catch(e) {
-          localStorage.removeItem("perpus_logged_in");
-        }
+        } catch(e) { localStorage.removeItem("perpus_logged_in"); }
       }
     }
 
@@ -1389,9 +1030,6 @@
       if (!currentAdmin) return;
       $("topAdminName").textContent = currentAdmin.name;
       $("topAdminRole").textContent = (currentAdmin.role || "Admin") + " · " + (data?.settings?.school || "SDN Pisangan Timur 01 PG");
-      if (currentAdmin.photo) {
-        $("topAvatar").innerHTML = `<img src="${currentAdmin.photo}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-      }
     }
 
     function loadData() {
@@ -1405,18 +1043,12 @@
           data = val;
           if (!data.settings) data.settings = clone(seed.settings);
           if (!data.loans) data.loans = [];
-          if (!data.admins.some(a => a.username === "petugas")) data.admins.push(clone(seed.admins[0]));
         }
-        const appEl = $("app");
-        if (appEl && appEl.classList.contains("show")) {
-          renderAll();
-        }
+        if ($("app").classList.contains("show")) renderAll();
       });
     }
 
-    function saveData() {
-      db.ref("perpus_data").set(data);
-    }
+    function saveData() { db.ref("perpus_data").set(data); }
 
     function toast(msg) {
       $("toast").textContent = msg;
@@ -1424,539 +1056,41 @@
       setTimeout(() => $("toast").classList.remove("show"), 2200);
     }
 
-    function bookById(id) {
-      return data ? data.books.find(b => b.id === Number(id)) : null;
-    }
-
     function navigate(page) {
       document.querySelectorAll(".page").forEach(x => x.classList.remove("active"));
       $("page-" + page).classList.add("active");
       document.querySelectorAll("[data-page]").forEach(x => x.classList.toggle("active", x.dataset.page === page));
-      
-      const names = {
-        home: "Beranda",
-        catalog: "Katalog Buku",
-        loans: "Peminjaman & Pengembalian",
-        reports: "Laporan",
-        members: "Data Peminjam",
-        admins: "Admin & Pengguna",
-        settings: "Pengaturan"
-      };
-      
-      $("crumb").textContent = names[page] || page;
-      if (page === "reports") {
-        $("reportDateFilter").value = getWorldToday();
-      }
+      $("crumb").textContent = page.charAt(0).toUpperCase() + page.slice(1);
+      if (page === "reports") $("reportDateFilter").value = getWorldToday();
       renderAll();
       $("sidebar").classList.remove("open");
     }
 
-    function stat(label, value) {
-      return `<div class="stat"><small>${label}</small><strong>${value}</strong></div>`;
-    }
+    function stat(label, value) { return `<div class="stat"><small>${label}</small><strong>${value}</strong></div>`; }
 
     function renderHome() {
       if (!data) return;
-      $("homeStats").innerHTML = 
-        stat("Total Judul Buku", data.books.length) +
-        stat("Total Stok", data.books.reduce((s, b) => s + b.stock, 0)) +
-        stat("Sedang Dipinjam", data.loans.filter(l => l.status !== "Dikembalikan").length) +
-        stat("Total Peminjam Aktif", data.loans.filter(l => l.status !== "Dikembalikan").length);
+      $("homeStats").innerHTML = stat("Total Judul", data.books.length) + stat("Total Stok", data.books.reduce((s, b) => s + b.stock, 0)) + stat("Dipinjam", data.loans.filter(l => l.status !== "Dikembalikan").length) + stat("Aktif", data.loans.filter(l => l.status !== "Dikembalikan").length);
       $("featuredBooks").innerHTML = data.books.slice(0, 4).map(bookCard).join("");
     }
 
     function bookCard(b) {
-      const status = b.stock > 0 ? "Tersedia" : "Habis";
-      const isImg = b.cover && (b.cover.startsWith("http://") || b.cover.startsWith("https://") || b.cover.startsWith("data:image/"));
-      const coverContent = isImg ? `<img src="${b.cover}" alt="${b.title}">` : (b.cover || "📚");
-
       return `<div class="book">
-        <div class="cover">${coverContent}</div>
+        <div class="cover">${b.cover || "📚"}</div>
         <div class="book-body">
-          <h4>${b.title}</h4>
-          <p>${b.author}</p>
-          <p>${b.category}</p>
-          <div class="book-foot">
-            <span class="tag">${status}</span>
-            <span>Stok: ${b.stock}</span>
-          </div>
-          <div class="actions">
-            <button onclick="editBook(${b.id})">✎ Ubah</button>
-            <button class="danger" onclick="deleteBook(${b.id})">🗑 Hapus</button>
-          </div>
+          <h4>${b.title}</h4><p>${b.author}</p><p>${b.category}</p>
+          <div class="book-foot"><span class="tag">${b.stock > 0 ? "Tersedia" : "Habis"}</span><span>Stok: ${b.stock}</span></div>
         </div>
       </div>`;
     }
 
-    function renderCatalog() {
-      if (!data) return;
-      const q = $("catalogSearch").value.toLowerCase();
-      const cat = $("categoryFilter").value;
-      const av = $("availabilityFilter").value;
-      
-      const arr = data.books.filter(b => 
-        (!q || b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q)) &&
-        (!cat || b.category === cat) &&
-        (!av || (av === "available" ? b.stock > 0 : b.stock === 0))
-      );
-      
-      $("catalogBooks").innerHTML = arr.map(bookCard).join("");
-      $("catalogEmpty").style.display = arr.length ? "none" : "block";
-    }
-
-    function renderLoans() {
-      if (!data) return;
-      const q = $("loanSearch").value.toLowerCase();
-      const st = $("loanStatusFilter").value;
-      const worldToday = getWorldToday();
-      
-      // Secara default pada menu Peminjaman, tampilkan transaksi hari ini atau yang masih aktif (belum dikembalikan)
-      const arr = data.loans.filter(l => {
-        const matchesQuery = (!q || l.student.toLowerCase().includes(q) || (bookById(l.bookId)?.title || "").toLowerCase().includes(q) || (l.kelas || "").toLowerCase().includes(q));
-        const matchesStatus = (!st || l.status === st);
-        const isTodayOrActive = (l.borrow === worldToday || l.status !== "Dikembalikan");
-        return matchesQuery && matchesStatus && isTodayOrActive;
-      });
-      
-      $("loanRows").innerHTML = arr.map(l => `<tr>
-        <td>${l.student}</td>
-        <td>${l.kelas || "-"}</td>
-        <td>${bookById(l.bookId)?.title || "-"}</td>
-        <td>${l.borrow}</td>
-        <td>${l.due}</td>
-        <td><span class="tag">${l.status}</span></td>
-        <td class="member-actions">
-          ${l.status !== "Dikembalikan" ? `<button class="table-btn" onclick="returnLoan(${l.id})">Kembalikan</button>` : ""}
-          <button class="table-btn" onclick="editLoan(${l.id})">Ubah</button>
-          <button class="table-btn" onclick="deleteLoan(${l.id})">Hapus</button>
-        </td>
-      </tr>`).join("");
-      
-      $("loanCount").textContent = arr.length + " transaksi";
-      $("loanStats").innerHTML = 
-        stat("Dipinjam Hari Ini / Aktif", data.loans.filter(l => l.status !== "Dikembalikan").length) +
-        stat("Terlambat", data.loans.filter(l => l.status === "Terlambat").length) +
-        stat("Dikembalikan", data.loans.filter(l => l.status === "Dikembalikan").length) +
-        stat("Total Tercatat", data.loans.length);
-    }
-
-    function renderMembers() {
-      if (!data) return;
-      const q = $("memberSearch").value.toLowerCase();
-      const activeLoans = data.loans.filter(l => l.status !== "Dikembalikan");
-      const filtered = activeLoans.filter(l => 
-        l.student.toLowerCase().includes(q) || 
-        (l.kelas || "").toLowerCase().includes(q) || 
-        (bookById(l.bookId)?.title || "").toLowerCase().includes(q)
-      );
-      
-      $("memberRows").innerHTML = filtered.map(l => `<tr>
-          <td><b>${l.student}</b></td>
-          <td>${l.kelas || "-"}</td>
-          <td>${bookById(l.bookId)?.title || "-"}</td>
-          <td>${l.borrow}</td>
-          <td><span class="tag">${l.status}</span></td>
-          <td class="member-actions">
-            <button class="table-btn" onclick="editLoan(${l.id})">Ubah</button>
-            <button class="table-btn" onclick="deleteLoan(${l.id})">Hapus</button>
-          </td>
-        </tr>`).join("");
-      
-      $("memberEmpty").style.display = filtered.length ? "none" : "block";
-    }
-
-    function renderReports() {
-      if (!data) return;
-      if (!$("reportDateFilter").value) {
-        $("reportDateFilter").value = getWorldToday();
-      }
-      const selectedDate = $("reportDateFilter").value;
-      
-      // Filter peminjaman yang dicatat pada tanggal tersebut
-      const filteredLoans = data.loans.filter(l => l.borrow === selectedDate);
-      // Hitung juga buku yang masih belum dikembalikan (masih aktif dipinjam hingga tanggal ini atau sebelumnya)
-      const activeStillBorrowed = data.loans.filter(l => l.status !== "Dikembalikan");
-      
-      $("reportStats").innerHTML = 
-        stat(`Jumlah Peminjaman (${selectedDate})`, filteredLoans.length) +
-        stat(`Buku Masih Dipinjam (Belum Kembali)`, activeStillBorrowed.length);
-    }
-
-    function renderAdmins() {
-      if (!data) return;
-      $("adminRows").innerHTML = data.admins.map(a => `<tr>
-        <td>${a.name}</td>
-        <td>${a.username}</td>
-        <td>${a.role}</td>
-        <td>${a.status}</td>
-        <td>
-          <button class="table-btn" onclick="editAdmin(${a.id})">Ubah</button>
-          <button class="table-btn" onclick="deleteAdmin(${a.id})">Hapus</button>
-        </td>
-      </tr>`).join("");
-    }
-
-    function renderSettings() {
-      if (!data) return;
-      $("setLibraryName").value = data.settings.library;
-      $("setSchoolName").value = data.settings.school;
-      $("setLocation").value = data.settings.location;
-      
-      if (currentAdmin) {
-        $("setAdminName").value = currentAdmin.name;
-        $("setAdminUsername").value = currentAdmin.username;
-        updateUserUI();
-      }
-    }
-
-    function renderAll() {
-      renderHome();
-      renderCatalog();
-      renderLoans();
-      renderMembers();
-      renderReports();
-      renderAdmins();
-      renderSettings();
-    }
-
-    function openModal(title, body, onSave) {
-      $("modalBody").innerHTML = `
-        <h3>${title}</h3>
-        ${body}
-        <div class="modal-actions">
-          <button class="btn light" onclick="closeModal()">Batal</button>
-          <button class="btn" id="modalSave">Simpan</button>
-        </div>
-      `;
-      $("modalBg").classList.add("show");
-      $("modalSave").onclick = onSave;
-    }
-
-    function closeModal() {
-      $("modalBg").classList.remove("show");
-    }
-
-    function openBookForm(id = null) {
-      const b = id ? bookById(id) : { title: "", author: "", category: "Pelajaran", stock: 1, cover: "📖" };
-      
-      openModal(
-        id ? "Ubah Data Buku" : "Tambah Buku",
-        `<div class="field-grid">
-          <div class="field full"><label>Judul buku</label><input id="fTitle" value="${b.title}"></div>
-          <div class="field"><label>Penulis</label><input id="fAuthor" value="${b.author}"></div>
-          <div class="field">
-            <label>Kategori</label>
-            <select id="fCategory">
-              ${["Pelajaran", "Agama", "Pancasila / Kewarganegaraan", "Bahasa & Sastra", "Matematika", "Sains / IPA", "Sosial / IPS", "Kesenian & Olahraga", "Koleksi Umum"].map(x => `<option ${x === b.category ? "selected" : ""}>${x}</option>`).join("")}
-            </select>
-          </div>
-          <div class="field"><label>Stok Buku</label><input id="fStock" type="number" min="0" value="${b.stock}"></div>
-          <div class="field full">
-            <label>Foto Sampul Buku (Pilih salah satu)</label>
-            <div style="display:flex;gap:10px;margin-bottom:8px">
-              <input type="file" id="fImageFile" accept="image/*" style="padding:6px;font-size:11px">
-            </div>
-            <input id="fCoverUrl" placeholder="Atau masukkan URL Link Gambar (opsional)" value="${(b.cover && (b.cover.startsWith('http') || b.cover.startsWith('data:'))) ? b.cover : ''}">
-          </div>
-        </div>`,
-        () => {
-          const title = $("fTitle").value.trim();
-          const author = $("fAuthor").value.trim();
-          const stock = Number($("fStock").value);
-          const coverUrl = $("fCoverUrl").value.trim();
-          const fileInput = $("fImageFile");
-          
-          if (!title || !author || stock < 0) return toast("Data buku belum benar.");
-
-          const finishSave = (finalCover) => {
-            if (id) {
-              Object.assign(b, { title, author, category: $("fCategory").value, stock, cover: finalCover });
-            } else {
-              data.books.push({
-                id: Math.max(0, ...data.books.map(x => x.id)) + 1,
-                title, author, category: $("fCategory").value, stock, cover: finalCover
-              });
-            }
-            saveData();
-            closeModal();
-            toast(id ? "Data buku berhasil diubah." : "Buku berhasil ditambahkan.");
-          };
-
-          if (fileInput.files && fileInput.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-              finishSave(e.target.result);
-            };
-            reader.readAsDataURL(fileInput.files[0]);
-          } else if (coverUrl) {
-            finishSave(coverUrl);
-          } else {
-            finishSave(b.cover || "📖");
-          }
-        }
-      );
-    }
-
-    function editBook(id) {
-      openBookForm(id);
-    }
-
-    function deleteBook(id) {
-      if (data.loans.some(l => l.bookId === id && l.status !== "Dikembalikan")) return toast("Buku masih dipinjam, tidak dapat dihapus.");
-      if (confirm("Hapus buku ini?")) {
-        data.books = data.books.filter(b => b.id !== id);
-        saveData();
-        toast("Buku berhasil dihapus.");
-      }
-    }
-
-    function openLoanForm(id = null) {
-      const worldToday = getWorldToday();
-      const l = id ? data.loans.find(x => x.id === id) : { student: "", kelas: "5A", bookId: data.books[0]?.id || "", borrow: worldToday, due: worldToday, status: "Dipinjam" };
-      
-      const selectedBook = bookById(l.bookId);
-      const initialBookText = selectedBook ? selectedBook.title : "";
-
-      openModal(
-        id ? "Ubah Transaksi / Peminjam" : "Peminjaman Baru",
-        `<div class="field-grid">
-          <div class="field full"><label>Nama siswa / peminjam</label><input id="fStudent" value="${l.student}"></div>
-          
-          <div class="field">
-            <label>Kelas</label>
-            <select id="fClass">
-              ${["1A","1B","2A","2B","3A","3B","4A","4B","5A","5B","6A","6B"].map(x => `<option ${x === (l.kelas || "5A") ? "selected" : ""}>${x}</option>`).join("")}
-            </select>
-          </div>
-
-          <div class="field full" style="position:relative;">
-            <label>Cari & Pilih Buku (Ketik judul lalu pilih dari daftar atau tekan Enter)</label>
-            <input id="fBookSearch" placeholder="Ketik judul buku untuk mencari..." value="${initialBookText}">
-            <input type="hidden" id="fBookId" value="${l.bookId}">
-            
-            <div id="bookSearchDropdown" style="display:none; position:absolute; left:0; right:0; top:calc(100% + 2px); max-height:180px; overflow-y:auto; background:#fff; border:1px solid #cbd8d4; border-radius:7px; z-index:50; box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>
-          </div>
-
-          <div class="field"><label>Tanggal pinjam (Jam Dunia Otomatis)</label><input id="fBorrow" type="date" value="${l.borrow}"></div>
-          <div class="field"><label>Batas kembali</label><input id="fDue" type="date" value="${l.due}"></div>
-          <div class="field">
-            <label>Status</label>
-            <select id="fStatus">
-              <option ${l.status === "Dipinjam" ? "selected" : ""}>Dipinjam</option>
-              <option ${l.status === "Terlambat" ? "selected" : ""}>Terlambat</option>
-              <option ${l.status === "Dikembalikan" ? "selected" : ""}>Dikembalikan</option>
-            </select>
-          </div>
-        </div>`,
-        () => {
-          const student = $("fStudent").value.trim();
-          const kelas = $("fClass").value;
-          const bookId = Number($("fBookId").value);
-          const newStatus = $("fStatus").value;
-          
-          if (!student) return toast("Nama siswa wajib diisi.");
-          if (!bookId || !bookById(bookId)) return toast("Silakan pilih buku yang valid dari daftar pencarian.");
-          
-          if (id) {
-            if (l.status !== "Dikembalikan" && newStatus === "Dikembalikan") {
-              const b = bookById(l.bookId);
-              if (b) b.stock++;
-            } else if (l.status === "Dikembalikan" && newStatus !== "Dikembalikan") {
-              const b = bookById(l.bookId);
-              if (b && b.stock > 0) b.stock--;
-            }
-            Object.assign(l, { student, kelas, bookId, borrow: $("fBorrow").value, due: $("fDue").value, status: newStatus });
-          } else {
-            const b = bookById(bookId);
-            if (!b || b.stock < 1) return toast("Stok buku habis.");
-            if (newStatus !== "Dikembalikan") {
-              b.stock--;
-            }
-            data.loans.push({
-              id: Math.max(100, ...data.loans.map(x => x.id), 0) + 1,
-              student, kelas, bookId, borrow: $("fBorrow").value, due: $("fDue").value, status: newStatus
-            });
-          }
-          
-          saveData();
-          closeModal();
-          toast(id ? "Data peminjam/transaksi diubah." : "Peminjaman dicatat.");
-        }
-      );
-
-      setTimeout(() => {
-        const searchInput = $("fBookSearch");
-        const dropdown = $("bookSearchDropdown");
-        const hiddenId = $("fBookId");
-
-        if (!searchInput) return;
-
-        function renderDropdown(filterText) {
-          const q = filterText.toLowerCase();
-          const filtered = data.books.filter(b => b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q)).slice(0, 15);
-
-          if (filtered.length === 0) {
-            dropdown.innerHTML = `<div style="padding:10px; font-size:12px; color:#888;">Buku tidak ditemukan</div>`;
-          } else {
-            dropdown.innerHTML = filtered.map(b => `
-              <div class="book-suggestion-item" data-id="${b.id}" style="padding:8px 12px; font-size:12px; border-bottom:1px solid #f0f3f2; cursor:pointer;">
-                <b>${b.title}</b><br><small style="color:#889;">${b.author} - ${b.category} (Stok: ${b.stock})</small>
-              </div>
-            `).join("");
-
-            dropdown.querySelectorAll(".book-suggestion-item").forEach(item => {
-              item.addEventListener("mousedown", (e) => {
-                e.preventDefault();
-                const chosenId = item.dataset.id;
-                const chosenBook = bookById(chosenId);
-                if (chosenBook) {
-                  searchInput.value = chosenBook.title;
-                  hiddenId.value = chosenBook.id;
-                  dropdown.style.display = "none";
-                }
-              });
-            });
-          }
-          dropdown.style.display = "block";
-        }
-
-        searchInput.addEventListener("input", (e) => {
-          hiddenId.value = "";
-          renderDropdown(e.target.value);
-        });
-
-        searchInput.addEventListener("focus", () => {
-          renderDropdown(searchInput.value);
-        });
-
-        searchInput.addEventListener("blur", () => {
-          setTimeout(() => { dropdown.style.display = "none"; }, 200);
-        });
-
-        searchInput.addEventListener("keydown", (e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            const q = searchInput.value.toLowerCase();
-            const found = data.books.find(b => b.title.toLowerCase().includes(q));
-            if (found) {
-              searchInput.value = found.title;
-              hiddenId.value = found.id;
-              dropdown.style.display = "none";
-            } else {
-              toast("Buku tidak ditemukan, silakan pilih dari daftar.");
-            }
-          }
-        });
-      }, 100);
-    }
-
-    function editLoan(id) {
-      openLoanForm(id);
-    }
-
-    function returnLoan(id) {
-      const l = data.loans.find(x => x.id === id);
-      if (!l) return;
-      const b = bookById(l.bookId);
-      if (l.status !== "Dikembalikan" && b) b.stock++;
-      l.status = "Dikembalikan";
-      saveData();
-      toast("Buku berhasil dikembalikan dan data peminjam diperbarui.");
-    }
-
-    function deleteLoan(id) {
-      if (confirm("Hapus data peminjam/transaksi ini?")) {
-        const l = data.loans.find(x => x.id === id);
-        if (l && l.status !== "Dikembalikan") {
-          const b = bookById(l.bookId);
-          if (b) b.stock++;
-        }
-        data.loans = data.loans.filter(x => x.id !== id);
-        saveData();
-        toast("Data peminjam dihapus.");
-      }
-    }
-
-    function openAdminForm(id = null) {
-      const a = id ? data.admins.find(x => x.id === id) : { name: "", username: "", password: "", role: "Petugas", status: "Aktif" };
-      
-      openModal(
-        id ? "Ubah Admin" : "Tambah Admin",
-        `<div class="field-grid">
-          <div class="field full"><label>Nama</label><input id="fAdminName" value="${a.name}"></div>
-          <div class="field"><label>Username</label><input id="fAdminUser" value="${a.username}"></div>
-          <div class="field"><label>Password ${id ? "(kosong = tetap)" : "baru"}</label><input id="fAdminPass" type="password"></div>
-          <div class="field">
-            <label>Peran</label>
-            <select id="fAdminRole">
-              <option ${a.role === "Admin" ? "selected" : ""}>Admin</option>
-              <option ${a.role === "Petugas" ? "selected" : ""}>Petugas</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Status</label>
-            <select id="fAdminStatus">
-              <option ${a.status === "Aktif" ? "selected" : ""}>Aktif</option>
-              <option ${a.status === "Nonaktif" ? "selected" : ""}>Nonaktif</option>
-            </select>
-          </div>
-        </div>`,
-        () => {
-          const name = $("fAdminName").value.trim();
-          const username = $("fAdminUser").value.trim();
-          const pass = $("fAdminPass").value;
-          
-          if (!name || !username || (!id && !pass)) return toast("Data admin belum lengkap.");
-          if (data.admins.some(x => x.username === username && (!id || x.id !== id))) return toast("Username sudah digunakan.");
-          
-          if (id) {
-            a.name = name;
-            a.username = username;
-            a.role = $("fAdminRole").value;
-            a.status = $("fAdminStatus").value;
-            if (pass) a.password = pass;
-            if (currentAdmin && currentAdmin.id === id) {
-              currentAdmin = a;
-              localStorage.setItem("perpus_logged_in", JSON.stringify(a));
-            }
-          } else {
-            data.admins.push({
-              id: Math.max(0, ...data.admins.map(x => x.id)) + 1,
-              name, username, password: pass, role: $("fAdminRole").value, status: $("fAdminStatus").value
-            });
-          }
-          
-          saveData();
-          closeModal();
-          toast(id ? "Admin diubah." : "Admin ditambahkan.");
-        }
-      );
-    }
-
-    function editAdmin(id) {
-      openAdminForm(id);
-    }
-
-    function deleteAdmin(id) {
-      if (data.admins.length <= 1) return toast("Minimal harus ada satu admin.");
-      if (currentAdmin && currentAdmin.id === id) return toast("Akun yang sedang digunakan tidak dapat dihapus.");
-      if (confirm("Hapus admin ini?")) {
-        data.admins = data.admins.filter(a => a.id !== id);
-        saveData();
-        toast("Admin dihapus.");
-      }
-    }
+    function renderAll() { renderHome(); }
 
     function doLogin() {
       const u = $("loginUsername").value.trim();
       const p = $("loginPassword").value;
       const a = data ? data.admins.find(x => x.username === u && x.password === p && x.status === "Aktif") : null;
-      
-      if (!a) {
-        $("loginError").classList.add("show");
-        return;
-      }
-      
+      if (!a) { $("loginError").classList.add("show"); return; }
       currentAdmin = a;
       localStorage.setItem("perpus_logged_in", JSON.stringify(a));
       $("loginError").classList.remove("show");
@@ -1966,31 +1100,7 @@
       toast("Login berhasil.");
     }
 
-    function doGoogleLogin() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      auth.signInWithPopup(provider)
-        .then((result) => {
-          const user = result.user;
-          currentAdmin = {
-            name: user.displayName || "Admin Google",
-            username: user.email,
-            role: "Admin",
-            photo: user.photoURL
-          };
-          localStorage.setItem("perpus_logged_in", JSON.stringify(currentAdmin));
-          $("loginScreen").style.display = "none";
-          $("app").classList.add("show");
-          renderAll();
-          toast("Berhasil masuk dengan Google!");
-        })
-        .catch((error) => {
-          console.error(error);
-          toast("Gagal login dengan Google: " + error.message);
-        });
-    }
-
     function logout() {
-      auth.signOut().catch(() => {});
       currentAdmin = null;
       localStorage.removeItem("perpus_logged_in");
       $("app").classList.remove("show");
@@ -1999,62 +1109,14 @@
       $("loginPassword").value = "";
     }
 
-    // Inisialisasi awal listener database
     loadData();
 
     document.querySelectorAll("[data-page]").forEach(b => b.addEventListener("click", () => navigate(b.dataset.page)));
-    document.querySelectorAll("[data-goto]").forEach(b => b.addEventListener("click", () => navigate(b.dataset.goto)));
-
     $("loginBtn").addEventListener("click", doLogin);
-    $("googleLoginBtn").addEventListener("click", doGoogleLogin);
     $("loginPassword").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
     $("loginUsername").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
-
     $("logoutBtn").addEventListener("click", logout);
     $("mobileMenu").addEventListener("click", () => $("sidebar").classList.toggle("open"));
-
-    $("addBookBtn").addEventListener("click", () => openBookForm());
-    $("quickAddBook").addEventListener("click", () => openBookForm());
-    $("newLoanBtn").addEventListener("click", () => openLoanForm());
-    $("addAdminBtn").addEventListener("click", () => openAdminForm());
-
-    $("catalogSearch").addEventListener("input", renderCatalog);
-    $("categoryFilter").addEventListener("change", renderCatalog);
-    $("availabilityFilter").addEventListener("change", renderCatalog);
-
-    $("loanSearch").addEventListener("input", renderLoans);
-    $("loanStatusFilter").addEventListener("change", renderLoans);
-
-    $("memberSearch").addEventListener("input", renderMembers);
-
-    $("reportDateFilter").addEventListener("change", renderReports);
-
-    $("saveLibrarySettings").addEventListener("click", () => {
-      data.settings.library = $("setLibraryName").value;
-      data.settings.school = $("setSchoolName").value;
-      data.settings.location = $("setLocation").value;
-      saveData();
-      toast("Pengaturan disimpan.");
-    });
-
-    $("saveAccountSettings").addEventListener("click", () => {
-      if (currentAdmin) {
-        currentAdmin.name = $("setAdminName").value;
-        currentAdmin.username = $("setAdminUsername").value;
-        if ($("setAdminPassword").value) currentAdmin.password = $("setAdminPassword").value;
-        localStorage.setItem("perpus_logged_in", JSON.stringify(currentAdmin));
-        saveData();
-        toast("Akun disimpan.");
-      }
-    });
-
-    $("resetDataBtn").addEventListener("click", () => {
-      if (confirm("Kembalikan seluruh data ke awal?")) {
-        data = clone(seed);
-        saveData();
-        toast("Data di-reset.");
-      }
-    });
   </script>
 </body>
 </html>
