@@ -196,33 +196,50 @@
     }
 
     .hero {
+      position: relative;
       background: #dcefe9;
+      background-size: cover !important;
+      background-position: center !important;
       border-radius: 15px;
       padding: 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      overflow: hidden;
     }
 
-    .hero h2 {
-      font-size: 27px;
-      margin: 7px 0 9px;
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(23, 59, 53, 0.85), rgba(40, 123, 102, 0.75));
+      z-index: 1;
+    }
+
+    .hero > div {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h2, .hero .eyebrow, .hero p {
+      color: #fff !important;
     }
 
     .hero p {
       max-width: 650px;
-      color: #60716d;
+      color: #e2f0ec !important;
       line-height: 1.5;
       font-size: 13px;
     }
 
     .eyebrow {
       font-size: 11px;
-      color: #287b66;
       font-weight: bold;
     }
 
     .hero-art {
+      position: relative;
+      z-index: 2;
       font-size: 75px;
     }
 
@@ -956,6 +973,13 @@
                   <label>Lokasi</label>
                   <input id="setLocation">
                 </div>
+                <div class="field full">
+                  <label>Foto Latar Belakang Sekolah (Header Beranda)</label>
+                  <div style="display:flex;gap:10px;margin-bottom:8px">
+                    <input type="file" id="setSchoolImageFile" accept="image/*" style="padding:6px;font-size:11px">
+                  </div>
+                  <input id="setSchoolImageUrl" placeholder="Atau masukkan URL Link Gambar (opsional)" style="margin-top:5px;">
+                </div>
               </div>
               <div class="modal-actions">
                 <button class="btn" id="saveLibrarySettings">Simpan Pengaturan</button>
@@ -1316,7 +1340,7 @@
       ],
       loans: [],
       admins: [{ id: 1, name: "Petugas Perpustakaan", username: "petugas", password: "perpus123", role: "Admin", status: "Aktif" }],
-      settings: { library: "Perpustakaan", school: "SDN Pisangan Timur 01 PG", location: "Jakarta Timur" }
+      settings: { library: "Perpustakaan", school: "SDN Pisangan Timur 01 PG", location: "Jakarta Timur", schoolImage: "" }
     };
 
     let data = null, currentAdmin = null;
@@ -1411,6 +1435,16 @@
 
     function renderHome() {
       if (!data) return;
+      
+      const heroEl = document.querySelector('.hero');
+      if (heroEl) {
+        if (data.settings && data.settings.schoolImage) {
+          heroEl.style.backgroundImage = `url('${data.settings.schoolImage}')`;
+        } else {
+          heroEl.style.backgroundImage = 'none';
+        }
+      }
+
       $("homeStats").innerHTML = 
         stat("Total Judul Buku", data.books.length) +
         stat("Total Stok", data.books.reduce((s, b) => s + b.stock, 0)) +
@@ -1549,9 +1583,10 @@
 
     function renderSettings() {
       if (!data) return;
-      $("setLibraryName").value = data.settings.library;
-      $("setSchoolName").value = data.settings.school;
-      $("setLocation").value = data.settings.location;
+      $("setLibraryName").value = data.settings.library || "";
+      $("setSchoolName").value = data.settings.school || "";
+      $("setLocation").value = data.settings.location || "";
+      $("setSchoolImageUrl").value = (data.settings.schoolImage && !data.settings.schoolImage.startsWith('data:')) ? data.settings.schoolImage : "";
       
       if (currentAdmin) {
         $("setAdminName").value = currentAdmin.name;
@@ -1956,11 +1991,37 @@
     $("reportDateFilter").addEventListener("change", renderReports);
 
     $("saveLibrarySettings").addEventListener("click", () => {
-      data.settings.library = $("setLibraryName").value;
-      data.settings.school = $("setSchoolName").value;
-      data.settings.location = $("setLocation").value;
-      saveData();
-      toast("Pengaturan disimpan.");
+      const library = $("setLibraryName").value;
+      const school = $("setSchoolName").value;
+      const location = $("setLocation").value;
+      const urlInput = $("setSchoolImageUrl").value.trim();
+      const fileInput = $("setSchoolImageFile");
+
+      if (!data.settings) data.settings = {};
+
+      const saveSettingsToDb = (imageVal) => {
+        data.settings.library = library;
+        data.settings.school = school;
+        data.settings.location = location;
+        if (imageVal !== undefined) {
+          data.settings.schoolImage = imageVal;
+        }
+        saveData();
+        renderAll();
+        toast("Pengaturan dan foto latar belakang berhasil disimpan.");
+      };
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          saveSettingsToDb(e.target.result);
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if (urlInput) {
+        saveSettingsToDb(urlInput);
+      } else {
+        saveSettingsToDb();
+      }
     });
 
     $("saveAccountSettings").addEventListener("click", () => {
