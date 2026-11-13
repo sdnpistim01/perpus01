@@ -154,8 +154,9 @@
     .avatar img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       background: #fff;
+      padding: 2px;
     }
 
     .content {
@@ -261,6 +262,14 @@
       line-height: 1.3;
     }
 
+    .hero p {
+      max-width: 650px;
+      color: #e2f0ec !important;
+      line-height: 1.5;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
     .eyebrow {
       font-size: 11px;
       font-weight: bold;
@@ -295,7 +304,6 @@
       padding: 3px;
       border-radius: 9px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-      margin-top: 15px;
     }
 
     .searchbar input {
@@ -325,7 +333,6 @@
       padding: 4px 10px;
       border-radius: 20px;
       font-size: 11px;
-      cursor: pointer;
     }
 
     .search-hint-chip:hover {
@@ -919,6 +926,7 @@
             <div>
               <div class="eyebrow">PORTAL LITERASI & PERPUSTAKAAN SEKOLAH</div>
               <h2>Selamat datang di<br>Perpustakaan SDN Pisangan Timur 01!</h2>
+              <p>Kelola koleksi buku, klasifikasi penomoran, peminjaman terhubung kode unik, laporan Excel, dan data admin dari satu sistem.</p>
               <div class="searchbar">
                 <input id="homeSearch" placeholder="Cari kode buku, judul, penulis, penerbit, atau tahun terbit...">
                 <button class="btn" id="homeSearchBtn">⌕ Cari</button>
@@ -1152,6 +1160,28 @@
               <p>Ubah logo sekolah, identitas perpustakaan, foto latar beranda, dan akun admin.</p>
             </div>
           </div>
+          <div class="panel" style="margin-bottom:18px;">
+            <div class="section-head">
+              <h3>Kelola Klasifikasi Buku (Nomor & Kategori Bebas)</h3>
+              <button class="btn small" onclick="openClassificationForm()">＋ Tambah Klasifikasi Baru</button>
+            </div>
+            <p style="font-size:12px;color:#7d888d;margin-top:5px;">Anda dapat menambah, mengubah, atau menghapus nomor dan kategori klasifikasi buku sesuai kebutuhan perpustakaan.</p>
+            <div class="table-wrap" style="margin-top:12px;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Kode</th>
+                    <th>Label Lengkap</th>
+                    <th>Kategori Singkat</th>
+                    <th>Warna</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="settingsClassificationRows"></tbody>
+              </table>
+            </div>
+          </div>
+
           <div class="two-col">
             <div class="panel">
               <h3>Identitas & Logo Sekolah</h3>
@@ -1265,15 +1295,21 @@
       { code: "700", label: "700 - Kesenian & Olahraga", legacyCategory: "Kesenian & Olahraga", bg: "#fce7f3", color: "#9d174d", defaultImg: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=400&q=75" }
     ];
 
+    function getActiveClassList() {
+      return (data && Array.isArray(data.classifications) && data.classifications.length > 0) ? data.classifications : CLASSIFICATIONS;
+    }
+
     function mapCategoryToClassCode(cat, classCode) {
-      if (classCode && CLASSIFICATIONS.some(c => c.code === classCode)) return classCode;
-      const found = CLASSIFICATIONS.find(c => c.legacyCategory === cat);
-      return found ? found.code : "370";
+      const list = getActiveClassList();
+      if (classCode && list.some(c => c.code === classCode)) return classCode;
+      const found = list.find(c => c.legacyCategory === cat || c.label.toLowerCase().includes((cat || "").toLowerCase()));
+      return found ? found.code : (list[0]?.code || "370");
     }
 
     function getClassMeta(classCode, category) {
+      const list = getActiveClassList();
       const code = mapCategoryToClassCode(category, classCode);
-      return CLASSIFICATIONS.find(c => c.code === code) || CLASSIFICATIONS[4];
+      return list.find(c => c.code === code) || list[0] || CLASSIFICATIONS[4];
     }
 
     function generateUniqueBookCode(classCode, indexFallback = 1) {
@@ -1582,9 +1618,21 @@
       ],
       loans: [],
       admins: [{ id: 1, name: "Petugas Perpustakaan", username: "petugas", password: "perpus123", role: "Admin", status: "Aktif", avatar: "" }],
+      classifications: [
+        { code: "000", label: "000 - Koleksi Umum & Referensi", legacyCategory: "Koleksi Umum", bg: "#e2e8f0", color: "#1e293b", defaultImg: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=400&q=75" },
+        { code: "200", label: "200 - Agama & Budi Pekerti", legacyCategory: "Agama", bg: "#dcfce7", color: "#166534", defaultImg: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=400&q=75" },
+        { code: "300", label: "300 - Ilmu Sosial (IPS)", legacyCategory: "Sosial / IPS", bg: "#fef9c3", color: "#854d0e", defaultImg: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=400&q=75" },
+        { code: "320", label: "320 - Pancasila & Kewarganegaraan", legacyCategory: "Pancasila / Kewarganegaraan", bg: "#ffedd5", color: "#9a3412", defaultImg: "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=400&q=75" },
+        { code: "370", label: "370 - Buku Pelajaran & Tematik", legacyCategory: "Pelajaran", bg: "#dbeafe", color: "#1e40af", defaultImg: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=75" },
+        { code: "400", label: "400 - Bahasa & Sastra", legacyCategory: "Bahasa & Sastra", bg: "#ffe4e6", color: "#9f1239", defaultImg: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=400&q=75" },
+        { code: "510", label: "510 - Matematika", legacyCategory: "Matematika", bg: "#f3e8ff", color: "#6b21a8", defaultImg: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=400&q=75" },
+        { code: "500", label: "500 - Sains / IPA", legacyCategory: "Sains / IPA", bg: "#cffafe", color: "#155e75", defaultImg: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=400&q=75" },
+        { code: "700", label: "700 - Kesenian & Olahraga", legacyCategory: "Kesenian & Olahraga", bg: "#fce7f3", color: "#9d174d", defaultImg: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=400&q=75" }
+      ],
       settings: { library: "Perpustakaan", school: "SDN Pisangan Timur 01", location: "Jakarta Timur", schoolImage: "", schoolLogo: DEFAULT_LOGO }
     };
 
+    // Lengkapi metadata default (kode unik, klasifikasi, penerbit, tahun terbit) untuk seluruh 280 buku awal tanpa menghapus satu pun buku
     function enrichBooksData(bookList) {
       const counters = {};
       bookList.forEach(b => {
@@ -1615,7 +1663,7 @@
       const schoolName = (data && data.settings && data.settings.school) ? data.settings.school.replace(/\s*PG /gi, "") : "SDN Pisangan Timur 01";
       const libName = (data && data.settings && data.settings.library) ? data.settings.library : "Perpustakaan";
 
-      ["loginSchoolLogo", "sideSchoolLogo", "heroSchoolLogo"].forEach(id => {
+      ["loginSchoolLogo", "sideSchoolLogo", "topSchoolLogo", "heroSchoolLogo"].forEach(id => {
         if ($(id)) $(id).src = logo;
       });
       if ($("sideLibTitle")) $("sideLibTitle").textContent = libName;
@@ -1649,18 +1697,37 @@
     }
 
     function populateClassificationUI() {
+      const list = getActiveClassList();
       const sel = $("categoryFilter");
       if (sel) {
-        sel.innerHTML = `<option value="">Semua Klasifikasi (000 - 700)</option>` +
-          CLASSIFICATIONS.map(c => `<option value="${c.code}">${c.label}</option>`).join("");
+        const curVal = sel.value;
+        sel.innerHTML = `<option value="">Semua Klasifikasi (${list.map(l=>l.code).join(", ")})</option>` +
+          list.map(c => `<option value="${c.code}">${c.label}</option>`).join("");
+        sel.value = curVal;
       }
       const leg = $("classificationLegend");
       if (leg) {
-        leg.innerHTML = CLASSIFICATIONS.map(c => `
+        leg.innerHTML = list.map(c => `
           <span class="legend-chip" style="background:${c.bg};color:${c.color};" onclick="quickFilterClass('${c.code}')">
             ${c.label}
           </span>
         `).join("") + `<span class="legend-chip" style="background:#edf2f7;color:#4a5568;" onclick="quickFilterClass('')">Semua</span>`;
+      }
+      
+      const setList = $("settingsClassificationRows");
+      if (setList) {
+        setList.innerHTML = list.map(c => `
+          <tr>
+            <td><span class="code-tag">${c.code}</span></td>
+            <td><b>${c.label}</b></td>
+            <td>${c.legacyCategory || '-'}</td>
+            <td><span style="display:inline-block;width:14px;height:14px;background:${c.bg};border:1px solid #ccc;border-radius:3px;vertical-align:middle;"></span></td>
+            <td>
+              <button class="table-btn" onclick="editClassificationModal('${c.code}')">Ubah</button>
+              <button class="table-btn danger" style="color:#a53e3e;" onclick="deleteClassification('${c.code}')">Hapus</button>
+            </td>
+          </tr>
+        `).join("");
       }
     }
 
@@ -1673,6 +1740,73 @@
       $("homeSearch").value = keyword;
       $("catalogSearch").value = keyword;
       navigate("catalog");
+    }
+
+    
+    
+    function openClassificationFormFromBookModal() {
+      openClassificationForm();
+      // After adding, refresh the select dropdown in book modal if present
+      const oldOnSave = $("modalSave").onclick;
+      // We can hook into populateClassificationUI or re-render select options
+    }
+
+    function openClassificationForm(codeToEdit = null) {
+      const list = getActiveClassList();
+      const item = codeToEdit ? list.find(x => x.code === codeToEdit) : { code: "", label: "", legacyCategory: "", bg: "#dbeafe", color: "#1e40af" };
+      
+      openModal(
+        codeToEdit ? "Ubah Klasifikasi Buku" : "Tambah Klasifikasi Buku Baru",
+        `<div class="field-grid">
+          <div class="field"><label>Nomor Kode (Misal: 600 atau 810)</label><input id="fClsCode" value="${item.code}" ${codeToEdit ? 'readonly style="background:#eee;"' : ''} placeholder="Contoh: 600"></div>
+          <div class="field"><label>Label Lengkap (Nomor - Nama Kategori)</label><input id="fClsLabel" value="${item.label}" placeholder="Contoh: 600 - Teknologi & Ilmu Terapan"></div>
+          <div class="field"><label>Kategori Singkat</label><input id="fClsLegacy" value="${item.legacyCategory || ''}" placeholder="Contoh: Teknologi"></div>
+          <div class="field" style="display:flex;gap:10px;align-items:center;">
+            <div style="flex:1"><label>Warna Background Chip</label><input type="color" id="fClsBg" value="${item.bg || '#dbeafe'}" style="height:38px;padding:2px;"></div>
+            <div style="flex:1"><label>Warna Teks Chip</label><input type="color" id="fClsColor" value="${item.color || '#1e40af'}" style="height:38px;padding:2px;"></div>
+          </div>
+        </div>`,
+        () => {
+          const code = $("fClsCode").value.trim();
+          const label = $("fClsLabel").value.trim();
+          const legacyCategory = $("fClsLegacy").value.trim() || label;
+          const bg = $("fClsBg").value;
+          const color = $("fClsColor").value;
+
+          if (!code || !label) return toast("Nomor kode dan label wajib diisi.");
+
+          if (!data.classifications) data.classifications = clone(CLASSIFICATIONS);
+
+          const idx = data.classifications.findIndex(x => x.code === code);
+          if (idx !== -1) {
+            data.classifications[idx] = { code, label, legacyCategory, bg, color, defaultImg: item.defaultImg || "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=75" };
+            toast(`Klasifikasi "${label}" berhasil diubah!`);
+          } else {
+            data.classifications.push({ code, label, legacyCategory, bg, color, defaultImg: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=75" });
+            toast(`Klasifikasi baru "${label}" berhasil ditambahkan!`);
+          }
+
+          saveData();
+          populateClassificationUI();
+          closeModal();
+        }
+      );
+    }
+
+    function editClassificationModal(code) {
+      openClassificationForm(code);
+    }
+
+    function deleteClassification(code) {
+      const list = getActiveClassList();
+      if (list.length <= 1) return toast("Minimal harus ada satu klasifikasi.");
+      if (confirm(`Hapus klasifikasi dengan nomor kode ${code}?`)) {
+        if (!data.classifications) data.classifications = clone(CLASSIFICATIONS);
+        data.classifications = data.classifications.filter(x => x.code !== code);
+        saveData();
+        populateClassificationUI();
+        toast(`Klasifikasi ${code} berhasil dihapus.`);
+      }
     }
 
     function loadData() {
@@ -1690,16 +1824,6 @@
           if (!data.settings.schoolLogo) data.settings.schoolLogo = DEFAULT_LOGO;
           if (!data.loans) data.loans = [];
           if (!data.admins.some(a => a.username === "petugas")) data.admins.push(clone(seed.admins[0]));
-          
-          // Sync currentAdmin with latest loaded database state if needed
-          if (currentAdmin) {
-            const foundAdmin = data.admins.find(a => a.id === currentAdmin.id || a.username === currentAdmin.username);
-            if (foundAdmin) {
-              currentAdmin = foundAdmin;
-              localStorage.setItem("perpus_logged_in", JSON.stringify(currentAdmin));
-            }
-          }
-
           enrichBooksData(data.books);
         }
         applyBranding();
@@ -1940,6 +2064,7 @@
       }).join("") : `<tr><td colspan="6" style="text-align:center;color:#8a969c;">Tidak ada data peminjaman pada tanggal ${selectedDate}.</td></tr>`;
     }
 
+    // Fitur Unduh Laporan Excel (.xlsx)
     function exportLoansExcel(list, filename) {
       if (!list || list.length === 0) {
         return toast("Tidak ada data peminjaman untuk diunduh.");
@@ -2068,9 +2193,12 @@
         id ? "Ubah Data Buku" : "Tambah Buku",
         `<div class="field-grid">
           <div class="field">
-            <label>Klasifikasi Buku (Nomor & Kategori)</label>
+            <label style="display:flex;justify-content:space-between;align-items:center;">
+              <span>Klasifikasi Buku (Nomor & Kategori)</span>
+              <button type="button" class="text-btn" onclick="openClassificationFormFromBookModal()">+ Tambah Klasifikasi Baru</button>
+            </label>
             <select id="fClassCode" onchange="if(!${Boolean(id)}) document.getElementById('fBookCode').value = generateUniqueBookCode(this.value)">
-              ${CLASSIFICATIONS.map(c => `<option value="${c.code}" ${c.code === currentClass ? "selected" : ""}>${c.label}</option>`).join("")}
+              ${getActiveClassList().map(c => `<option value="${c.code}" ${c.code === currentClass ? "selected" : ""}>${c.label}</option>`).join("")}
             </select>
           </div>
           <div class="field">
@@ -2338,7 +2466,7 @@
     }
 
     function openAdminForm(id = null) {
-      const a = id ? data.admins.find(x => x.id === id) : { name: "", username: "", password: "", role: "Petugas", status: "Aktif", avatar: "" };
+      const a = id ? data.admins.find(x => x.id === id) : { name: "", username: "", password: "", role: "Petugas", status: "Aktif" };
       
       openModal(
         id ? "Ubah Admin" : "Tambah Admin",
@@ -2382,7 +2510,7 @@
           } else {
             data.admins.push({
               id: Math.max(0, ...data.admins.map(x => x.id)) + 1,
-              name, username, password: pass, role: $("fAdminRole").value, status: $("fAdminStatus").value, avatar: ""
+              name, username, password: pass, role: $("fAdminRole").value, status: $("fAdminStatus").value
             });
           }
           
@@ -2435,6 +2563,7 @@
       $("loginPassword").value = "";
     }
 
+    // Inisialisasi awal listener database
     loadData();
 
     document.querySelectorAll("[data-page]").forEach(b => b.addEventListener("click", () => navigate(b.dataset.page)));
@@ -2447,6 +2576,7 @@
     $("logoutBtn").addEventListener("click", logout);
     $("mobileMenu").addEventListener("click", () => $("sidebar").classList.toggle("open"));
 
+    // Pencarian Beranda langsung ke Katalog
     $("homeSearchBtn").addEventListener("click", () => {
       $("catalogSearch").value = $("homeSearch").value;
       navigate("catalog");
@@ -2538,37 +2668,9 @@
         currentAdmin.name = $("setAdminName").value;
         currentAdmin.username = $("setAdminUsername").value;
         if ($("setAdminPassword").value) currentAdmin.password = $("setAdminPassword").value;
-        
-        const avatarUrl = $("setAdminAvatarUrl").value.trim();
-        const avatarFile = $("setAdminAvatarFile");
-
-        const commitAdminSave = (newAvatar) => {
-          if (newAvatar !== undefined) {
-            currentAdmin.avatar = newAvatar;
-          }
-          
-          if (data && data.admins) {
-            const idx = data.admins.findIndex(a => a.id === currentAdmin.id || a.username === currentAdmin.username);
-            if (idx !== -1) {
-              data.admins[idx] = clone(currentAdmin);
-            }
-          }
-
-          localStorage.setItem("perpus_logged_in", JSON.stringify(currentAdmin));
-          saveData();
-          updateUserUI();
-          toast("Akun dan foto profil berhasil disimpan.");
-        };
-
-        if (avatarFile.files && avatarFile.files[0]) {
-          const reader = new FileReader();
-          reader.onload = e => commitAdminSave(e.target.result);
-          reader.readAsDataURL(avatarFile.files[0]);
-        } else if (avatarUrl) {
-          commitAdminSave(avatarUrl);
-        } else {
-          commitAdminSave();
-        }
+        localStorage.setItem("perpus_logged_in", JSON.stringify(currentAdmin));
+        saveData();
+        toast("Akun disimpan.");
       }
     });
 
