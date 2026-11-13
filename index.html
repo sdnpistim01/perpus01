@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perpustakaan SD Pisangan 01</title>
+  <title>Perpustakaan SDN Pisangan Timur 01</title>
+  <!-- Library SheetJS untuk Unduh Laporan Format Excel (.xlsx) -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -34,33 +36,42 @@
     }
 
     .sidebar {
-      width: 245px;
+      width: 250px;
       background: #173b35;
       color: #fff;
       padding: 20px 14px;
       position: fixed;
       inset: 0 auto 0 0;
       overflow: auto;
+      z-index: 30;
     }
 
     .brand {
       display: flex;
       gap: 10px;
       align-items: center;
-      padding: 5px 8px 24px;
+      padding: 5px 8px 20px;
+      border-bottom: 1px solid #26534b;
     }
 
-    .brand-icon {
-      font-size: 30px;
+    .school-logo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      background: #fff;
+      border-radius: 50%;
+      padding: 3px;
+      flex-shrink: 0;
     }
 
     .brand h2 {
       margin: 0;
-      font-size: 19px;
+      font-size: 18px;
     }
 
     .brand small {
       color: #c9dfd9;
+      font-size: 11px;
     }
 
     .nav-label {
@@ -103,8 +114,8 @@
     }
 
     .main {
-      margin-left: 245px;
-      width: calc(100% - 245px);
+      margin-left: 250px;
+      width: calc(100% - 250px);
     }
 
     .topbar {
@@ -130,18 +141,27 @@
     }
 
     .avatar {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       background: #e7f2ee;
       display: grid;
       place-items: center;
-      font-size: 19px;
+      overflow: hidden;
+      border: 1px solid #d0e2dc;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #fff;
+      padding: 2px;
     }
 
     .content {
       padding: 24px;
-      max-width: 1250px;
+      max-width: 1260px;
       margin: auto;
     }
 
@@ -159,6 +179,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 15px;
+      flex-wrap: wrap;
     }
 
     .heading h1 {
@@ -190,6 +211,15 @@
       color: #246b59;
     }
 
+    .btn.excel {
+      background: #1d6f42;
+      color: #fff;
+    }
+
+    .btn.excel:hover {
+      background: #155331;
+    }
+
     .btn.small {
       padding: 7px 10px;
       font-size: 12px;
@@ -205,6 +235,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 20px;
       overflow: hidden;
     }
 
@@ -212,7 +243,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(23, 59, 53, 0.85), rgba(40, 123, 102, 0.75));
+      background: linear-gradient(135deg, rgba(23, 59, 53, 0.88), rgba(40, 123, 102, 0.78));
       z-index: 1;
     }
 
@@ -225,38 +256,95 @@
       color: #fff !important;
     }
 
+    .hero h2 {
+      font-size: 26px;
+      margin: 7px 0 9px;
+      line-height: 1.3;
+    }
+
     .hero p {
       max-width: 650px;
       color: #e2f0ec !important;
       line-height: 1.5;
       font-size: 13px;
+      margin-bottom: 16px;
     }
 
     .eyebrow {
       font-size: 11px;
       font-weight: bold;
+      letter-spacing: 0.4px;
     }
 
-    .hero-art {
+    .hero-badge {
       position: relative;
       z-index: 2;
-      font-size: 75px;
+      background: rgba(255, 255, 255, 0.96);
+      padding: 15px 18px;
+      border-radius: 14px;
+      text-align: center;
+      min-width: 155px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+    }
+
+    .hero-badge img {
+      width: 68px;
+      height: 68px;
+      object-fit: contain;
+      margin-bottom: 6px;
+    }
+
+    .hero-badge .badge-title {
+      color: #173b35 !important;
+      font-weight: bold;
+      font-size: 11.5px;
+    }
+
+    .hero-badge .badge-sub {
+      color: #5b6d68 !important;
+      font-size: 10px;
     }
 
     .searchbar {
       display: flex;
       max-width: 650px;
+      background: #fff;
+      padding: 3px;
+      border-radius: 9px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     }
 
     .searchbar input {
       flex: 1;
-      padding: 11px;
-      border: 1px solid #cbd8d4;
-      border-radius: 8px 0 0 8px;
+      padding: 10px 12px;
+      border: 0;
+      outline: none;
+      border-radius: 7px;
+      color: #263238;
     }
 
     .searchbar .btn {
-      border-radius: 0 8px 8px 0;
+      border-radius: 7px;
+    }
+
+    .search-hints {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .search-hint-chip {
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+    }
+
+    .search-hint-chip:hover {
+      background: rgba(255, 255, 255, 0.32);
     }
 
     .stats {
@@ -314,15 +402,18 @@
       border-radius: 10px;
       overflow: hidden;
       background: #fff;
+      display: flex;
+      flex-direction: column;
     }
 
     .cover {
-      height: 140px;
+      height: 150px;
       background: #e8f0ed;
       display: grid;
       place-items: center;
       font-size: 43px;
       overflow: hidden;
+      position: relative;
     }
 
     .cover img {
@@ -331,18 +422,45 @@
       object-fit: cover;
     }
 
+    .book-code-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(23, 59, 53, 0.9);
+      color: #fff;
+      font-family: monospace;
+      font-size: 10.5px;
+      font-weight: bold;
+      padding: 3px 7px;
+      border-radius: 5px;
+    }
+
     .book-body {
       padding: 12px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .class-pill {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      width: fit-content;
     }
 
     .book-body h4 {
       margin: 0 0 5px;
       font-size: 14px;
+      line-height: 1.3;
     }
 
     .book-body p {
-      margin: 0;
-      color: #7a858d;
+      margin: 2px 0;
+      color: #6f7c84;
       font-size: 11px;
     }
 
@@ -350,7 +468,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 10px;
+      margin-top: auto;
+      padding-top: 10px;
       font-size: 11px;
     }
 
@@ -359,6 +478,12 @@
       border-radius: 10px;
       background: #e9f5ef;
       color: #287b66;
+      font-weight: bold;
+    }
+
+    .tag.empty-tag {
+      background: #fdecec;
+      color: #a53e3e;
     }
 
     .actions {
@@ -383,6 +508,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
+      margin-top: 12px;
     }
 
     .quick {
@@ -396,6 +522,7 @@
       display: block;
       color: #7d888d;
       margin-top: 5px;
+      margin-bottom: 8px;
       line-height: 1.4;
     }
 
@@ -408,10 +535,30 @@
       padding: 0;
     }
 
+    .legend-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 13px;
+    }
+
+    .legend-chip {
+      font-size: 10.5px;
+      font-weight: bold;
+      padding: 4px 9px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .legend-chip:hover {
+      opacity: 0.85;
+    }
+
     .filters {
       display: flex;
       gap: 9px;
       margin-bottom: 13px;
+      flex-wrap: wrap;
     }
 
     .filters input,
@@ -427,10 +574,11 @@
 
     .filters input {
       flex: 1;
+      min-width: 200px;
     }
 
     .filters select {
-      max-width: 190px;
+      max-width: 220px;
     }
 
     .table-wrap {
@@ -453,6 +601,16 @@
     .table-wrap th {
       color: #718087;
       background: #fafbfb;
+    }
+
+    .code-tag {
+      font-family: monospace;
+      background: #eef4f2;
+      color: #173b35;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 11px;
     }
 
     .table-btn {
@@ -479,7 +637,7 @@
       position: fixed;
       inset: 0;
       background: rgba(20, 30, 28, 0.45);
-      z-index: 20;
+      z-index: 40;
       align-items: center;
       justify-content: center;
       padding: 15px;
@@ -491,7 +649,7 @@
 
     .modal {
       background: #fff;
-      width: min(600px, 100%);
+      width: min(620px, 100%);
       border-radius: 12px;
       padding: 20px;
       max-height: 90vh;
@@ -540,7 +698,7 @@
       border-radius: 8px;
       font-size: 12px;
       display: none;
-      z-index: 40;
+      z-index: 50;
     }
 
     .toast.show {
@@ -568,13 +726,19 @@
 
     .login-logo {
       text-align: center;
-      font-size: 45px;
+      margin-bottom: 6px;
+    }
+
+    .login-logo img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
     }
 
     .login-card h1 {
       text-align: center;
       margin: 8px 0 3px;
-      font-size: 22px;
+      font-size: 21px;
     }
 
     .login-card .sub {
@@ -621,6 +785,12 @@
       display: block;
     }
 
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
     .mobile-menu {
       display: none;
       border: 0;
@@ -631,7 +801,6 @@
     @media (max-width: 900px) {
       .sidebar {
         transform: translateX(-100%);
-        z-index: 30;
       }
       .sidebar.open {
         transform: translateX(0);
@@ -649,8 +818,12 @@
       .book-grid {
         grid-template-columns: repeat(2, 1fr);
       }
-      .hero-art {
-        display: none;
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+      .search-hints {
+        justify-content: center;
       }
       .two-col {
         grid-template-columns: 1fr;
@@ -688,8 +861,10 @@
   <!-- Screen Login -->
   <div class="login-screen" id="loginScreen">
     <div class="login-card">
-      <div class="login-logo">📚</div>
-      <h1>Perpustakaan SDN Pisangan Timur 01 PG</h1>
+      <div class="login-logo">
+        <img id="loginSchoolLogo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Logo_of_the_Ministry_of_Education_and_Culture_of_the_Republic_of_Indonesia.svg/240px-Logo_of_the_Ministry_of_Education_and_Culture_of_the_Republic_of_Indonesia.svg.png" alt="Logo Sekolah">
+      </div>
+      <h1>Perpustakaan SDN Pisangan Timur 01</h1>
       <div class="sub">Silakan masuk sebagai admin/petugas perpustakaan</div>
       <div class="login-error" id="loginError">Username atau password salah.</div>
       <div class="login-field">
@@ -709,10 +884,10 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="brand">
-        <div class="brand-icon">📚</div>
+        <img class="school-logo" id="sideSchoolLogo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Logo_of_the_Ministry_of_Education_and_Culture_of_the_Republic_of_Indonesia.svg/240px-Logo_of_the_Ministry_of_Education_and_Culture_of_the_Republic_of_Indonesia.svg.png" alt="Logo">
         <div>
-          <h2>Perpustakaan</h2>
-          <small>SDN Pisangan Timur 01 PG</small>
+          <h2 id="sideLibTitle">Perpustakaan</h2>
+          <small id="sideSchoolName">SDN Pisangan Timur 01</small>
         </div>
       </div>
       <div class="nav-label">MENU UTAMA</div>
@@ -720,7 +895,7 @@
         <button class="active" data-page="home">⌂ &nbsp; Beranda</button>
         <button data-page="catalog">▤ &nbsp; Katalog Buku</button>
         <button data-page="loans">⇄ &nbsp; Peminjaman & Pengembalian</button>
-        <button data-page="reports">▥ &nbsp; Laporan</button>
+        <button data-page="reports">▥ &nbsp; Laporan & Export Excel</button>
       </nav>
       <div class="nav-label">PENGELOLAAN</div>
       <nav class="nav">
@@ -742,10 +917,12 @@
           <div class="crumb">Perpustakaan / <strong id="crumb">Beranda</strong></div>
         </div>
         <div class="user">
-          <div class="avatar" id="topAvatar">👩🏻‍🏫</div>
+          <div class="avatar" id="topAvatar">
+            <img id="topSchoolLogo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Logo_of_the_Ministry_of_Education_and_Culture_of_the_Republic_of_Indonesia.svg/240px-Logo_of_the_Ministry_of_Education_and_Culture_of_the_Republic_of_Indonesia.svg.png" alt="Logo">
+          </div>
           <div>
             <b id="topAdminName">Petugas Perpustakaan</b><br>
-            <span style="color:#7b8790" id="topAdminRole">Admin · SDN Pisangan Timur 01 PG</span>
+            <span style="color:#7b8790" id="topAdminRole">Admin · SDN Pisangan Timur 01</span>
           </div>
         </div>
       </header>
@@ -755,22 +932,36 @@
         <section class="page active" id="page-home">
           <div class="hero">
             <div>
-              <div class="eyebrow">Tempat belajar & bertumbuh</div>
-              <h2>Selamat datang di<br>Perpustakaan SDN Pisangan Timur 01 PG!</h2>
-              <p>Kelola koleksi buku, anggota, peminjaman, laporan, dan data admin dari satu sistem.</p>
+              <div class="eyebrow">PORTAL LITERASI & PERPUSTAKAAN SEKOLAH</div>
+              <h2>Selamat datang di<br>Perpustakaan SDN Pisangan Timur 01!</h2>
+              <p>Kelola koleksi buku, klasifikasi penomoran, peminjaman terhubung kode unik, laporan Excel, dan data admin dari satu sistem.</p>
               <div class="searchbar">
-                <input id="homeSearch" placeholder="Cari judul atau penulis buku...">
+                <input id="homeSearch" placeholder="Cari kode buku, judul, penulis, penerbit, atau tahun terbit...">
                 <button class="btn" id="homeSearchBtn">⌕ Cari</button>
               </div>
+              <div class="search-hints">
+                <button class="search-hint-chip" onclick="quickSearchHome('Tematik')">Tematik</button>
+                <button class="search-hint-chip" onclick="quickSearchHome('Matematika')">Matematika</button>
+                <button class="search-hint-chip" onclick="quickSearchHome('Agama Islam')">Agama Islam</button>
+                <button class="search-hint-chip" onclick="quickSearchHome('Bahasa Indonesia')">Bahasa Indonesia</button>
+                <button class="search-hint-chip" onclick="quickSearchHome('PJOK')">PJOK</button>
+              </div>
             </div>
-            <div class="hero-art">📚🌱</div>
+            <div class="hero-badge">
+              <img id="heroSchoolLogo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Logo_of_the_Ministry_of_Education_and_Culture_of_the_Republic_of_Indonesia.svg/240px-Logo_of_the_Ministry_of_Education_and_Culture_of_the_Republic_of_Indonesia.svg.png" alt="Logo Sekolah">
+              <div class="badge-title">SDN PISANGAN TIMUR 01</div>
+              <div class="badge-sub">Jakarta Timur</div>
+            </div>
           </div>
+
           <div class="stats" id="homeStats"></div>
+
           <div class="section-head">
             <h3>📖 Buku Pilihan</h3>
             <button class="btn light small" data-goto="catalog">Lihat semua buku →</button>
           </div>
           <div class="book-grid" id="featuredBooks"></div>
+
           <div class="panel">
             <div class="section-head">
               <h3>✨ Akses Cepat</h3>
@@ -779,18 +970,18 @@
             <div class="quick-links">
               <div class="quick">
                 📚<br><b>Tambah koleksi buku</b>
-                <small>Masukkan buku baru ke katalog.</small>
+                <small>Masukkan buku baru lengkap dengan kode unik, penerbit, tahun terbit, dan sampul gambar.</small>
                 <button class="text-btn" id="quickAddBook">+ Tambah Buku</button>
               </div>
               <div class="quick">
                 🤝<br><b>Catat peminjaman</b>
-                <small>Kelola peminjaman dan pengembalian.</small>
+                <small>Kelola peminjaman dan pengembalian terhubung kode unik transaksi.</small>
                 <button class="text-btn" data-goto="loans">Buka transaksi</button>
               </div>
               <div class="quick">
-                ⚙<br><b>Kelola sistem</b>
-                <small>Ubah data admin dan pengaturan.</small>
-                <button class="text-btn" data-goto="settings">Buka pengaturan</button>
+                📊<br><b>Unduh laporan Excel</b>
+                <small>Ekspor data peminjaman dan katalog buku ke format .xlsx.</small>
+                <button class="text-btn" data-goto="reports">Buka laporan</button>
               </div>
             </div>
           </div>
@@ -800,26 +991,18 @@
         <section class="page" id="page-catalog">
           <div class="heading">
             <div>
-              <h1>Katalog Buku 📚</h1>
-              <p>Tambah, ubah, dan hapus data buku.</p>
+              <h1>Katalog & Klasifikasi Buku 📚</h1>
+              <p>Dilengkapi sistem penomoran klasifikasi berwarna, kode unik penghubung, gambar buku, penerbit, dan tahun terbit.</p>
             </div>
             <button class="btn" id="addBookBtn">＋ Tambah Buku</button>
           </div>
           <div class="panel">
+            <div style="font-size:11px;font-weight:bold;color:#62717a;margin-bottom:6px;">Filter Cepat Klasifikasi (Nomor & Warna Pembeda):</div>
+            <div class="legend-bar" id="classificationLegend"></div>
+
             <div class="filters">
-              <input id="catalogSearch" placeholder="🔎 Cari judul atau penulis...">
-              <select id="categoryFilter">
-                <option value="">Semua kategori</option>
-                <option>Pelajaran</option>
-                <option>Agama</option>
-                <option>Pancasila / Kewarganegaraan</option>
-                <option>Bahasa & Sastra</option>
-                <option>Matematika</option>
-                <option>Sains / IPA</option>
-                <option>Sosial / IPS</option>
-                <option>Kesenian & Olahraga</option>
-                <option>Koleksi Umum</option>
-              </select>
+              <input id="catalogSearch" placeholder="🔎 Cari kode buku, judul, penulis, penerbit, atau tahun...">
+              <select id="categoryFilter"></select>
               <select id="availabilityFilter">
                 <option value="">Semua status</option>
                 <option value="available">Tersedia</option>
@@ -836,18 +1019,18 @@
           <div class="heading">
             <div>
               <h1>Peminjaman & Pengembalian ↔</h1>
-              <p>Kelola seluruh transaksi buku (Tampil otomatis berdasarkan tanggal hari ini / jam dunia).</p>
+              <p>Kelola seluruh transaksi buku terhubung dengan kode unik buku & kode transaksi.</p>
             </div>
             <button class="btn" id="newLoanBtn">＋ Peminjaman Baru</button>
           </div>
           <div class="stats" id="loanStats"></div>
           <div class="panel">
             <div class="section-head">
-              <h3>Daftar Transaksi Hari Ini</h3>
+              <h3>Daftar Transaksi Hari Ini / Aktif</h3>
               <span id="loanCount"></span>
             </div>
-            <div class="filters">
-              <input id="loanSearch" placeholder="Cari siswa atau buku...">
+            <div class="filters" style="margin-top:10px;">
+              <input id="loanSearch" placeholder="Cari kode transaksi, siswa, kelas, atau kode/judul buku...">
               <select id="loanStatusFilter">
                 <option value="">Semua status</option>
                 <option>Dipinjam</option>
@@ -859,9 +1042,10 @@
               <table>
                 <thead>
                   <tr>
+                    <th>Kode Transaksi</th>
                     <th>Nama siswa</th>
                     <th>Kelas</th>
-                    <th>Buku</th>
+                    <th>Kode & Judul Buku</th>
                     <th>Pinjam</th>
                     <th>Batas kembali</th>
                     <th>Status</th>
@@ -878,20 +1062,45 @@
         <section class="page" id="page-reports">
           <div class="heading">
             <div>
-              <h1>Laporan Perpustakaan 📊</h1>
-              <p>Rekapitulasi jumlah peminjaman harian (otomatis menyesuaikan jam dunia per hari).</p>
+              <h1>Laporan Perpustakaan & Export Excel 📊</h1>
+              <p>Rekapitulasi peminjaman harian serta fitur unduh laporan lengkap dalam format Excel (.xlsx).</p>
             </div>
           </div>
           <div class="panel" style="margin-bottom:15px">
-            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-              <label style="font-size:12px;font-weight:bold;">📅 Tanggal Laporan (Jam Dunia):</label>
-              <input type="date" id="reportDateFilter" style="padding:9px;border:1px solid #cbd8d4;border-radius:7px;background:#fff;max-width:220px;">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <label style="font-size:12px;font-weight:bold;">📅 Tanggal Laporan:</label>
+              <input type="date" id="reportDateFilter" style="padding:9px;border:1px solid #cbd8d4;border-radius:7px;background:#fff;max-width:200px;">
+              <button class="btn excel" id="exportDailyExcelBtn">📥 Unduh Laporan Tanggal Ini (Excel)</button>
+              <button class="btn excel" id="exportAllLoansExcelBtn">📥 Unduh Semua Riwayat Peminjaman (Excel)</button>
+              <button class="btn light" id="exportBooksExcelBtn">📥 Unduh Data Katalog Buku (Excel)</button>
             </div>
           </div>
-          <div class="stats" id="reportStats" style="grid-template-columns: 1fr 1fr;"></div>
+          <div class="stats" id="reportStats" style="grid-template-columns: repeat(3, 1fr);"></div>
+
+          <div class="panel">
+            <div class="section-head">
+              <h3>Pratinjau Transaksi pada Tanggal Terpilih</h3>
+              <span id="reportPreviewCount"></span>
+            </div>
+            <div class="table-wrap" style="margin-top:10px;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Kode Transaksi</th>
+                    <th>Nama Siswa</th>
+                    <th>Kelas</th>
+                    <th>Kode Buku</th>
+                    <th>Judul Buku</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="reportPreviewRows"></tbody>
+              </table>
+            </div>
+          </div>
         </section>
 
-        <!-- Halaman Data Peminjam (Sinkron dari Peminjaman Aktif) -->
+        <!-- Halaman Data Peminjam -->
         <section class="page" id="page-members">
           <div class="heading">
             <div>
@@ -901,15 +1110,16 @@
           </div>
           <div class="panel">
             <div class="filters">
-              <input id="memberSearch" placeholder="Cari nama peminjam atau kelas...">
+              <input id="memberSearch" placeholder="Cari kode transaksi, nama peminjam, kelas, atau kode buku...">
             </div>
             <div class="table-wrap">
               <table>
                 <thead>
                   <tr>
+                    <th>Kode Transaksi</th>
                     <th>Nama Peminjam</th>
                     <th>Kelas</th>
-                    <th>Buku yang Dipinjam</th>
+                    <th>Kode & Judul Buku</th>
                     <th>Tanggal Pinjam</th>
                     <th>Status</th>
                     <th>Aksi</th>
@@ -954,12 +1164,12 @@
           <div class="heading">
             <div>
               <h1>Pengaturan Sistem ⚙</h1>
-              <p>Ubah identitas perpustakaan dan akun admin yang sedang digunakan.</p>
+              <p>Ubah logo sekolah, identitas perpustakaan, foto latar beranda, dan akun admin.</p>
             </div>
           </div>
           <div class="two-col">
             <div class="panel">
-              <h3>Identitas Perpustakaan</h3>
+              <h3>Identitas & Logo Sekolah</h3>
               <div class="field-grid" style="margin-top:15px">
                 <div class="field full">
                   <label>Nama perpustakaan</label>
@@ -974,11 +1184,14 @@
                   <input id="setLocation">
                 </div>
                 <div class="field full">
+                  <label>Logo Sekolah (Upload File atau URL Gambar)</label>
+                  <input type="file" id="setSchoolLogoFile" accept="image/*" style="padding:6px;font-size:11px;margin-bottom:5px;">
+                  <input id="setSchoolLogoUrl" placeholder="Atau masukkan URL Link Logo Sekolah (opsional)">
+                </div>
+                <div class="field full">
                   <label>Foto Latar Belakang Sekolah (Header Beranda)</label>
-                  <div style="display:flex;gap:10px;margin-bottom:8px">
-                    <input type="file" id="setSchoolImageFile" accept="image/*" style="padding:6px;font-size:11px">
-                  </div>
-                  <input id="setSchoolImageUrl" placeholder="Atau masukkan URL Link Gambar (opsional)" style="margin-top:5px;">
+                  <input type="file" id="setSchoolImageFile" accept="image/*" style="padding:6px;font-size:11px;margin-bottom:5px;">
+                  <input id="setSchoolImageUrl" placeholder="Atau masukkan URL Link Gambar Latar (opsional)">
                 </div>
               </div>
               <div class="modal-actions">
@@ -1046,6 +1259,45 @@
     const db = firebase.database();
 
     const $ = id => document.getElementById(id);
+
+    const DEFAULT_LOGO = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Logo_of_the_Ministry_of_Education_and_Culture_of_the_Republic_of_Indonesia.svg/240px-Logo_of_the_Ministry_of_Education_and_Culture_of_the_Republic_of_Indonesia.svg.png";
+
+    // Sistem Penomoran Klasifikasi Buku (Standar DDC Perpustakaan Sekolah) + Warna Pembeda
+    const CLASSIFICATIONS = [
+      { code: "000", label: "000 - Koleksi Umum & Referensi", legacyCategory: "Koleksi Umum", bg: "#e2e8f0", color: "#1e293b", defaultImg: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=400&q=75" },
+      { code: "200", label: "200 - Agama & Budi Pekerti", legacyCategory: "Agama", bg: "#dcfce7", color: "#166534", defaultImg: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=400&q=75" },
+      { code: "300", label: "300 - Ilmu Sosial (IPS)", legacyCategory: "Sosial / IPS", bg: "#fef9c3", color: "#854d0e", defaultImg: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=400&q=75" },
+      { code: "320", label: "320 - Pancasila & Kewarganegaraan", legacyCategory: "Pancasila / Kewarganegaraan", bg: "#ffedd5", color: "#9a3412", defaultImg: "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=400&q=75" },
+      { code: "370", label: "370 - Buku Pelajaran & Tematik", legacyCategory: "Pelajaran", bg: "#dbeafe", color: "#1e40af", defaultImg: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=75" },
+      { code: "400", label: "400 - Bahasa & Sastra", legacyCategory: "Bahasa & Sastra", bg: "#ffe4e6", color: "#9f1239", defaultImg: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=400&q=75" },
+      { code: "510", label: "510 - Matematika", legacyCategory: "Matematika", bg: "#f3e8ff", color: "#6b21a8", defaultImg: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=400&q=75" },
+      { code: "500", label: "500 - Sains / IPA", legacyCategory: "Sains / IPA", bg: "#cffafe", color: "#155e75", defaultImg: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=400&q=75" },
+      { code: "700", label: "700 - Kesenian & Olahraga", legacyCategory: "Kesenian & Olahraga", bg: "#fce7f3", color: "#9d174d", defaultImg: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=400&q=75" }
+    ];
+
+    function mapCategoryToClassCode(cat, classCode) {
+      if (classCode && CLASSIFICATIONS.some(c => c.code === classCode)) return classCode;
+      const found = CLASSIFICATIONS.find(c => c.legacyCategory === cat);
+      return found ? found.code : "370";
+    }
+
+    function getClassMeta(classCode, category) {
+      const code = mapCategoryToClassCode(category, classCode);
+      return CLASSIFICATIONS.find(c => c.code === code) || CLASSIFICATIONS[4];
+    }
+
+    function generateUniqueBookCode(classCode, indexFallback = 1) {
+      const prefix = `BK-${classCode || '370'}`;
+      const existing = (data?.books || []).filter(b => (b.bookCode || "").startsWith(prefix));
+      const num = String(Math.max(existing.length + 1, indexFallback)).padStart(3, '0');
+      return `${prefix}-${num}`;
+    }
+
+    function generateUniqueTrxCode() {
+      const dt = getWorldToday().replace(/-/g, '');
+      const count = (data?.loans?.length || 0) + 1;
+      return `TRX-${dt}-${String(count).padStart(3, '0')}`;
+    }
 
     function getWorldToday() {
       const now = new Date();
@@ -1340,13 +1592,45 @@
       ],
       loans: [],
       admins: [{ id: 1, name: "Petugas Perpustakaan", username: "petugas", password: "perpus123", role: "Admin", status: "Aktif" }],
-      settings: { library: "Perpustakaan", school: "SDN Pisangan Timur 01 PG", location: "Jakarta Timur", schoolImage: "" }
+      settings: { library: "Perpustakaan", school: "SDN Pisangan Timur 01", location: "Jakarta Timur", schoolImage: "", schoolLogo: DEFAULT_LOGO }
     };
+
+    // Lengkapi metadata default (kode unik, klasifikasi, penerbit, tahun terbit) untuk seluruh 280 buku awal tanpa menghapus satu pun buku
+    function enrichBooksData(bookList) {
+      const counters = {};
+      bookList.forEach(b => {
+        const clsCode = mapCategoryToClassCode(b.category, b.classCode);
+        b.classCode = clsCode;
+        counters[clsCode] = (counters[clsCode] || 0) + 1;
+        if (!b.bookCode) {
+          b.bookCode = `BK-${clsCode}-${String(counters[clsCode]).padStart(3, '0')}`;
+        }
+        if (!b.publisher) {
+          b.publisher = b.author === "Sekolah" ? "SDN Pisangan Timur 01" : "Kemendikbudristek";
+        }
+        if (!b.year) {
+          b.year = "2024";
+        }
+      });
+    }
+    enrichBooksData(seed.books);
 
     let data = null, currentAdmin = null;
 
     function clone(x) {
       return JSON.parse(JSON.stringify(x));
+    }
+
+    function applyBranding() {
+      const logo = (data && data.settings && data.settings.schoolLogo) ? data.settings.schoolLogo : DEFAULT_LOGO;
+      const schoolName = (data && data.settings && data.settings.school) ? data.settings.school.replace(/\s*PG /gi, "") : "SDN Pisangan Timur 01";
+      const libName = (data && data.settings && data.settings.library) ? data.settings.library : "Perpustakaan";
+
+      ["loginSchoolLogo", "sideSchoolLogo", "topSchoolLogo", "heroSchoolLogo"].forEach(id => {
+        if ($(id)) $(id).src = logo;
+      });
+      if ($("sideLibTitle")) $("sideLibTitle").textContent = libName;
+      if ($("sideSchoolName")) $("sideSchoolName").textContent = schoolName;
     }
 
     function checkPersistentLogin() {
@@ -1365,15 +1649,41 @@
 
     function updateUserUI() {
       if (!currentAdmin) return;
+      const schoolClean = (data?.settings?.school || "SDN Pisangan Timur 01").replace(/\s*PG /gi, "");
       $("topAdminName").textContent = currentAdmin.name;
-      $("topAdminRole").textContent = (currentAdmin.role || "Admin") + " · " + (data?.settings?.school || "SDN Pisangan Timur 01 PG");
-      if (currentAdmin.photo) {
-        $("topAvatar").innerHTML = `<img src="${currentAdmin.photo}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+      $("topAdminRole").textContent = (currentAdmin.role || "Admin") + " · " + schoolClean;
+    }
+
+    function populateClassificationUI() {
+      const sel = $("categoryFilter");
+      if (sel) {
+        sel.innerHTML = `<option value="">Semua Klasifikasi (000 - 700)</option>` +
+          CLASSIFICATIONS.map(c => `<option value="${c.code}">${c.label}</option>`).join("");
       }
+      const leg = $("classificationLegend");
+      if (leg) {
+        leg.innerHTML = CLASSIFICATIONS.map(c => `
+          <span class="legend-chip" style="background:${c.bg};color:${c.color};" onclick="quickFilterClass('${c.code}')">
+            ${c.label}
+          </span>
+        `).join("") + `<span class="legend-chip" style="background:#edf2f7;color:#4a5568;" onclick="quickFilterClass('')">Semua</span>`;
+      }
+    }
+
+    function quickFilterClass(code) {
+      $("categoryFilter").value = code;
+      renderCatalog();
+    }
+
+    function quickSearchHome(keyword) {
+      $("homeSearch").value = keyword;
+      $("catalogSearch").value = keyword;
+      navigate("catalog");
     }
 
     function loadData() {
       checkPersistentLogin();
+      populateClassificationUI();
       db.ref("perpus_data").on("value", snapshot => {
         const val = snapshot.val();
         if (!val || !Array.isArray(val.books) || !Array.isArray(val.admins)) {
@@ -1382,9 +1692,13 @@
         } else {
           data = val;
           if (!data.settings) data.settings = clone(seed.settings);
+          if (data.settings.school) data.settings.school = data.settings.school.replace(/\s*PG /gi, "");
+          if (!data.settings.schoolLogo) data.settings.schoolLogo = DEFAULT_LOGO;
           if (!data.loans) data.loans = [];
           if (!data.admins.some(a => a.username === "petugas")) data.admins.push(clone(seed.admins[0]));
+          enrichBooksData(data.books);
         }
+        applyBranding();
         const appEl = $("app");
         if (appEl && appEl.classList.contains("show")) {
           renderAll();
@@ -1399,7 +1713,7 @@
     function toast(msg) {
       $("toast").textContent = msg;
       $("toast").classList.add("show");
-      setTimeout(() => $("toast").classList.remove("show"), 2200);
+      setTimeout(() => $("toast").classList.remove("show"), 2300);
     }
 
     function bookById(id) {
@@ -1415,7 +1729,7 @@
         home: "Beranda",
         catalog: "Katalog Buku",
         loans: "Peminjaman & Pengembalian",
-        reports: "Laporan",
+        reports: "Laporan & Export Excel",
         members: "Data Peminjam",
         admins: "Admin & Pengguna",
         settings: "Pengaturan"
@@ -1447,7 +1761,7 @@
 
       $("homeStats").innerHTML = 
         stat("Total Judul Buku", data.books.length) +
-        stat("Total Stok", data.books.reduce((s, b) => s + b.stock, 0)) +
+        stat("Total Stok", data.books.reduce((s, b) => s + Number(b.stock || 0), 0)) +
         stat("Sedang Dipinjam", data.loans.filter(l => l.status !== "Dikembalikan").length) +
         stat("Total Peminjam Aktif", data.loans.filter(l => l.status !== "Dikembalikan").length);
       $("featuredBooks").innerHTML = data.books.slice(0, 4).map(bookCard).join("");
@@ -1455,18 +1769,23 @@
 
     function bookCard(b) {
       const status = b.stock > 0 ? "Tersedia" : "Habis";
-      const isImg = b.cover && (b.cover.startsWith("http://") || b.cover.startsWith("https://") || b.cover.startsWith("data:image/"));
-      const coverContent = isImg ? `<img src="${b.cover}" alt="${b.title}">` : (b.cover || "📚");
+      const cls = getClassMeta(b.classCode, b.category);
+      const isCustomImg = b.cover && (b.cover.startsWith("http://") || b.cover.startsWith("https://") || b.cover.startsWith("data:image/"));
+      const coverUrl = isCustomImg ? b.cover : cls.defaultImg;
 
-      return `<div class="book">
-        <div class="cover">${coverContent}</div>
+      return `<div class="book" style="border-top: 4px solid ${cls.color};">
+        <div class="cover">
+          <span class="book-code-badge">${b.bookCode || 'BK-000'}</span>
+          <img src="${coverUrl}" alt="${b.title}" loading="lazy">
+        </div>
         <div class="book-body">
+          <span class="class-pill" style="background:${cls.bg};color:${cls.color};">${cls.label}</span>
           <h4>${b.title}</h4>
-          <p>${b.author}</p>
-          <p>${b.category}</p>
+          <p>✍️ ${b.author}</p>
+          <p>🏢 ${b.publisher || '-'} (${b.year || '-'})</p>
           <div class="book-foot">
-            <span class="tag">${status}</span>
-            <span>Stok: ${b.stock}</span>
+            <span class="tag ${b.stock > 0 ? '' : 'empty-tag'}">${status}</span>
+            <span><b>Stok: ${b.stock}</b></span>
           </div>
           <div class="actions">
             <button onclick="editBook(${b.id})">✎ Ubah</button>
@@ -1482,11 +1801,19 @@
       const cat = $("categoryFilter").value;
       const av = $("availabilityFilter").value;
       
-      const arr = data.books.filter(b => 
-        (!q || b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q)) &&
-        (!cat || b.category === cat) &&
-        (!av || (av === "available" ? b.stock > 0 : b.stock === 0))
-      );
+      const arr = data.books.filter(b => {
+        const clsCode = mapCategoryToClassCode(b.category, b.classCode);
+        const matchesQuery = (!q || 
+          (b.bookCode || "").toLowerCase().includes(q) ||
+          b.title.toLowerCase().includes(q) || 
+          b.author.toLowerCase().includes(q) ||
+          (b.publisher || "").toLowerCase().includes(q) ||
+          String(b.year || "").toLowerCase().includes(q)
+        );
+        const matchesCat = (!cat || clsCode === cat);
+        const matchesAv = (!av || (av === "available" ? b.stock > 0 : b.stock === 0));
+        return matchesQuery && matchesCat && matchesAv;
+      });
       
       $("catalogBooks").innerHTML = arr.map(bookCard).join("");
       $("catalogEmpty").style.display = arr.length ? "none" : "block";
@@ -1499,25 +1826,36 @@
       const worldToday = getWorldToday();
       
       const arr = data.loans.filter(l => {
-        const matchesQuery = (!q || l.student.toLowerCase().includes(q) || (bookById(l.bookId)?.title || "").toLowerCase().includes(q) || (l.kelas || "").toLowerCase().includes(q));
+        const b = bookById(l.bookId);
+        const matchesQuery = (!q || 
+          (l.trxCode || "").toLowerCase().includes(q) ||
+          l.student.toLowerCase().includes(q) || 
+          (b?.title || "").toLowerCase().includes(q) || 
+          (b?.bookCode || "").toLowerCase().includes(q) ||
+          (l.kelas || "").toLowerCase().includes(q)
+        );
         const matchesStatus = (!st || l.status === st);
         const isTodayOrActive = (l.borrow === worldToday || l.status !== "Dikembalikan");
         return matchesQuery && matchesStatus && isTodayOrActive;
       });
       
-      $("loanRows").innerHTML = arr.map(l => `<tr>
-        <td>${l.student}</td>
-        <td>${l.kelas || "-"}</td>
-        <td>${bookById(l.bookId)?.title || "-"}</td>
-        <td>${l.borrow}</td>
-        <td>${l.due}</td>
-        <td><span class="tag">${l.status}</span></td>
-        <td class="member-actions">
-          ${l.status !== "Dikembalikan" ? `<button class="table-btn" onclick="returnLoan(${l.id})">Kembalikan</button>` : ""}
-          <button class="table-btn" onclick="editLoan(${l.id})">Ubah</button>
-          <button class="table-btn" onclick="deleteLoan(${l.id})">Hapus</button>
-        </td>
-      </tr>`).join("");
+      $("loanRows").innerHTML = arr.map(l => {
+        const b = bookById(l.bookId);
+        return `<tr>
+          <td><span class="code-tag">${l.trxCode || 'TRX-' + l.id}</span></td>
+          <td><b>${l.student}</b></td>
+          <td>${l.kelas || "-"}</td>
+          <td><span class="code-tag">${b?.bookCode || '-'}</span> ${b?.title || "-"}</td>
+          <td>${l.borrow}</td>
+          <td>${l.due}</td>
+          <td><span class="tag">${l.status}</span></td>
+          <td class="member-actions">
+            ${l.status !== "Dikembalikan" ? `<button class="table-btn" onclick="returnLoan(${l.id})">Kembalikan</button>` : ""}
+            <button class="table-btn" onclick="editLoan(${l.id})">Ubah</button>
+            <button class="table-btn" onclick="deleteLoan(${l.id})">Hapus</button>
+          </td>
+        </tr>`;
+      }).join("");
       
       $("loanCount").textContent = arr.length + " transaksi";
       $("loanStats").innerHTML = 
@@ -1531,23 +1869,30 @@
       if (!data) return;
       const q = $("memberSearch").value.toLowerCase();
       const activeLoans = data.loans.filter(l => l.status !== "Dikembalikan");
-      const filtered = activeLoans.filter(l => 
-        l.student.toLowerCase().includes(q) || 
-        (l.kelas || "").toLowerCase().includes(q) || 
-        (bookById(l.bookId)?.title || "").toLowerCase().includes(q)
-      );
+      const filtered = activeLoans.filter(l => {
+        const b = bookById(l.bookId);
+        return (l.trxCode || "").toLowerCase().includes(q) ||
+          l.student.toLowerCase().includes(q) || 
+          (l.kelas || "").toLowerCase().includes(q) || 
+          (b?.title || "").toLowerCase().includes(q) ||
+          (b?.bookCode || "").toLowerCase().includes(q);
+      });
       
-      $("memberRows").innerHTML = filtered.map(l => `<tr>
+      $("memberRows").innerHTML = filtered.map(l => {
+        const b = bookById(l.bookId);
+        return `<tr>
+          <td><span class="code-tag">${l.trxCode || 'TRX-' + l.id}</span></td>
           <td><b>${l.student}</b></td>
           <td>${l.kelas || "-"}</td>
-          <td>${bookById(l.bookId)?.title || "-"}</td>
+          <td><span class="code-tag">${b?.bookCode || '-'}</span> ${b?.title || "-"}</td>
           <td>${l.borrow}</td>
           <td><span class="tag">${l.status}</span></td>
           <td class="member-actions">
             <button class="table-btn" onclick="editLoan(${l.id})">Ubah</button>
             <button class="table-btn" onclick="deleteLoan(${l.id})">Hapus</button>
           </td>
-        </tr>`).join("");
+        </tr>`;
+      }).join("");
       
       $("memberEmpty").style.display = filtered.length ? "none" : "block";
     }
@@ -1564,7 +1909,74 @@
       
       $("reportStats").innerHTML = 
         stat(`Jumlah Peminjaman (${selectedDate})`, filteredLoans.length) +
-        stat(`Buku Masih Dipinjam (Belum Kembali)`, activeStillBorrowed.length);
+        stat(`Buku Masih Dipinjam (Belum Kembali)`, activeStillBorrowed.length) +
+        stat(`Total Seluruh Riwayat Peminjaman`, data.loans.length);
+
+      $("reportPreviewCount").textContent = filteredLoans.length + " transaksi";
+      $("reportPreviewRows").innerHTML = filteredLoans.length ? filteredLoans.map(l => {
+        const b = bookById(l.bookId);
+        return `<tr>
+          <td><span class="code-tag">${l.trxCode || 'TRX-' + l.id}</span></td>
+          <td>${l.student}</td>
+          <td>${l.kelas || '-'}</td>
+          <td><span class="code-tag">${b?.bookCode || '-'}</span></td>
+          <td>${b?.title || '-'}</td>
+          <td>${l.status}</td>
+        </tr>`;
+      }).join("") : `<tr><td colspan="6" style="text-align:center;color:#8a969c;">Tidak ada data peminjaman pada tanggal ${selectedDate}.</td></tr>`;
+    }
+
+    // Fitur Unduh Laporan Excel (.xlsx)
+    function exportLoansExcel(list, filename) {
+      if (!list || list.length === 0) {
+        return toast("Tidak ada data peminjaman untuk diunduh.");
+      }
+      const rows = list.map((l, idx) => {
+        const b = bookById(l.bookId);
+        const cls = b ? getClassMeta(b.classCode, b.category).label : "-";
+        return {
+          "No": idx + 1,
+          "Kode Transaksi": l.trxCode || `TRX-${l.id}`,
+          "Nama Siswa": l.student,
+          "Kelas": l.kelas || "-",
+          "Kode Unik Buku": b?.bookCode || "-",
+          "Judul Buku": b?.title || "-",
+          "Klasifikasi Buku": cls,
+          "Penerbit": b?.publisher || "-",
+          "Tahun Terbit": b?.year || "-",
+          "Tanggal Pinjam": l.borrow,
+          "Batas Kembali": l.due,
+          "Status": l.status
+        };
+      });
+      const ws = XLSX.utils.json_to_sheet(rows);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Laporan Peminjaman");
+      XLSX.writeFile(wb, filename);
+      toast("Laporan Excel berhasil diunduh!");
+    }
+
+    function exportBooksExcel() {
+      if (!data || !data.books.length) return toast("Katalog buku kosong.");
+      const rows = data.books.map((b, idx) => {
+        const cls = getClassMeta(b.classCode, b.category);
+        return {
+          "No": idx + 1,
+          "Kode Unik Buku": b.bookCode || "-",
+          "Nomor Klasifikasi": cls.code,
+          "Nama Klasifikasi": cls.label,
+          "Judul Buku": b.title,
+          "Penulis": b.author,
+          "Penerbit": b.publisher || "-",
+          "Tahun Terbit": b.year || "-",
+          "Stok Tersedia": b.stock
+        };
+      });
+      const ws = XLSX.utils.json_to_sheet(rows);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Data Katalog Buku");
+      XLSX.writeFile(wb, `Data_Katalog_Buku_SDN_Pisangan_Timur_01_${getWorldToday()}.xlsx`);
+      toast("Data katalog buku Excel berhasil diunduh!");
     }
 
     function renderAdmins() {
@@ -1584,8 +1996,9 @@
     function renderSettings() {
       if (!data) return;
       $("setLibraryName").value = data.settings.library || "";
-      $("setSchoolName").value = data.settings.school || "";
+      $("setSchoolName").value = (data.settings.school || "SDN Pisangan Timur 01").replace(/\s*PG /gi, "");
       $("setLocation").value = data.settings.location || "";
+      $("setSchoolLogoUrl").value = (data.settings.schoolLogo && !data.settings.schoolLogo.startsWith('data:')) ? data.settings.schoolLogo : "";
       $("setSchoolImageUrl").value = (data.settings.schoolImage && !data.settings.schoolImage.startsWith('data:')) ? data.settings.schoolImage : "";
       
       if (currentAdmin) {
@@ -1623,22 +2036,40 @@
     }
 
     function openBookForm(id = null) {
-      const b = id ? bookById(id) : { title: "", author: "", category: "Pelajaran", stock: 1, cover: "📖" };
+      const b = id ? bookById(id) : {
+        title: "",
+        author: "",
+        publisher: "Kemendikbudristek",
+        year: "2025",
+        classCode: "370",
+        category: "Pelajaran",
+        bookCode: generateUniqueBookCode("370"),
+        stock: 1,
+        cover: ""
+      };
+      const currentClass = mapCategoryToClassCode(b.category, b.classCode);
+      const currentCode = b.bookCode || generateUniqueBookCode(currentClass);
       
       openModal(
         id ? "Ubah Data Buku" : "Tambah Buku",
         `<div class="field-grid">
-          <div class="field full"><label>Judul buku</label><input id="fTitle" value="${b.title}"></div>
-          <div class="field"><label>Penulis</label><input id="fAuthor" value="${b.author}"></div>
           <div class="field">
-            <label>Kategori</label>
-            <select id="fCategory">
-              ${["Pelajaran", "Agama", "Pancasila / Kewarganegaraan", "Bahasa & Sastra", "Matematika", "Sains / IPA", "Sosial / IPS", "Kesenian & Olahraga", "Koleksi Umum"].map(x => `<option ${x === b.category ? "selected" : ""}>${x}</option>`).join("")}
+            <label>Klasifikasi Buku (Nomor & Kategori)</label>
+            <select id="fClassCode" onchange="if(!${Boolean(id)}) document.getElementById('fBookCode').value = generateUniqueBookCode(this.value)">
+              ${CLASSIFICATIONS.map(c => `<option value="${c.code}" ${c.code === currentClass ? "selected" : ""}>${c.label}</option>`).join("")}
             </select>
           </div>
+          <div class="field">
+            <label>Kode Unik Penghubung Buku</label>
+            <input id="fBookCode" value="${currentCode}" style="font-family:monospace;font-weight:bold;">
+          </div>
+          <div class="field full"><label>Judul buku</label><input id="fTitle" value="${b.title}"></div>
+          <div class="field"><label>Penulis</label><input id="fAuthor" value="${b.author}"></div>
+          <div class="field"><label>Penerbit</label><input id="fPublisher" value="${b.publisher || ''}" placeholder="Contoh: Kemendikbud / Erlangga"></div>
+          <div class="field"><label>Tahun Terbit</label><input id="fYear" type="number" min="1980" max="2035" value="${b.year || '2024'}"></div>
           <div class="field"><label>Stok Buku</label><input id="fStock" type="number" min="0" value="${b.stock}"></div>
           <div class="field full">
-            <label>Foto Sampul Buku (Pilih salah satu)</label>
+            <label>Foto Sampul Buku (Upload File atau URL Gambar)</label>
             <div style="display:flex;gap:10px;margin-bottom:8px">
               <input type="file" id="fImageFile" accept="image/*" style="padding:6px;font-size:11px">
             </div>
@@ -1648,6 +2079,11 @@
         () => {
           const title = $("fTitle").value.trim();
           const author = $("fAuthor").value.trim();
+          const publisher = $("fPublisher").value.trim() || "-";
+          const year = $("fYear").value.trim() || "-";
+          const classCode = $("fClassCode").value;
+          const clsMeta = getClassMeta(classCode);
+          const bookCode = $("fBookCode").value.trim() || generateUniqueBookCode(classCode);
           const stock = Number($("fStock").value);
           const coverUrl = $("fCoverUrl").value.trim();
           const fileInput = $("fImageFile");
@@ -1656,11 +2092,17 @@
 
           const finishSave = (finalCover) => {
             if (id) {
-              Object.assign(b, { title, author, category: $("fCategory").value, stock, cover: finalCover });
+              Object.assign(b, {
+                title, author, publisher, year,
+                classCode, category: clsMeta.legacyCategory,
+                bookCode, stock, cover: finalCover
+              });
             } else {
-              data.books.push({
+              data.books.unshift({
                 id: Math.max(0, ...data.books.map(x => x.id)) + 1,
-                title, author, category: $("fCategory").value, stock, cover: finalCover
+                title, author, publisher, year,
+                classCode, category: clsMeta.legacyCategory,
+                bookCode, stock, cover: finalCover
               });
             }
             saveData();
@@ -1677,7 +2119,7 @@
           } else if (coverUrl) {
             finishSave(coverUrl);
           } else {
-            finishSave(b.cover || "📖");
+            finishSave(b.cover || "");
           }
         }
       );
@@ -1698,14 +2140,27 @@
 
     function openLoanForm(id = null) {
       const worldToday = getWorldToday();
-      const l = id ? data.loans.find(x => x.id === id) : { student: "", kelas: "5A", bookId: data.books[0]?.id || "", borrow: worldToday, due: worldToday, status: "Dipinjam" };
+      const l = id ? data.loans.find(x => x.id === id) : {
+        trxCode: generateUniqueTrxCode(),
+        student: "",
+        kelas: "5A",
+        bookId: data.books[0]?.id || "",
+        borrow: worldToday,
+        due: worldToday,
+        status: "Dipinjam"
+      };
       
       const selectedBook = bookById(l.bookId);
-      const initialBookText = selectedBook ? selectedBook.title : "";
+      const initialBookText = selectedBook ? `[${selectedBook.bookCode}] ${selectedBook.title}` : "";
+      const trxCodeVal = l.trxCode || generateUniqueTrxCode();
 
       openModal(
         id ? "Ubah Transaksi / Peminjam" : "Peminjaman Baru",
         `<div class="field-grid">
+          <div class="field full">
+            <label>Kode Unik Penghubung Transaksi</label>
+            <input id="fTrxCode" value="${trxCodeVal}" readonly style="background:#f2f6f5;font-family:monospace;font-weight:bold;">
+          </div>
           <div class="field full"><label>Nama siswa / peminjam</label><input id="fStudent" value="${l.student}"></div>
           
           <div class="field">
@@ -1716,14 +2171,14 @@
           </div>
 
           <div class="field full" style="position:relative;">
-            <label>Cari & Pilih Buku (Ketik judul lalu pilih dari daftar atau tekan Enter)</label>
-            <input id="fBookSearch" placeholder="Ketik judul buku untuk mencari..." value="${initialBookText}">
+            <label>Cari & Pilih Buku (Ketik kode buku atau judul lalu pilih dari daftar)</label>
+            <input id="fBookSearch" placeholder="Ketik kode buku (misal: BK-370) atau judul buku..." value="${initialBookText}">
             <input type="hidden" id="fBookId" value="${l.bookId}">
             
             <div id="bookSearchDropdown" style="display:none; position:absolute; left:0; right:0; top:calc(100% + 2px); max-height:180px; overflow-y:auto; background:#fff; border:1px solid #cbd8d4; border-radius:7px; z-index:50; box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>
           </div>
 
-          <div class="field"><label>Tanggal pinjam (Jam Dunia Otomatis)</label><input id="fBorrow" type="date" value="${l.borrow}"></div>
+          <div class="field"><label>Tanggal pinjam</label><input id="fBorrow" type="date" value="${l.borrow}"></div>
           <div class="field"><label>Batas kembali</label><input id="fDue" type="date" value="${l.due}"></div>
           <div class="field">
             <label>Status</label>
@@ -1735,6 +2190,7 @@
           </div>
         </div>`,
         () => {
+          const trxCode = $("fTrxCode").value.trim() || generateUniqueTrxCode();
           const student = $("fStudent").value.trim();
           const kelas = $("fClass").value;
           const bookId = Number($("fBookId").value);
@@ -1751,7 +2207,7 @@
               const b = bookById(l.bookId);
               if (b && b.stock > 0) b.stock--;
             }
-            Object.assign(l, { student, kelas, bookId, borrow: $("fBorrow").value, due: $("fDue").value, status: newStatus });
+            Object.assign(l, { trxCode, student, kelas, bookId, borrow: $("fBorrow").value, due: $("fDue").value, status: newStatus });
           } else {
             const b = bookById(bookId);
             if (!b || b.stock < 1) return toast("Stok buku habis.");
@@ -1760,7 +2216,7 @@
             }
             data.loans.push({
               id: Math.max(100, ...data.loans.map(x => x.id), 0) + 1,
-              student, kelas, bookId, borrow: $("fBorrow").value, due: $("fDue").value, status: newStatus
+              trxCode, student, kelas, bookId, borrow: $("fBorrow").value, due: $("fDue").value, status: newStatus
             });
           }
           
@@ -1779,14 +2235,18 @@
 
         function renderDropdown(filterText) {
           const q = filterText.toLowerCase();
-          const filtered = data.books.filter(b => b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q)).slice(0, 15);
+          const filtered = data.books.filter(b => 
+            (b.bookCode || "").toLowerCase().includes(q) ||
+            b.title.toLowerCase().includes(q) || 
+            b.author.toLowerCase().includes(q)
+          ).slice(0, 15);
 
           if (filtered.length === 0) {
             dropdown.innerHTML = `<div style="padding:10px; font-size:12px; color:#888;">Buku tidak ditemukan</div>`;
           } else {
             dropdown.innerHTML = filtered.map(b => `
               <div class="book-suggestion-item" data-id="${b.id}" style="padding:8px 12px; font-size:12px; border-bottom:1px solid #f0f3f2; cursor:pointer;">
-                <b>${b.title}</b><br><small style="color:#889;">${b.author} - ${b.category} (Stok: ${b.stock})</small>
+                <span class="code-tag">${b.bookCode}</span> <b>${b.title}</b><br><small style="color:#889;">${b.author} · ${b.publisher || '-'} (Stok: ${b.stock})</small>
               </div>
             `).join("");
 
@@ -1796,7 +2256,7 @@
                 const chosenId = item.dataset.id;
                 const chosenBook = bookById(chosenId);
                 if (chosenBook) {
-                  searchInput.value = chosenBook.title;
+                  searchInput.value = `[${chosenBook.bookCode}] ${chosenBook.title}`;
                   hiddenId.value = chosenBook.id;
                   dropdown.style.display = "none";
                 }
@@ -1823,9 +2283,9 @@
           if (e.key === "Enter") {
             e.preventDefault();
             const q = searchInput.value.toLowerCase();
-            const found = data.books.find(b => b.title.toLowerCase().includes(q));
+            const found = data.books.find(b => (b.bookCode || "").toLowerCase().includes(q) || b.title.toLowerCase().includes(q));
             if (found) {
-              searchInput.value = found.title;
+              searchInput.value = `[${found.bookCode}] ${found.title}`;
               hiddenId.value = found.id;
               dropdown.style.display = "none";
             } else {
@@ -1974,6 +2434,18 @@
     $("logoutBtn").addEventListener("click", logout);
     $("mobileMenu").addEventListener("click", () => $("sidebar").classList.toggle("open"));
 
+    // Pencarian Beranda langsung ke Katalog
+    $("homeSearchBtn").addEventListener("click", () => {
+      $("catalogSearch").value = $("homeSearch").value;
+      navigate("catalog");
+    });
+    $("homeSearch").addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        $("catalogSearch").value = $("homeSearch").value;
+        navigate("catalog");
+      }
+    });
+
     $("addBookBtn").addEventListener("click", () => openBookForm());
     $("quickAddBook").addEventListener("click", () => openBookForm());
     $("newLoanBtn").addEventListener("click", () => openLoanForm());
@@ -1989,38 +2461,62 @@
     $("memberSearch").addEventListener("input", renderMembers);
 
     $("reportDateFilter").addEventListener("change", renderReports);
+    $("exportDailyExcelBtn").addEventListener("click", () => {
+      const dt = $("reportDateFilter").value || getWorldToday();
+      const filtered = data.loans.filter(l => l.borrow === dt);
+      exportLoansExcel(filtered, `Laporan_Perpustakaan_${dt}.xlsx`);
+    });
+    $("exportAllLoansExcelBtn").addEventListener("click", () => {
+      exportLoansExcel(data.loans, `Laporan_Keseluruhan_Perpustakaan_${getWorldToday()}.xlsx`);
+    });
+    $("exportBooksExcelBtn").addEventListener("click", exportBooksExcel);
 
     $("saveLibrarySettings").addEventListener("click", () => {
       const library = $("setLibraryName").value;
-      const school = $("setSchoolName").value;
+      const school = $("setSchoolName").value.replace(/\s*PG /gi, "");
       const location = $("setLocation").value;
+      const logoUrlInput = $("setSchoolLogoUrl").value.trim();
+      const logoFileInput = $("setSchoolLogoFile");
       const urlInput = $("setSchoolImageUrl").value.trim();
       const fileInput = $("setSchoolImageFile");
 
       if (!data.settings) data.settings = {};
 
-      const saveSettingsToDb = (imageVal) => {
-        data.settings.library = library;
-        data.settings.school = school;
-        data.settings.location = location;
-        if (imageVal !== undefined) {
-          data.settings.schoolImage = imageVal;
+      const saveBgAndCommit = (logoVal) => {
+        if (logoVal !== undefined) data.settings.schoolLogo = logoVal;
+
+        const finishAll = (imageVal) => {
+          data.settings.library = library;
+          data.settings.school = school;
+          data.settings.location = location;
+          if (imageVal !== undefined) {
+            data.settings.schoolImage = imageVal;
+          }
+          saveData();
+          applyBranding();
+          renderAll();
+          toast("Pengaturan, logo, dan foto latar sekolah berhasil disimpan.");
+        };
+
+        if (fileInput.files && fileInput.files[0]) {
+          const reader2 = new FileReader();
+          reader2.onload = e => finishAll(e.target.result);
+          reader2.readAsDataURL(fileInput.files[0]);
+        } else if (urlInput) {
+          finishAll(urlInput);
+        } else {
+          finishAll();
         }
-        saveData();
-        renderAll();
-        toast("Pengaturan dan foto latar belakang berhasil disimpan.");
       };
 
-      if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          saveSettingsToDb(e.target.result);
-        };
-        reader.readAsDataURL(fileInput.files[0]);
-      } else if (urlInput) {
-        saveSettingsToDb(urlInput);
+      if (logoFileInput.files && logoFileInput.files[0]) {
+        const reader1 = new FileReader();
+        reader1.onload = e => saveBgAndCommit(e.target.result);
+        reader1.readAsDataURL(logoFileInput.files[0]);
+      } else if (logoUrlInput) {
+        saveBgAndCommit(logoUrlInput);
       } else {
-        saveSettingsToDb();
+        saveBgAndCommit();
       }
     });
 
@@ -2039,9 +2535,11 @@
       if (confirm("Kembalikan seluruh data ke awal?")) {
         data = clone(seed);
         saveData();
+        applyBranding();
         toast("Data di-reset.");
       }
     });
   </script>
 </body>
 </html>
+Diproses dan dianalisis dalam kode
