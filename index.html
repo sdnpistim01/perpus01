@@ -154,9 +154,8 @@
     .avatar img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       background: #fff;
-      padding: 2px;
     }
 
     .content {
@@ -1185,7 +1184,7 @@
               </div>
             </div>
             <div class="panel">
-              <h3>Akun Saya</h3>
+              <h3>Akun Saya & Foto Profil</h3>
               <div class="field-grid" style="margin-top:15px">
                 <div class="field full">
                   <label>Nama admin</label>
@@ -1198,6 +1197,11 @@
                 <div class="field">
                   <label>Password baru</label>
                   <input id="setAdminPassword" type="password" placeholder="Kosongkan jika tidak diubah">
+                </div>
+                <div class="field full">
+                  <label>Foto Profil Saya (Upload File atau URL Gambar)</label>
+                  <input type="file" id="setAdminAvatarFile" accept="image/*" style="padding:6px;font-size:11px;margin-bottom:5px;">
+                  <input id="setAdminAvatarUrl" placeholder="Atau masukkan URL Link Foto Profil (opsional)">
                 </div>
               </div>
               <div class="modal-actions">
@@ -1577,7 +1581,7 @@
         { id: 280, title: "Buku Panduan Guru Seni Musik Untuk Sd/Mi Kelas Iv", author: "Kemendikbud / Sekolah", category: "Kesenian & Olahraga", stock: 1, cover: "📖" }
       ],
       loans: [],
-      admins: [{ id: 1, name: "Petugas Perpustakaan", username: "petugas", password: "perpus123", role: "Admin", status: "Aktif" }],
+      admins: [{ id: 1, name: "Petugas Perpustakaan", username: "petugas", password: "perpus123", role: "Admin", status: "Aktif", avatar: "" }],
       settings: { library: "Perpustakaan", school: "SDN Pisangan Timur 01", location: "Jakarta Timur", schoolImage: "", schoolLogo: DEFAULT_LOGO }
     };
 
@@ -1611,7 +1615,7 @@
       const schoolName = (data && data.settings && data.settings.school) ? data.settings.school.replace(/\s*PG /gi, "") : "SDN Pisangan Timur 01";
       const libName = (data && data.settings && data.settings.library) ? data.settings.library : "Perpustakaan";
 
-      ["loginSchoolLogo", "sideSchoolLogo", "topSchoolLogo", "heroSchoolLogo"].forEach(id => {
+      ["loginSchoolLogo", "sideSchoolLogo", "heroSchoolLogo"].forEach(id => {
         if ($(id)) $(id).src = logo;
       });
       if ($("sideLibTitle")) $("sideLibTitle").textContent = libName;
@@ -1637,6 +1641,11 @@
       const schoolClean = (data?.settings?.school || "SDN Pisangan Timur 01").replace(/\s*PG /gi, "");
       $("topAdminName").textContent = currentAdmin.name;
       $("topAdminRole").textContent = (currentAdmin.role || "Admin") + " · " + schoolClean;
+      
+      const topLogoImg = $("topSchoolLogo");
+      if (topLogoImg) {
+        topLogoImg.src = currentAdmin.avatar || (data?.settings?.schoolLogo || DEFAULT_LOGO);
+      }
     }
 
     function populateClassificationUI() {
@@ -1681,6 +1690,16 @@
           if (!data.settings.schoolLogo) data.settings.schoolLogo = DEFAULT_LOGO;
           if (!data.loans) data.loans = [];
           if (!data.admins.some(a => a.username === "petugas")) data.admins.push(clone(seed.admins[0]));
+          
+          // Sync currentAdmin with latest loaded database state if needed
+          if (currentAdmin) {
+            const foundAdmin = data.admins.find(a => a.id === currentAdmin.id || a.username === currentAdmin.username);
+            if (foundAdmin) {
+              currentAdmin = foundAdmin;
+              localStorage.setItem("perpus_logged_in", JSON.stringify(currentAdmin));
+            }
+          }
+
           enrichBooksData(data.books);
         }
         applyBranding();
@@ -1998,6 +2017,7 @@
       if (currentAdmin) {
         $("setAdminName").value = currentAdmin.name;
         $("setAdminUsername").value = currentAdmin.username;
+        $("setAdminAvatarUrl").value = (currentAdmin.avatar && !currentAdmin.avatar.startsWith('data:')) ? currentAdmin.avatar : "";
         updateUserUI();
       }
     }
@@ -2318,7 +2338,7 @@
     }
 
     function openAdminForm(id = null) {
-      const a = id ? data.admins.find(x => x.id === id) : { name: "", username: "", password: "", role: "Petugas", status: "Aktif" };
+      const a = id ? data.admins.find(x => x.id === id) : { name: "", username: "", password: "", role: "Petugas", status: "Aktif", avatar: "" };
       
       openModal(
         id ? "Ubah Admin" : "Tambah Admin",
@@ -2362,7 +2382,7 @@
           } else {
             data.admins.push({
               id: Math.max(0, ...data.admins.map(x => x.id)) + 1,
-              name, username, password: pass, role: $("fAdminRole").value, status: $("fAdminStatus").value
+              name, username, password: pass, role: $("fAdminRole").value, status: $("fAdminStatus").value, avatar: ""
             });
           }
           
@@ -2518,10 +2538,37 @@
         currentAdmin.name = $("setAdminName").value;
         currentAdmin.username = $("setAdminUsername").value;
         if ($("setAdminPassword").value) currentAdmin.password = $("setAdminPassword").value;
-        localStorage.setItem("perpus_logged_in", JSON.stringify(currentAdmin));
-        saveData();
-        updateUserUI();
-        toast("Akun berhasil disimpan.");
+        
+        const avatarUrl = $("setAdminAvatarUrl").value.trim();
+        const avatarFile = $("setAdminAvatarFile");
+
+        const commitAdminSave = (newAvatar) => {
+          if (newAvatar !== undefined) {
+            currentAdmin.avatar = newAvatar;
+          }
+          
+          if (data && data.admins) {
+            const idx = data.admins.findIndex(a => a.id === currentAdmin.id || a.username === currentAdmin.username);
+            if (idx !== -1) {
+              data.admins[idx] = clone(currentAdmin);
+            }
+          }
+
+          localStorage.setItem("perpus_logged_in", JSON.stringify(currentAdmin));
+          saveData();
+          updateUserUI();
+          toast("Akun dan foto profil berhasil disimpan.");
+        };
+
+        if (avatarFile.files && avatarFile.files[0]) {
+          const reader = new FileReader();
+          reader.onload = e => commitAdminSave(e.target.result);
+          reader.readAsDataURL(avatarFile.files[0]);
+        } else if (avatarUrl) {
+          commitAdminSave(avatarUrl);
+        } else {
+          commitAdminSave();
+        }
       }
     });
 
