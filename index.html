@@ -262,14 +262,6 @@
       line-height: 1.3;
     }
 
-    .hero p {
-      max-width: 650px;
-      color: #e2f0ec !important;
-      line-height: 1.5;
-      font-size: 13px;
-      margin-bottom: 16px;
-    }
-
     .eyebrow {
       font-size: 11px;
       font-weight: bold;
@@ -279,30 +271,22 @@
     .hero-badge {
       position: relative;
       z-index: 2;
-      background: rgba(255, 255, 255, 0.96);
-      padding: 15px 18px;
-      border-radius: 14px;
-      text-align: center;
-      min-width: 155px;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 10px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      display: grid;
+      place-items: center;
       box-shadow: 0 8px 20px rgba(0,0,0,0.18);
     }
 
     .hero-badge img {
-      width: 68px;
-      height: 68px;
+      width: 80px;
+      height: 80px;
       object-fit: contain;
-      margin-bottom: 6px;
-    }
-
-    .hero-badge .badge-title {
-      color: #173b35 !important;
-      font-weight: bold;
-      font-size: 11.5px;
-    }
-
-    .hero-badge .badge-sub {
-      color: #5b6d68 !important;
-      font-size: 10px;
+      border-radius: 50%;
+      background: #fff;
+      padding: 4px;
     }
 
     .searchbar {
@@ -312,6 +296,7 @@
       padding: 3px;
       border-radius: 9px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      margin-top: 15px;
     }
 
     .searchbar input {
@@ -341,6 +326,7 @@
       padding: 4px 10px;
       border-radius: 20px;
       font-size: 11px;
+      cursor: pointer;
     }
 
     .search-hint-chip:hover {
@@ -934,7 +920,6 @@
             <div>
               <div class="eyebrow">PORTAL LITERASI & PERPUSTAKAAN SEKOLAH</div>
               <h2>Selamat datang di<br>Perpustakaan SDN Pisangan Timur 01!</h2>
-              <p>Kelola koleksi buku, klasifikasi penomoran, peminjaman terhubung kode peminjaman, laporan Excel, dan data admin dari satu sistem.</p>
               <div class="searchbar">
                 <input id="homeSearch" placeholder="Cari kode buku, judul, penulis, penerbit, atau tahun terbit...">
                 <button class="btn" id="homeSearchBtn">⌕ Cari</button>
@@ -949,8 +934,6 @@
             </div>
             <div class="hero-badge">
               <img id="heroSchoolLogo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Logo_of_the_Ministry_of_Education_and_Culture_of_the_Republic_of_Indonesia.svg/240px-Logo_of_the_Ministry_of_Education_and_Culture_of_the_Republic_of_Indonesia.svg.png" alt="Logo Sekolah">
-              <div class="badge-title">SDN PISANGAN TIMUR 01</div>
-              <div class="badge-sub">Jakarta Timur</div>
             </div>
           </div>
 
@@ -975,7 +958,7 @@
               </div>
               <div class="quick">
                 🤝<br><b>Catat peminjaman</b>
-                <small>Kelola peminjaman dan pengembalian terhubung kode peminjaman.</small>
+                <small>Kelola peminjaman dan pengembalian terhubung kode unik transaksi.</small>
                 <button class="text-btn" data-goto="loans">Buka transaksi</button>
               </div>
               <div class="quick">
@@ -1019,18 +1002,18 @@
           <div class="heading">
             <div>
               <h1>Peminjaman & Pengembalian ↔</h1>
-              <p>Kelola seluruh peminjaman buku terhubung dengan kode unik buku & kode peminjaman.</p>
+              <p>Kelola seluruh transaksi buku terhubung dengan kode unik buku & kode transaksi.</p>
             </div>
             <button class="btn" id="newLoanBtn">＋ Peminjaman Baru</button>
           </div>
           <div class="stats" id="loanStats"></div>
           <div class="panel">
             <div class="section-head">
-              <h3>Daftar Peminjaman Hari Ini / Aktif</h3>
+              <h3>Daftar Transaksi Hari Ini / Aktif</h3>
               <span id="loanCount"></span>
             </div>
             <div class="filters" style="margin-top:10px;">
-              <input id="loanSearch" placeholder="Cari kode peminjaman, siswa, kelas, atau kode/judul buku...">
+              <input id="loanSearch" placeholder="Cari kode transaksi, siswa, kelas, atau kode/judul buku...">
               <select id="loanStatusFilter">
                 <option value="">Semua status</option>
                 <option>Dipinjam</option>
@@ -1067,12 +1050,15 @@
             </div>
           </div>
           <div class="panel" style="margin-bottom:15px">
-            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
               <label style="font-size:12px;font-weight:bold;">📅 Tanggal Laporan:</label>
               <input type="date" id="reportDateFilter" style="padding:9px;border:1px solid #cbd8d4;border-radius:7px;background:#fff;max-width:200px;">
               <button class="btn excel" id="exportDailyExcelBtn">📥 Unduh Laporan Tanggal Ini (Excel)</button>
               <button class="btn excel" id="exportAllLoansExcelBtn">📥 Unduh Semua Riwayat Peminjaman (Excel)</button>
               <button class="btn light" id="exportBooksExcelBtn">📥 Unduh Data Katalog Buku (Excel)</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <input id="reportSearch" placeholder="🔎 Cari berdasarkan kode peminjaman, nama siswa, atau judul buku..." style="padding:9px;border:1px solid #cbd8d4;border-radius:7px;background:#fff;flex:1;min-width:260px;">
             </div>
           </div>
           <div class="stats" id="reportStats" style="grid-template-columns: repeat(3, 1fr);"></div>
@@ -1081,9 +1067,6 @@
             <div class="section-head">
               <h3>Pratinjau Peminjaman pada Tanggal Terpilih</h3>
               <span id="reportPreviewCount"></span>
-            </div>
-            <div class="filters" style="margin-top:10px;">
-              <input id="reportSearch" placeholder="🔎 Cari berdasarkan kode peminjaman, nama siswa, atau judul buku...">
             </div>
             <div class="table-wrap" style="margin-top:10px;">
               <table>
@@ -1113,7 +1096,7 @@
           </div>
           <div class="panel">
             <div class="filters">
-              <input id="memberSearch" placeholder="Cari kode peminjaman, nama peminjam, kelas, atau kode buku...">
+              <input id="memberSearch" placeholder="Cari kode transaksi, nama peminjam, kelas, atau kode buku...">
             </div>
             <div class="table-wrap">
               <table>
@@ -1905,20 +1888,18 @@
         $("reportDateFilter").value = getWorldToday();
       }
       const selectedDate = $("reportDateFilter").value;
-      const reportSearchQuery = ($("reportSearch") ? $("reportSearch").value.toLowerCase() : "");
+      const q = ($("reportSearch")?.value || "").toLowerCase();
       
-      const filteredLoans = data.loans.filter(l => {
+      const dateLoans = data.loans.filter(l => l.borrow === selectedDate);
+      const filteredLoans = dateLoans.filter(l => {
         const b = bookById(l.bookId);
-        const matchesDate = (l.borrow === selectedDate);
-        const matchesQuery = (!reportSearchQuery ||
-          (l.trxCode || "").toLowerCase().includes(reportSearchQuery) ||
-          l.student.toLowerCase().includes(reportSearchQuery) ||
-          (b?.title || "").toLowerCase().includes(reportSearchQuery) ||
-          (b?.bookCode || "").toLowerCase().includes(reportSearchQuery)
+        return (!q || 
+          (l.trxCode || "").toLowerCase().includes(q) ||
+          l.student.toLowerCase().includes(q) ||
+          (b?.title || "").toLowerCase().includes(q) ||
+          (b?.bookCode || "").toLowerCase().includes(q)
         );
-        return matchesDate && matchesQuery;
       });
-
       const activeStillBorrowed = data.loans.filter(l => l.status !== "Dikembalikan");
       
       $("reportStats").innerHTML = 
@@ -1926,7 +1907,7 @@
         stat(`Buku Masih Dipinjam (Belum Kembali)`, activeStillBorrowed.length) +
         stat(`Total Seluruh Riwayat Peminjaman`, data.loans.length);
 
-      $("reportPreviewCount").textContent = filteredLoans.length + " data";
+      $("reportPreviewCount").textContent = filteredLoans.length + " transaksi";
       $("reportPreviewRows").innerHTML = filteredLoans.length ? filteredLoans.map(l => {
         const b = bookById(l.bookId);
         return `<tr>
@@ -1937,10 +1918,9 @@
           <td>${b?.title || '-'}</td>
           <td>${l.status}</td>
         </tr>`;
-      }).join("") : `<tr><td colspan="6" style="text-align:center;color:#8a969c;">Tidak ada data peminjaman ditemukan pada tanggal ${selectedDate}.</td></tr>`;
+      }).join("") : `<tr><td colspan="6" style="text-align:center;color:#8a969c;">Tidak ada data peminjaman pada tanggal ${selectedDate}.</td></tr>`;
     }
 
-    // Fitur Unduh Laporan Excel (.xlsx)
     function exportLoansExcel(list, filename) {
       if (!list || list.length === 0) {
         return toast("Tidak ada data peminjaman untuk diunduh.");
@@ -2169,11 +2149,11 @@
       const trxCodeVal = l.trxCode || generateUniqueTrxCode();
 
       openModal(
-        id ? "Ubah Data Peminjaman" : "Peminjaman Baru",
+        id ? "Ubah Transaksi / Peminjam" : "Peminjaman Baru",
         `<div class="field-grid">
           <div class="field full">
-            <label>Kode Peminjaman (Dapat Diedit)</label>
-            <input id="fTrxCode" value="${trxCodeVal}" style="font-family:monospace;font-weight:bold;">
+            <label>Kode Unik Peminjaman Buku</label>
+            <input id="fTrxCode" value="${trxCodeVal}" style="font-family:monospace;font-weight:bold;" placeholder="Contoh: PJM-001 atau biarkan otomatis">
           </div>
           <div class="field full"><label>Nama siswa / peminjam</label><input id="fStudent" value="${l.student}"></div>
           
@@ -2236,7 +2216,7 @@
           
           saveData();
           closeModal();
-          toast(id ? "Data peminjaman diubah." : "Peminjaman dicatat.");
+          toast(id ? "Data peminjam/transaksi diubah." : "Peminjaman dicatat.");
         }
       );
 
@@ -2325,7 +2305,7 @@
     }
 
     function deleteLoan(id) {
-      if (confirm("Hapus data peminjam/peminjaman ini?")) {
+      if (confirm("Hapus data peminjam/transaksi ini?")) {
         const l = data.loans.find(x => x.id === id);
         if (l && l.status !== "Dikembalikan") {
           const b = bookById(l.bookId);
@@ -2435,7 +2415,6 @@
       $("loginPassword").value = "";
     }
 
-    // Inisialisasi awal listener database
     loadData();
 
     document.querySelectorAll("[data-page]").forEach(b => b.addEventListener("click", () => navigate(b.dataset.page)));
@@ -2448,7 +2427,6 @@
     $("logoutBtn").addEventListener("click", logout);
     $("mobileMenu").addEventListener("click", () => $("sidebar").classList.toggle("open"));
 
-    // Pencarian Beranda langsung ke Katalog
     $("homeSearchBtn").addEventListener("click", () => {
       $("catalogSearch").value = $("homeSearch").value;
       navigate("catalog");
@@ -2475,10 +2453,7 @@
     $("memberSearch").addEventListener("input", renderMembers);
 
     $("reportDateFilter").addEventListener("change", renderReports);
-    if ($("reportSearch")) {
-      $("reportSearch").addEventListener("input", renderReports);
-    }
-
+    $("reportSearch").addEventListener("input", renderReports);
     $("exportDailyExcelBtn").addEventListener("click", () => {
       const dt = $("reportDateFilter").value || getWorldToday();
       const filtered = data.loans.filter(l => l.borrow === dt);
@@ -2545,7 +2520,8 @@
         if ($("setAdminPassword").value) currentAdmin.password = $("setAdminPassword").value;
         localStorage.setItem("perpus_logged_in", JSON.stringify(currentAdmin));
         saveData();
-        toast("Akun disimpan.");
+        updateUserUI();
+        toast("Akun berhasil disimpan.");
       }
     });
 
