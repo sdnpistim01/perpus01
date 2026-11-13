@@ -1265,6 +1265,8 @@
 
   <!-- JavaScript Logika Aplikasi & Firebase -->
   <script>
+    let data = null, currentAdmin = null;
+
     const firebaseConfig = {
       apiKey: "AIzaSyB8U1JUGqXSqi4YZ_aSxKtjaWkt3kkaIcU",
       authDomain: "perpussdpistim01.firebaseapp.com",
@@ -1652,8 +1654,6 @@
     }
     enrichBooksData(seed.books);
 
-    let data = null, currentAdmin = null;
-
     function clone(x) {
       return JSON.parse(JSON.stringify(x));
     }
@@ -1742,13 +1742,8 @@
       navigate("catalog");
     }
 
-    
-    
     function openClassificationFormFromBookModal() {
       openClassificationForm();
-      // After adding, refresh the select dropdown in book modal if present
-      const oldOnSave = $("modalSave").onclick;
-      // We can hook into populateClassificationUI or re-render select options
     }
 
     function openClassificationForm(codeToEdit = null) {
@@ -2064,7 +2059,6 @@
       }).join("") : `<tr><td colspan="6" style="text-align:center;color:#8a969c;">Tidak ada data peminjaman pada tanggal ${selectedDate}.</td></tr>`;
     }
 
-    // Fitur Unduh Laporan Excel (.xlsx)
     function exportLoansExcel(list, filename) {
       if (!list || list.length === 0) {
         return toast("Tidak ada data peminjaman untuk diunduh.");
