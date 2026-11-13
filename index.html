@@ -934,7 +934,7 @@
             <div>
               <div class="eyebrow">PORTAL LITERASI & PERPUSTAKAAN SEKOLAH</div>
               <h2>Selamat datang di<br>Perpustakaan SDN Pisangan Timur 01!</h2>
-              <p>Kelola koleksi buku, klasifikasi penomoran, peminjaman terhubung kode unik, laporan Excel, dan data admin dari satu sistem.</p>
+              <p>Kelola koleksi buku, klasifikasi penomoran, peminjaman terhubung kode peminjaman, laporan Excel, dan data admin dari satu sistem.</p>
               <div class="searchbar">
                 <input id="homeSearch" placeholder="Cari kode buku, judul, penulis, penerbit, atau tahun terbit...">
                 <button class="btn" id="homeSearchBtn">⌕ Cari</button>
@@ -975,7 +975,7 @@
               </div>
               <div class="quick">
                 🤝<br><b>Catat peminjaman</b>
-                <small>Kelola peminjaman dan pengembalian terhubung kode unik transaksi.</small>
+                <small>Kelola peminjaman dan pengembalian terhubung kode peminjaman.</small>
                 <button class="text-btn" data-goto="loans">Buka transaksi</button>
               </div>
               <div class="quick">
@@ -1019,18 +1019,18 @@
           <div class="heading">
             <div>
               <h1>Peminjaman & Pengembalian ↔</h1>
-              <p>Kelola seluruh transaksi buku terhubung dengan kode unik buku & kode transaksi.</p>
+              <p>Kelola seluruh peminjaman buku terhubung dengan kode unik buku & kode peminjaman.</p>
             </div>
             <button class="btn" id="newLoanBtn">＋ Peminjaman Baru</button>
           </div>
           <div class="stats" id="loanStats"></div>
           <div class="panel">
             <div class="section-head">
-              <h3>Daftar Transaksi Hari Ini / Aktif</h3>
+              <h3>Daftar Peminjaman Hari Ini / Aktif</h3>
               <span id="loanCount"></span>
             </div>
             <div class="filters" style="margin-top:10px;">
-              <input id="loanSearch" placeholder="Cari kode transaksi, siswa, kelas, atau kode/judul buku...">
+              <input id="loanSearch" placeholder="Cari kode peminjaman, siswa, kelas, atau kode/judul buku...">
               <select id="loanStatusFilter">
                 <option value="">Semua status</option>
                 <option>Dipinjam</option>
@@ -1042,7 +1042,7 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Kode Transaksi</th>
+                    <th>Kode Peminjaman</th>
                     <th>Nama siswa</th>
                     <th>Kelas</th>
                     <th>Kode & Judul Buku</th>
@@ -1079,14 +1079,17 @@
 
           <div class="panel">
             <div class="section-head">
-              <h3>Pratinjau Transaksi pada Tanggal Terpilih</h3>
+              <h3>Pratinjau Peminjaman pada Tanggal Terpilih</h3>
               <span id="reportPreviewCount"></span>
+            </div>
+            <div class="filters" style="margin-top:10px;">
+              <input id="reportSearch" placeholder="🔎 Cari berdasarkan kode peminjaman, nama siswa, atau judul buku...">
             </div>
             <div class="table-wrap" style="margin-top:10px;">
               <table>
                 <thead>
                   <tr>
-                    <th>Kode Transaksi</th>
+                    <th>Kode Peminjaman</th>
                     <th>Nama Siswa</th>
                     <th>Kelas</th>
                     <th>Kode Buku</th>
@@ -1110,13 +1113,13 @@
           </div>
           <div class="panel">
             <div class="filters">
-              <input id="memberSearch" placeholder="Cari kode transaksi, nama peminjam, kelas, atau kode buku...">
+              <input id="memberSearch" placeholder="Cari kode peminjaman, nama peminjam, kelas, atau kode buku...">
             </div>
             <div class="table-wrap">
               <table>
                 <thead>
                   <tr>
-                    <th>Kode Transaksi</th>
+                    <th>Kode Peminjaman</th>
                     <th>Nama Peminjam</th>
                     <th>Kelas</th>
                     <th>Kode & Judul Buku</th>
@@ -1595,7 +1598,6 @@
       settings: { library: "Perpustakaan", school: "SDN Pisangan Timur 01", location: "Jakarta Timur", schoolImage: "", schoolLogo: DEFAULT_LOGO }
     };
 
-    // Lengkapi metadata default (kode unik, klasifikasi, penerbit, tahun terbit) untuk seluruh 280 buku awal tanpa menghapus satu pun buku
     function enrichBooksData(bookList) {
       const counters = {};
       bookList.forEach(b => {
@@ -1903,8 +1905,20 @@
         $("reportDateFilter").value = getWorldToday();
       }
       const selectedDate = $("reportDateFilter").value;
+      const reportSearchQuery = ($("reportSearch") ? $("reportSearch").value.toLowerCase() : "");
       
-      const filteredLoans = data.loans.filter(l => l.borrow === selectedDate);
+      const filteredLoans = data.loans.filter(l => {
+        const b = bookById(l.bookId);
+        const matchesDate = (l.borrow === selectedDate);
+        const matchesQuery = (!reportSearchQuery ||
+          (l.trxCode || "").toLowerCase().includes(reportSearchQuery) ||
+          l.student.toLowerCase().includes(reportSearchQuery) ||
+          (b?.title || "").toLowerCase().includes(reportSearchQuery) ||
+          (b?.bookCode || "").toLowerCase().includes(reportSearchQuery)
+        );
+        return matchesDate && matchesQuery;
+      });
+
       const activeStillBorrowed = data.loans.filter(l => l.status !== "Dikembalikan");
       
       $("reportStats").innerHTML = 
@@ -1912,7 +1926,7 @@
         stat(`Buku Masih Dipinjam (Belum Kembali)`, activeStillBorrowed.length) +
         stat(`Total Seluruh Riwayat Peminjaman`, data.loans.length);
 
-      $("reportPreviewCount").textContent = filteredLoans.length + " transaksi";
+      $("reportPreviewCount").textContent = filteredLoans.length + " data";
       $("reportPreviewRows").innerHTML = filteredLoans.length ? filteredLoans.map(l => {
         const b = bookById(l.bookId);
         return `<tr>
@@ -1923,7 +1937,7 @@
           <td>${b?.title || '-'}</td>
           <td>${l.status}</td>
         </tr>`;
-      }).join("") : `<tr><td colspan="6" style="text-align:center;color:#8a969c;">Tidak ada data peminjaman pada tanggal ${selectedDate}.</td></tr>`;
+      }).join("") : `<tr><td colspan="6" style="text-align:center;color:#8a969c;">Tidak ada data peminjaman ditemukan pada tanggal ${selectedDate}.</td></tr>`;
     }
 
     // Fitur Unduh Laporan Excel (.xlsx)
@@ -1936,7 +1950,7 @@
         const cls = b ? getClassMeta(b.classCode, b.category).label : "-";
         return {
           "No": idx + 1,
-          "Kode Transaksi": l.trxCode || `TRX-${l.id}`,
+          "Kode Peminjaman": l.trxCode || `TRX-${l.id}`,
           "Nama Siswa": l.student,
           "Kelas": l.kelas || "-",
           "Kode Unik Buku": b?.bookCode || "-",
@@ -2155,11 +2169,11 @@
       const trxCodeVal = l.trxCode || generateUniqueTrxCode();
 
       openModal(
-        id ? "Ubah Transaksi / Peminjam" : "Peminjaman Baru",
+        id ? "Ubah Data Peminjaman" : "Peminjaman Baru",
         `<div class="field-grid">
           <div class="field full">
-            <label>Kode Unik Penghubung Transaksi</label>
-            <input id="fTrxCode" value="${trxCodeVal}" readonly style="background:#f2f6f5;font-family:monospace;font-weight:bold;">
+            <label>Kode Peminjaman (Dapat Diedit)</label>
+            <input id="fTrxCode" value="${trxCodeVal}" style="font-family:monospace;font-weight:bold;">
           </div>
           <div class="field full"><label>Nama siswa / peminjam</label><input id="fStudent" value="${l.student}"></div>
           
@@ -2222,7 +2236,7 @@
           
           saveData();
           closeModal();
-          toast(id ? "Data peminjam/transaksi diubah." : "Peminjaman dicatat.");
+          toast(id ? "Data peminjaman diubah." : "Peminjaman dicatat.");
         }
       );
 
@@ -2311,7 +2325,7 @@
     }
 
     function deleteLoan(id) {
-      if (confirm("Hapus data peminjam/transaksi ini?")) {
+      if (confirm("Hapus data peminjam/peminjaman ini?")) {
         const l = data.loans.find(x => x.id === id);
         if (l && l.status !== "Dikembalikan") {
           const b = bookById(l.bookId);
@@ -2461,6 +2475,10 @@
     $("memberSearch").addEventListener("input", renderMembers);
 
     $("reportDateFilter").addEventListener("change", renderReports);
+    if ($("reportSearch")) {
+      $("reportSearch").addEventListener("input", renderReports);
+    }
+
     $("exportDailyExcelBtn").addEventListener("click", () => {
       const dt = $("reportDateFilter").value || getWorldToday();
       const filtered = data.loans.filter(l => l.borrow === dt);
@@ -2542,4 +2560,3 @@
   </script>
 </body>
 </html>
-Diproses dan dianalisis dalam kode
